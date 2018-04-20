@@ -1,11 +1,11 @@
-### [centrifuge-patric - Radcot Part One - Previous step](https://github.com/scottdaniel/centrifuge-patric)
+### [centrifuge-patric - Radcot Part One - 1st step](https://github.com/scottdaniel/centrifuge-patric)
 - Identified bacterial species from a metagenomic sample
 - Downloaded genomes of said species
 
 ## [bowtie-samtools - Radcot Part Two - YOU ARE HERE](https://github.com/hurwitzlab/bowtie-samtools)
 - Quantify transcripts of genes within these species
 
-### [cuffdiff-keggR - Radcot Part Three - Next step](https://github.com/hurwitzlab/cuffdiff-keggR)
+### [cuffdiff-keggR - Radcot Part Three - 3rd step](https://github.com/hurwitzlab/cuffdiff-keggR)
 - Annotate RNA counts of genes with KEGG pathway information
 - Generate graphs of RNA count differences per KEGG module
 
