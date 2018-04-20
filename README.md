@@ -1,5 +1,4 @@
 ### [centrifuge-patric - Radcot Part One - Previous step](https://github.com/scottdaniel/centrifuge-patric)
-Previously, on Radcot, we did:
 - Identified bacterial species from a metagenomic sample
 - Downloaded genomes of said species
 
