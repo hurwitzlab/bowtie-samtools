@@ -9,10 +9,16 @@
 #SBATCH --mail-type BEGIN,END,FAIL
 #SBATCH --mail-user scottdaniel@email.arizona.edu
 
-OUT_DIR="$WORK/centrifuge_test"
+#for local testing#####
+export WORK="/vagrant"
+########################
 
-export MY_PARAMRUN="$HOME/launcher/paramrun"
+OUT_DIR="$WORK/bowtie_test"
+
+#export MY_PARAMRUN="$HOME/launcher/paramrun"
 
 [[ -d "$OUT_DIR" ]] && rm -rf $OUT_DIR/*
 
-bash run.sh -q "$WORK/in" -f fastq -o $OUT_DIR -x 9606,32630
+bash run.sh -x "$WORK/genomes" \
+    -1 "$WORK/rna/forward" -2 "$WORK/rna/reverse" \
+    -q -S "$OUT_DIR/output.sam"
