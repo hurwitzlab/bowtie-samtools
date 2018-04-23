@@ -8,10 +8,8 @@ BootStrap: debootstrap
 OSVersion: stable
 MirrorURL: http://ftp.us.debian.org/debian/
 
-
 %runscript
     exec bowtie_batch.py "$@"
-
 
 %post
     echo "Hello from inside the container"
@@ -25,9 +23,8 @@ MirrorURL: http://ftp.us.debian.org/debian/
     bash Miniconda2-latest-Linux-x86_64.sh -b -f -p /usr/local/
     rm Miniconda2-latest-Linux-x86_64.sh
     
-    conda install -y biopython
-    
     # Get natsort, biopython, and Levenshtein
+    conda install -y biopython
     pip install natsort
     pip install python-Levenshtein
     
