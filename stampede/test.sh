@@ -19,6 +19,8 @@ OUT_DIR="$WORK/bowtie_test"
 
 [[ -d "$OUT_DIR" ]] && rm -rf $OUT_DIR/*
 
-bash run.sh -x "$WORK/genomes" \
-    -1 "$WORK/rna/forward" -2 "$WORK/rna/reverse" \
-    -q -S "$OUT_DIR/output.sam"
+bash run.sh -d "$WORK/genomes" \
+    -r "$WORK/rna/control" \
+    -f fastq -S "$OUT_DIR/output.sam" \
+    -p 4
+
