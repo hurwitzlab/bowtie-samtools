@@ -1,14 +1,13 @@
 #!/bin/bash
 
-#SBATCH -J cntrfge 
+#SBATCH -J bowtie2
 #SBATCH -A iPlant-Collabs 
 #SBATCH -N 4
 #SBATCH -n 1
 #SBATCH -t 24:00:00
 #SBATCH -p normal
 
-# Author: Ken Youens-Clark <kyclark@email.arizona.edu>
-# Second author: Scott G. Daniel <scottdaniel@email.arizona.edu>
+# Author: Scott G. Daniel <scottdaniel@email.arizona.edu>
 
 module load tacc-singularity 
 module load launcher
@@ -18,25 +17,34 @@ set -u
 #
 # Set up defaults for inputs, constants
 #
-IN_DIR=""
-QUERY=""
-MODE="single"
-FASTX=""
-FORWARD=""
-REVERSE=""
-SINGLETONS=""
-INDEX="p_compressed+h+v"
-OUT_DIR="$PWD/centrifuge-out"
-INDEX_DIR="/work/05066/imicrobe/iplantc.org/data/centrifuge-indexes"
-MAX_SEQS_PER_FILE=1000000
-CENTRIFUGE_IMG="centrifuge-patric.img"
-EXCLUDE_TAXIDS=""
-SKIP_EXISTING=1
+#leaving everything blank since bowtie_batch.py sets the defaults
+READS_DIR=""
+INPUT_DB=""
+INPUT_FMT=""
+SEPARATE=""
+READ_TYPES=""
+DISTANCE=""
+FILTER=""
+UNPAIR_TERM=""
+PAIR_TERM=""
+KEEP_SAM=""
+MERGE_OUTPUT=""
+MERGE_NAME=""
+REMOVE_TMP=""
+LOG_FN=""
+ALIGN_TYPE=""
+GLOBAL_PRESETS=""
+LOCAL_PRESETS=""
+NON_DETERMINISTIC=""
+TRIM5=""
+TRIM3=""
+MININS=""
+MAXINS=""
+CENTRIFUGE_IMG="bowtie_sam.img"
+
 #If you have your own launcher setup on stampede2 just point MY_PARAMRUN at it
 #this will override the TACC_LAUNCHER...
 PARAMRUN="${MY_PARAMRUN:-$TACC_LAUNCHER_DIR/paramrun}"
-MIN_ABUNDANCE=0.01
-FORMAT="fasta"
 
 #
 # Some needed functions
