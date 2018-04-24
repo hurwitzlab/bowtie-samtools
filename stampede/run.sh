@@ -45,7 +45,7 @@ CENTRIFUGE_IMG="bowtie_sam.img"
 
 #If you have your own launcher setup on stampede2 just point MY_PARAMRUN at it
 #this will override the TACC_LAUNCHER...
-PARAMRUN="${MY_PARAMRUN:-$TACC_LAUNCHER_DIR/paramrun}"
+#PARAMRUN="${MY_PARAMRUN:-$TACC_LAUNCHER_DIR/paramrun}"
 
 #
 # Some needed functions
@@ -86,7 +86,7 @@ fi
 #fi
 
 #Run bowtie_batch
-singularity run $CENTRIFUGE_IMG $@
+singularity run -B "$HOST":"$GUEST" $CENTRIFUGE_IMG $@
 
 echo "Done, look in OUT_DIR \"$OUT_DIR\""
 echo "Comments to Scott Daniel <scottdaniel@email.arizona.edu>"

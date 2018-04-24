@@ -10,17 +10,17 @@
 #SBATCH --mail-user scottdaniel@email.arizona.edu
 
 #for local testing#####
-export WORK="/vagrant"
+export HOST="/vagrant"
+export GUEST="/work"
 ########################
 
-OUT_DIR="$WORK/bowtie_test"
+export OUT_DIR="$WORK/bowtie_test"
 
 #export MY_PARAMRUN="$HOME/launcher/paramrun"
 
 [[ -d "$OUT_DIR" ]] && rm -rf $OUT_DIR/*
 
-bash run.sh -d "$WORK/genomes" \
-    -r "$WORK/rna/control" \
-    -f fastq -S "$OUT_DIR/output.sam" \
-    -p 4
+bash run.sh -d "$GUEST/genomes" \
+    --reads "$GUEST/rna/control" \
+    -f fastq -p 4
 
