@@ -44,45 +44,55 @@ from natsort import natsorted
 from Bio import SeqIO
 import Levenshtein
 
-parser = argparse.ArgumentParser(description="The script essentially wraps bowtie2 for aligning an entire directory of "
-                                             "paired or unpaired reads against the same reference sequence collection."
-                                             " This new version now handles paired and unpaired reads simultaneously. "
-                                             "Interleaved files (files including both forward and reverse reads) are "
-                                             "separated for Bowtie.",
-                                 formatter_class=argparse.RawTextHelpFormatter)
+parser = argparse.ArgumentParser(description=
+        "The script essentially wraps bowtie2 for aligning an entire directory of\n"
+        "paired or unpaired reads against the same reference sequence collection.\n"
+        " This new version now handles paired and unpaired reads simultaneously.\n"
+        "Interleaved files (files including both forward and reverse reads) are\n "
+        "separated for Bowtie.",
+        formatter_class=argparse.RawTextHelpFormatter)
 
 inputs = parser.add_argument_group('Required Inputs and Parameters')
 
-inputs.add_argument('--reads', '--reads-dir', dest='reads_dir', metavar='DIRECTORY', default='/workDir',
-                    help="Directory containing the reads files to be aligned. Selecting a single file instead of a "
-                         "directory will result in only one file being read.")
+inputs.add_argument('-r', '--reads', '--reads-dir', dest='reads_dir', metavar='DIRECTORY',
+        help="Directory containing the reads files to be aligned.\n"
+        " Selecting a single file instead of a\n "
+        "directory will result in only one file being read.")
 
 inputs.add_argument('-d', '--db', '--input-db', dest='input_db', metavar='FILENAME',
-                    help="The NAME of a FASTA-formatted sequence file containing sequences/references reads to be "
-                         "aligned against. For example, if the filename is 'contigs.fasta' then '--db contigs.fasta'")
+        help="The NAME of a FASTA-formatted sequence file\n"
+        "containing sequences/references reads to be\n "
+        "aligned against. For example, if the filename\n"
+        "is 'contigs.fasta' then '--db contigs.fasta'")
 
-inputs.add_argument('-f', '--fmt', '--input-format', dest='input_fmt', choices=['fastq', 'fasta', 'fq'],
-                    help="File format of reads to be aligned. Compressed files (*.gz, *.tar.gz) will be automatically"
-                    "recognized.")
+inputs.add_argument('-f', '--fmt', '--input-format', dest='input_fmt', 
+        choices=['fastq', 'fasta', 'fq'],
+        default='fastq',
+        help="File format of reads to be aligned. \n"
+        "Compressed files (*.gz, *.tar.gz) will be automatically\n"
+        "recognized.")
 
-inputs.add_argument('-s', '--interleaved', dest='separate', action='store_true',
-                    help="If enabled, will treat each file as INTERLEAVED and process them as paired files. "
-                         "Interleaved reads are assumed to be in the format F,R,F,R.")
+inputs.add_argument('-i', '--interleaved', dest='interleaved', 
+        action='store_true',
+        help="If enabled, will treat each file as INTERLEAVED\n"
+        "and process them as paired files.\n "
+        "Interleaved reads are assumed to be in the format F,R,F,R.")
 
 gen_opts = parser.add_argument_group('General Options')  # Bowtie2 and Samtools no longer specified
 
-gen_opts.add_argument('--read-types', dest='read_types', choices=['paired', 'unpaired', 'mixed'], default='mixed',
-                     help="Whether or not reads are paired, unpaired or mixed.")
+gen_opts.add_argument('-y', '--read-types', dest='read_types', 
+        choices=['paired', 'unpaired', 'mixed'], default='mixed',
+        help="Whether or not reads are paired, unpaired or mixed.")
 
-gen_opts.add_argument('--dist', dest='distance', type=int, default=1,
-                     help="Levenshtein distance between filenames, used to determine pairing/grouping of paired and"
-                          " unpaired files. So OSD101_R1 and OSD101_R2 have a distance of 1, OSD101_R1_paired and "
-                          "OSD101_R2_unpaired have a distance of 2. For many cases (like using all paired reads), the "
-                          "default is fine. It will correctly identify all the read 'pairings.' For mixing paired and "
-                          "unpaired files, it is suggested to use 2-3. That way the script can identify AND GROUP all "
-                          "the paired and unpaired reads from a single experiment into a single group. Basically, "
-                          "naming within a group should be closer than between groups. Naturally sorting files ASSUMES "
-                          "that unpaired read files will ALWAYS follow their paired version.")
+gen_opts.add_argument('-D', '--dist', dest='distance', type=int, default=1,
+        help="Levenshtein distance between filenames, used to determine pairing/grouping of paired and\n"
+        " unpaired files. So OSD101_R1 and OSD101_R2 have a distance of 1, OSD101_R1_paired and\n "
+        "OSD101_R2_unpaired have a distance of 2. For many cases (like using all paired reads), the \n"
+        "default is fine. It will correctly identify all the read 'pairings.' For mixing paired and \n"
+        "unpaired files, it is suggested to use 2-3. That way the script can identify AND GROUP all \n"
+        "the paired and unpaired reads from a single experiment into a single group. Basically, \n"
+        "naming within a group should be closer than between groups. Naturally sorting files ASSUMES \n"
+        "that unpaired read files will ALWAYS follow their paired version.")
 
 gen_opts.add_argument('-x', '--exclude', dest='filter', action='append', default=['.py'],
                      help="A list of strings (with -x for each item) to filter out files within the input directory. "
@@ -111,13 +121,13 @@ gen_opts.add_argument('-k', '--keep-sam', dest='keep_sam', action='store_true',
 gen_opts.add_argument('-m', '--merge-args', dest='merge_output', action='store_true',
                      help="If enabled, and if multiple reads are supplied, combine the bowtie2 args into one file.")
 
-gen_opts.add_argument('--merge-name', dest='merge_name', metavar='FILENAME', default='bowtie2-run.sam',
+gen_opts.add_argument('-n', '--merge-name', dest='merge_name', metavar='FILENAME', default='bowtie2-run.sam',
                      help="Filename to use for merged args. This WILL NOT be used if --merge-args isn't used.")
 
 gen_opts.add_argument('-z', '--remove-tmp', dest='remove_tmp', action='store_true',
                      help="Remove read files used to generate BAM files. This includes the intermediary bowtie2"
                           " database files and the fastq (or other format) read files. This option should only be "
-                          "enabled if the system COPIES source files into another location, as it standard within the "
+                          "enabled if the system COPIES source files into another location, as is standard within the "
                           "Cyverse cyberinfrastructure.")
 
 gen_opts.add_argument('-l', '--log-file', dest='log_fn', metavar='FILENAME', default='bowtie2-read-mapping.log',
@@ -125,10 +135,10 @@ gen_opts.add_argument('-l', '--log-file', dest='log_fn', metavar='FILENAME', def
 
 bowtie2_opts = parser.add_argument_group('Bowtie2 Alignment Options')
 
-bowtie2_opts.add_argument('--alignment_type', dest='align_type', choices=['end-to-end', 'local'], default='end-to-end',
+bowtie2_opts.add_argument('-a', '--alignment-type', dest='align_type', choices=['end-to-end', 'local'], default='end-to-end',
                          help="Whether the entire read must align (end-to-end) or only a local region (local).")
 
-bowtie2_opts.add_argument('--end-to-end_presets', dest='global_presets', metavar='STRING',
+bowtie2_opts.add_argument('-e', '--end-to-end-presets', dest='global_presets', metavar='STRING',
                          choices=['very-fast', 'fast', 'sensitive', 'very-sensitive'],
                          default="sensitive", help="Presets for end-to-end alignments:\n"
                          "very-fast: -D 5 -R 1 -N 0 -L 22 -i S,0,2.50\n"
@@ -136,7 +146,7 @@ bowtie2_opts.add_argument('--end-to-end_presets', dest='global_presets', metavar
                          "sensitive: -D 15 -R 2 -N 0 -L 22 -i S,1,1.15 (default)\n"
                          "very-sensitive: -D 20 -R 3 -N 0 -L 20 -i S,1,0.50")
 
-bowtie2_opts.add_argument('--local_presets', dest='local_presets', metavar='STRING',
+bowtie2_opts.add_argument('-L', '--local-presets', dest='local_presets', metavar='STRING',
                          choices=['very-fast-local', 'fast-local', 'sensitive-local', 'very-sensitive-local'],
                          default='sensitive-local',
                          help="Presets for local alignments:\n"
@@ -145,19 +155,19 @@ bowtie2_opts.add_argument('--local_presets', dest='local_presets', metavar='STRI
                          "sensitive-local: -D 15 -R 2 -N 0 -L 20 -i S,1,0.75 (default)\n"
                          "very-sensitive-local: -D 20 -R 3 -N 0 -L 20 -i S,1,0.50")
 
-bowtie2_opts.add_argument('--non-deterministic', dest='non_deterministic', action='store_true',
+bowtie2_opts.add_argument('-N', '--non-deterministic', dest='non_deterministic', action='store_true',
                      help="Bowtie 2 will use the current time to re-initialize the pseudo-random number generator. "
                           "Useful when the input consists of many identical reads.")
 
-bowtie2_opts.add_argument('--trim5', dest='trim5', metavar='INT', type=int, default=0,
+bowtie2_opts.add_argument('-5', '--trim5', dest='trim5', metavar='INT', type=int, default=0,
                          help="Trim X bases from 5'/left end of reads.")
-bowtie2_opts.add_argument('--trim3', dest='trim3', metavar='INT', type=int, default=0,
+bowtie2_opts.add_argument('-3', '--trim3', dest='trim3', metavar='INT', type=int, default=0,
                          help="Trim X bases from 3'/right end of reads.")
 bowtie2_opts.add_argument('-I', '--minins', dest='minins', metavar='INT', type=int, default=0,
                          help="minimum fragment length (0)")
 bowtie2_opts.add_argument('-X', '--maxins', dest='maxins', metavar='INT', type=int, default=2000,
                          help="maximum fragment length (2000)")
-bowtie2_opts.add_argument('-p', '--threads', dest='threads', metavar='INT', type=int, default=1,
+bowtie2_opts.add_argument('-t', '--threads', dest='threads', metavar='INT', type=int, default=1,
                          help="number of alignment threads to launch (1)")
 
 args = parser.parse_args()
@@ -182,10 +192,10 @@ if args.input_fmt not in ['fasta', 'fastq', 'fq']:
     error('ERROR: Input format must be either fasta or fastq formatted')
 
 # TODO Write additional code to handle interleaved + non-paired data
-if (args.read_types == 'mixed') and args.separate:
+if (args.read_types == 'mixed') and args.interleaved:
     error('ERROR: cannot use mixed read types and interleaved. NOT IMPLEMENTED YET.')
 
-if (args.read_types == 'unpaired') and args.separate:
+if (args.read_types == 'unpaired') and args.interleaved:
     error('ERROR: cannot use unpaired read types and interleaved. NOT IMPLEMENTED YET')
 
 
@@ -341,7 +351,7 @@ def group_reads(reads_lst, logfile):
         if args.read_types == 'paired':
             # Ensure pairs are only in PAIRS
             if len(re_natural_sort) != 2:
-                if not args.separate:
+                if not args.interleaved:
                     logfile.write(
                         'ERROR: "Paired" specified, yet read pairs arent in groups of 2. Perhaps change the distance?')
                     sys.exit(1)
@@ -440,7 +450,7 @@ def prepare_reads(reads_dict, reads_dir, logfile):
 
                     new_locations[group_num]['paired'] = [input1_fn, input2_fn]
 
-            elif (len(group_dict['paired']) == 1) and args.separate:
+            elif (len(group_dict['paired']) == 1) and args.interleaved:
                 logfile.write('Interleaved files enabled....' + os.linesep)
                 output_fn = ''
                 interleaved_fn = group_dict[group_num]['paired'][0]  # It's a list!

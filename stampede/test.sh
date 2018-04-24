@@ -14,7 +14,7 @@ export HOST="/vagrant"
 export GUEST="/work"
 ########################
 
-export OUT_DIR="$WORK/bowtie_test"
+export OUT_DIR="$HOST/bowtie_test"
 
 #export MY_PARAMRUN="$HOME/launcher/paramrun"
 
@@ -22,5 +22,6 @@ export OUT_DIR="$WORK/bowtie_test"
 
 bash run.sh -d "$GUEST/genomes" \
     --reads "$GUEST/rna/control" \
+    -O $OUT_DIR \
     -f fastq -p 4
 

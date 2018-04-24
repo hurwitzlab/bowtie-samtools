@@ -18,30 +18,106 @@ set -u
 #
 # Set up defaults for inputs, constants
 #
-#leaving everything blank since bowtie_batch.py sets the defaults
-READS_DIR=""
-INPUT_DB=""
-INPUT_FMT=""
-SEPARATE=""
-READ_TYPES=""
-DISTANCE=""
-FILTER=""
-UNPAIR_TERM=""
-PAIR_TERM=""
-KEEP_SAM=""
-MERGE_OUTPUT=""
-MERGE_NAME=""
-REMOVE_TMP=""
-LOG_FN=""
-ALIGN_TYPE=""
-GLOBAL_PRESETS=""
-LOCAL_PRESETS=""
-NON_DETERMINISTIC=""
-TRIM5=""
-TRIM3=""
-MININS=""
-MAXINS=""
-CENTRIFUGE_IMG="bowtie_sam.img"
+READS_DIR="" #-r | --reads | --reads-dir
+INPUT_DB="" #-d | --db | --input-db
+INPUT_FMT="fastq" #-f | --fmt | --input-format
+INTERLEAVED="FALSE" #-i | --interleaved
+READ_TYPES="mixed" #-y | --read-types
+DISTANCE="1" #-D | --dist
+FILTER=".py" #-x | --exclude
+UNPAIR_TERM="unpair" #-u | --unpair-terms
+PAIR_TERM="pair" #-p | --pair-terms
+KEEP_SAM="FALSE" #-k | --keep-sam
+MERGE_OUTPUT="FALSE" #-m | --merge-args
+MERGE_NAME="bowtie2-run.sam" #-n | --merge-name
+REMOVE_TMP="FALSE" #-z | --remove-tmp
+LOG_FN="bowtie2-read-mapping.log" #-l | --log-file
+ALIGN_TYPE="end-to-end" #-a | --alignment-type
+GLOBAL_PRESETS="sensitive" #-e | --end-to-end-presets
+LOCAL_PRESETS="sensitive-local" #-c | --local-presets
+NON_DETERMINISTIC="FALSE" #-N | --non-deterministic
+TRIM5="0" #-5 | --trim5
+TRIM3="0" #-3 |--trim3
+MININS="0" #-I | --minins
+MAXINS="2000" #-X | --maxins
+THREADS="1" #-t | --threads
+SING_IMG="bowtie_sam.img" #-S | --sing-img
+OUT_DIR="./out_dir" #-O | --out-dir
+
+#Read the arguments
+# In case you wanted to check what variables were passed
+# echo "flags = $*"
+
+while getopts r:d:f:i:y:D:x:u:p:k:m:n:z:l:a:e:c:N:5:3:I:X:t:S:O:h ARG; do
+  case $ARG in
+      r)
+          READS_DIR=$OPTARG
+          ;;
+      d)
+          INPUT_DB=$OPTARG
+          ;;
+      f)
+          INPUT_FMT=$OPTARG
+          ;;
+      i)
+          INTERLEAVED=$OPTARG
+          ;;
+      y)
+          READ_TYPES=$OPTARG
+          ;;
+      D)
+          DISTANCE=$OPTARG
+          ;;
+      x)
+          FILTER=$OPTARG
+          ;;
+      u)
+          ;;
+      p)
+          ;;
+      k)
+          ;;
+      m)
+          ;;
+      n)
+          ;;
+      z)
+          ;;
+      l)
+          ;;
+      a)
+          ;;
+      e)
+          ;;
+      c)
+          ;;
+      N)
+          ;;
+      5)
+          ;;
+      3)
+          ;;
+      I)
+          ;;
+      X)
+          ;;
+      t)
+          ;;
+      S)
+          ;;
+      O)
+          ;;
+      h)
+          HELP
+          ;;
+      \?) #unrecognized option - show help
+          echo -e \\n"Option -$OPTARG not allowed."
+          HELP
+          ;;
+  esac
+done
+   
+
 
 #If you have your own launcher setup on stampede2 just point MY_PARAMRUN at it
 #this will override the TACC_LAUNCHER...
@@ -65,8 +141,8 @@ function HELP() {
 [[ $# -eq 0 ]] && HELP
 
 #check for centrifuge image
-if [[ ! -e "$CENTRIFUGE_IMG" ]]; then
-    echo "Missing CENTRIFUGE_IMG \"$CENTRIFUGE_IMG\""
+if [[ ! -e "$SING_IMG" ]]; then
+    echo "Missing SING_IMG \"$SING_IMG\""
     exit 1
 fi
 #
@@ -86,7 +162,7 @@ fi
 #fi
 
 #Run bowtie_batch
-singularity run -B "$HOST":"$GUEST" $CENTRIFUGE_IMG $@
+singularity run -B "$HOST":"$GUEST" $SING_IMG $@
 
 echo "Done, look in OUT_DIR \"$OUT_DIR\""
 echo "Comments to Scott Daniel <scottdaniel@email.arizona.edu>"
