@@ -12,6 +12,18 @@
 ###Uncomment when back on tacc#
 #module load tacc-singularity 
 #module load launcher
+#
+# Some needed functions
+#
+function lc() { 
+    wc -l "$1" | cut -d ' ' -f 1 
+}
+
+function HELP() {
+    echo "See bowtie_batch.py for help"
+    exit 0
+}
+
 
 set -u
 
@@ -49,72 +61,89 @@ OUT_DIR="./out_dir" #-O | --out-dir
 # echo "flags = $*"
 
 while getopts r:d:f:i:y:D:x:u:p:k:m:n:z:l:a:e:c:N:5:3:I:X:t:S:O:h ARG; do
-  case $ARG in
-      r)
-          READS_DIR=$OPTARG
-          ;;
-      d)
-          INPUT_DB=$OPTARG
-          ;;
-      f)
-          INPUT_FMT=$OPTARG
-          ;;
-      i)
-          INTERLEAVED=$OPTARG
-          ;;
-      y)
-          READ_TYPES=$OPTARG
-          ;;
-      D)
-          DISTANCE=$OPTARG
-          ;;
-      x)
-          FILTER=$OPTARG
-          ;;
-      u)
-          ;;
-      p)
-          ;;
-      k)
-          ;;
-      m)
-          ;;
-      n)
-          ;;
-      z)
-          ;;
-      l)
-          ;;
-      a)
-          ;;
-      e)
-          ;;
-      c)
-          ;;
-      N)
-          ;;
-      5)
-          ;;
-      3)
-          ;;
-      I)
-          ;;
-      X)
-          ;;
-      t)
-          ;;
-      S)
-          ;;
-      O)
-          ;;
-      h)
-          HELP
-          ;;
-      \?) #unrecognized option - show help
-          echo -e \\n"Option -$OPTARG not allowed."
-          HELP
-          ;;
-  esac
+    case $ARG in
+        r)
+            READS_DIR=$OPTARG
+            ;;
+        d)
+            INPUT_DB=$OPTARG
+            ;;
+        f)
+            INPUT_FMT=$OPTARG
+            ;;
+        i)
+            INTERLEAVED=$OPTARG
+            ;;
+        y)
+            READ_TYPES=$OPTARG
+            ;;
+        D)
+            DISTANCE=$OPTARG
+            ;;
+        x)
+            FILTER=$OPTARG
+            ;;
+        u)
+            UNPAIR_TERM=$OPTARG
+            ;;
+        p)
+            PAIR_TERM=$OPTARG
+            ;;
+        k)
+            KEEP_SAM=$OPTARG
+            ;;
+        m)
+            MERGE_OUTPUT=$OPTARG
+            ;;
+        n)
+            MERGE_NAME=$OPTARG
+            ;;
+        z)
+            REMOVE_TMP=$OPTARG
+            ;;
+        l)
+            LOG_FN=$OPTARG
+            ;;
+        a)
+            ALIGN_TYPE=$OPTARG
+            ;;
+        e)
+            GLOBAL_PRESETS=$OPTARG
+            ;;
+        c)
+            LOCAL_PRESETS=$OPTARG
+            ;;
+        N)
+            NON_DETERMINISTIC=$OPTARG
+            ;;
+        5)
+            TRIM5=$OPTARG
+            ;;
+        3)
+            TRIM3=$OPTARG
+            ;;
+        I)
+            MININS=$OPTARG
+            ;;
+        X)
+            MAXINS=$OPTARG
+            ;;
+        t)
+            THREADS=$OPTARG
+            ;;
+        S)
+            SING_IMG=$OPTARG
+            ;;
+        O)
+            OUT_DIR=$OPTARG
+            ;;
+        h)
+            HELP
+            ;;
+        \?) #unrecognized option - show help
+            HELP
+            ;;
+    esac
 done
    
 
@@ -124,21 +153,9 @@ done
 #PARAMRUN="${MY_PARAMRUN:-$TACC_LAUNCHER_DIR/paramrun}"
 
 #
-# Some needed functions
-#
-function lc() { 
-    wc -l "$1" | cut -d ' ' -f 1 
-}
-
-function HELP() {
-    echo "See bowtie_batch.py for help"
-    exit 0
-}
-
-#
 # Show HELP if no arguments
 #
-[[ $# -eq 0 ]] && HELP
+[[ $# -eq 0 ]] && echo "Need some arguments" && HELP
 
 #check for centrifuge image
 if [[ ! -e "$SING_IMG" ]]; then
