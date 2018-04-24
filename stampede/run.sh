@@ -20,25 +20,51 @@ function lc() {
 }
 
 function HELP() {
-    echo "See bowtie_batch.py for help"
+    
+    echo "INPUT_DIR="./" #-i | --input-dir"
+    echo "READS_DIR="./" #-r | --reads | --reads-dir"
+    echo "INPUT_DB="genome.fna" #-d | --db | --input-db"
+    echo "INPUT_FMT="fastq" #-f | --fmt | --input-format"
+    echo "KEEP_SAM="FALSE" #-k | --keep-sam"
+    echo "MERGE_OUTPUT="FALSE" #-m | --merge-args"
+    echo "MERGE_NAME="bowtie2-run.sam" #-n | --merge-name"
+    echo "REMOVE_TMP="FALSE" #-z | --remove-tmp"
+    echo "LOG_FN="bowtie2-read-mapping.log" #-l | --log-file"
+    echo "ALIGN_TYPE="end-to-end" #-a | --alignment-type"
+    echo "GLOBAL_PRESETS="sensitive" #-e | --end-to-end-presets"
+    echo "LOCAL_PRESETS="sensitive-local" #-c | --local-presets"
+    echo "NON_DETERMINISTIC="FALSE" #-N | --non-deterministic"
+    echo "MININS="0" #-I | --minins"
+    echo "MAXINS="2000" #-X | --maxins"
+    echo "THREADS="1" #-t | --threads"
+    echo "SING_IMG="bowtie_sam.img" #-S | --sing-img"
+    echo "OUT_DIR="./out_dir" #-O | --out-dir"
+
+    echo "See bowtie_batch.py for additional help"
     exit 0
 }
 
+#
+# Show HELP if no arguments
+#
+[[ $# -eq 0 ]] && echo "Need some arguments" && HELP
 
 set -u
 
 #
 # Set up defaults for inputs, constants
 #
-READS_DIR="" #-r | --reads | --reads-dir
-INPUT_DB="" #-d | --db | --input-db
+
+INPUT_DIR="./" #-i | --input-dir
+READS_DIR="./" #-r | --reads | --reads-dir
+INPUT_DB="genome.fna" #-d | --db | --input-db
 INPUT_FMT="fastq" #-f | --fmt | --input-format
-INTERLEAVED="FALSE" #-i | --interleaved
-READ_TYPES="mixed" #-y | --read-types
-DISTANCE="1" #-D | --dist
-FILTER=".py" #-x | --exclude
-UNPAIR_TERM="unpair" #-u | --unpair-terms
-PAIR_TERM="pair" #-p | --pair-terms
+#INTERLEAVED="FALSE" #-i | --interleaved
+#READ_TYPES="mixed" #-y | --read-types
+#DISTANCE="1" #-D | --dist
+#FILTER=".py" #-x | --exclude
+#UNPAIR_TERM="unpair" #-u | --unpair-terms
+#PAIR_TERM="pair" #-p | --pair-terms
 KEEP_SAM="FALSE" #-k | --keep-sam
 MERGE_OUTPUT="FALSE" #-m | --merge-args
 MERGE_NAME="bowtie2-run.sam" #-n | --merge-name
@@ -48,8 +74,8 @@ ALIGN_TYPE="end-to-end" #-a | --alignment-type
 GLOBAL_PRESETS="sensitive" #-e | --end-to-end-presets
 LOCAL_PRESETS="sensitive-local" #-c | --local-presets
 NON_DETERMINISTIC="FALSE" #-N | --non-deterministic
-TRIM5="0" #-5 | --trim5
-TRIM3="0" #-3 |--trim3
+#TRIM5="0" #-5 | --trim5
+#TRIM3="0" #-3 |--trim3
 MININS="0" #-I | --minins
 MAXINS="2000" #-X | --maxins
 THREADS="1" #-t | --threads
@@ -58,105 +84,115 @@ OUT_DIR="./out_dir" #-O | --out-dir
 
 #Read the arguments
 # In case you wanted to check what variables were passed
-# echo "flags = $*"
+echo "ARG = $*"
 
-while getopts r:d:f:i:y:D:x:u:p:k:m:n:z:l:a:e:c:N:5:3:I:X:t:S:O:h ARG; do
+#commented out
+#iy:D:x:u:p:5:3:
+
+while getopts :i:r:d:f:k:mn:zl:a:e:c:NI:X:t:S:O:h ARG; do
     case $ARG in
+        i)
+            INPUT_DIR="$OPTARG"
+            ;;
         r)
-            READS_DIR=$OPTARG
+            READS_DIR="$OPTARG"
             ;;
         d)
-            INPUT_DB=$OPTARG
+            INPUT_DB="$OPTARG"
             ;;
         f)
-            INPUT_FMT=$OPTARG
+            INPUT_FMT="$OPTARG"
             ;;
-        i)
-            INTERLEAVED=$OPTARG
-            ;;
-        y)
-            READ_TYPES=$OPTARG
-            ;;
-        D)
-            DISTANCE=$OPTARG
-            ;;
-        x)
-            FILTER=$OPTARG
-            ;;
-        u)
-            UNPAIR_TERM=$OPTARG
-            ;;
-        p)
-            PAIR_TERM=$OPTARG
-            ;;
+#        i)
+#            INTERLEAVED=1
+#            ;;
+#        y)
+#            READ_TYPES="$OPTARG"
+#            ;;
+#        D)
+#            DISTANCE="$OPTARG"
+#            ;;
+#        x)
+#            FILTER="$OPTARG"
+#            ;;
+#        u)
+#            UNPAIR_TERM="$OPTARG"
+#            ;;
+#        p)
+#            PAIR_TERM="$OPTARG"
+#            ;;
         k)
-            KEEP_SAM=$OPTARG
+            KEEP_SAM=1
             ;;
         m)
-            MERGE_OUTPUT=$OPTARG
+            MERGE_OUTPUT=1
             ;;
         n)
-            MERGE_NAME=$OPTARG
+            MERGE_NAME="$OPTARG"
             ;;
         z)
-            REMOVE_TMP=$OPTARG
+            REMOVE_TMP=1
             ;;
         l)
-            LOG_FN=$OPTARG
+            LOG_FN="$OPTARG"
             ;;
         a)
-            ALIGN_TYPE=$OPTARG
+            ALIGN_TYPE="$OPTARG"
             ;;
         e)
-            GLOBAL_PRESETS=$OPTARG
+            GLOBAL_PRESETS="$OPTARG"
             ;;
         c)
-            LOCAL_PRESETS=$OPTARG
+            LOCAL_PRESETS="$OPTARG"
             ;;
         N)
-            NON_DETERMINISTIC=$OPTARG
+            NON_DETERMINISTIC=1
             ;;
-        5)
-            TRIM5=$OPTARG
-            ;;
-        3)
-            TRIM3=$OPTARG
-            ;;
+#        5)
+#            TRIM5="$OPTARG"
+#            ;;
+#        3)
+#            TRIM3="$OPTARG"
+#            ;;
         I)
-            MININS=$OPTARG
+            MININS="$OPTARG"
             ;;
         X)
-            MAXINS=$OPTARG
+            MAXINS="$OPTARG"
             ;;
         t)
-            THREADS=$OPTARG
+            THREADS="$OPTARG"
             ;;
         S)
-            SING_IMG=$OPTARG
+            SING_IMG="$OPTARG"
             ;;
         O)
-            OUT_DIR=$OPTARG
+            OUT_DIR="$OPTARG"
             ;;
         h)
             HELP
             ;;
+        :)
+            echo ""$OPTARG" requires an argument"
+            ;;
         \?) #unrecognized option - show help
+            echo "Invalid option "$OPTARG""
             HELP
             ;;
     esac
 done
-   
+  
+#It is common practice to call the shift command 
+#at the end of your processing loop to remove 
+#options that have already been handled from $@.
+shift $((OPTIND -1))
 
+#echo "Outdir is $OUT_DIR"
+#echo "INTERLEAVED is $INTERLEAVED"
 
 #If you have your own launcher setup on stampede2 just point MY_PARAMRUN at it
 #this will override the TACC_LAUNCHER...
 #PARAMRUN="${MY_PARAMRUN:-$TACC_LAUNCHER_DIR/paramrun}"
-
-#
-# Show HELP if no arguments
-#
-[[ $# -eq 0 ]] && echo "Need some arguments" && HELP
-
 #check for centrifuge image
 if [[ ! -e "$SING_IMG" ]]; then
     echo "Missing SING_IMG \"$SING_IMG\""
@@ -178,8 +214,25 @@ fi
 #    exit 1
 #fi
 
+export GENOME_LIST="$(pwd)/genome_list"
+cat /dev/null > $GENOME_LIST
+
+#Need to concatenate all the fastas into one
+if [[ ! -e "$INPUT_DB" ]]; then
+    echo "Searching $INPUT_DIR for genome fastas"
+    find $INPUT_DIR -iname "*.fna" > $GENOME_LIST
+    echo "Found $(lc $GENOME_LIST) in $INPUT_DIR"
+    if [[ $(lc $GENOME_LIST) -lt 1 ]]; then
+        echo "No genome fastas found!"
+        exit 1
+    else
+        sed 's/\n/ /' $GENOME_LIST | xargs -I file cat file > $INPUT_DB
+    fi
+fi
+
 #Run bowtie_batch
 singularity run -B "$HOST":"$GUEST" $SING_IMG $@
 
 echo "Done, look in OUT_DIR \"$OUT_DIR\""
 echo "Comments to Scott Daniel <scottdaniel@email.arizona.edu>"
+

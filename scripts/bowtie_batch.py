@@ -58,12 +58,17 @@ inputs.add_argument('-r', '--reads', '--reads-dir', dest='reads_dir', metavar='D
         help="Directory containing the reads files to be aligned.\n"
         " Selecting a single file instead of a\n "
         "directory will result in only one file being read.")
+#
+#inputs.add_argument('-d', '--db', '--input-db', dest='input_db', metavar='FILENAME',
+#        help="The NAME of a FASTA-formatted sequence file\n"
+#        "containing sequences/references reads to be\n "
+#        "aligned against. For example, if the filename\n"
+#        "is 'contigs.fasta' then '--db contigs.fasta'")
 
-inputs.add_argument('-d', '--db', '--input-db', dest='input_db', metavar='FILENAME',
-        help="The NAME of a FASTA-formatted sequence file\n"
-        "containing sequences/references reads to be\n "
-        "aligned against. For example, if the filename\n"
-        "is 'contigs.fasta' then '--db contigs.fasta'")
+inputs.add_argument('-U', '--in-dir', dest='in_dir', metavar='DIRECTORY',
+        help="The Directory containing individual genomes\n"
+        "that will be pasted together. The created genome.fna\n"
+        "will be indexed for bowtie2")
 
 inputs.add_argument('-f', '--fmt', '--input-format', dest='input_fmt', 
         choices=['fastq', 'fasta', 'fq'],
@@ -72,13 +77,18 @@ inputs.add_argument('-f', '--fmt', '--input-format', dest='input_fmt',
         "Compressed files (*.gz, *.tar.gz) will be automatically\n"
         "recognized.")
 
-inputs.add_argument('-i', '--interleaved', dest='interleaved', 
-        action='store_true',
-        help="If enabled, will treat each file as INTERLEAVED\n"
-        "and process them as paired files.\n "
-        "Interleaved reads are assumed to be in the format F,R,F,R.")
+#inputs.add_argument('-i', '--interleaved', dest='interleaved', 
+#        action='store_true',
+#        help="If enabled, will treat each file as INTERLEAVED\n"
+#        "and process them as paired files.\n "
+#        "Interleaved reads are assumed to be in the format F,R,F,R.")
 
+#TODO: comment out some of these stupid options, start simple MAN!
 gen_opts = parser.add_argument_group('General Options')  # Bowtie2 and Samtools no longer specified
+
+gen_opts.add_argument('-O', '--out-dir', dest='OUT_DIR', type=str,
+        default=os.getcwd, help="Output directory to put all the\n"
+        "results in.")
 
 gen_opts.add_argument('-y', '--read-types', dest='read_types', 
         choices=['paired', 'unpaired', 'mixed'], default='mixed',
