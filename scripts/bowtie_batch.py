@@ -256,8 +256,9 @@ def error(msg):
     sys.exit(1)
 
 def cat_fasta(input_dir,input_db):
+    file_list = glob.glob(args.input_dir + "/*.fna")
     with open(args.input_dir + '/' + args.input_db,'w') as w_file:
-        for filen in glob.glob(args.input_dir + "/*.fna"):
+        for filen in file_list:
             with open(filen, 'rU') as o_file:
                 seq_records = SeqIO.parse(o_file, 'fasta')
                 SeqIO.write(seq_records, w_file, 'fasta')
