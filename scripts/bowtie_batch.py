@@ -265,15 +265,15 @@ def cat_fasta(input_dir,input_db):
         return w_file.name
 
 # Ensure there's a DB file or make one if not
-if not args.input_db:
+if not os.path.isfile(args.input_dir + '/' + args.input_db):
     print("No input fasta or bowtie2 db specified, \
             concatenating fastas in {}".format(args.input_dir))
     args.input_db = cat_fasta(args.input_dir,args.input_db)
-    print("Created a combined genome for you here {}".format(fasta_name))
+    print("Created a combined genome for you here {}".format(args.input_db))
 
 #combine the out_dir with log_fn and merge_name
-args.merge_name = args.out_dir + args.merge_name
-args.log_fn = args.out_dir + args.log_fn
+args.merge_name = os.path.join(args.out_dir,args.merge_name)
+args.log_fn = os.path.join(args.out_dir,args.log_fn)
 
 preset = False
 if args.align_type == "end-to-end":
@@ -698,7 +698,7 @@ def merged_bowtie(reads_dict, bowtie2_db):
     bowtie2_cmd = 'bowtie2 {} --phred33 --{} --{} -p {} -I {} -X {} --no-unal -x {}{}'.format(
         inFmt, args.align_type, preset, args.threads, args.minins, args.maxins, bowtie2_db, input_cmd)
 
-    sam_out = args.out_dir + args.merge_name
+    sam_out = os.path.join(args.out_dir, args.merge_name)
 
     return [(bowtie2_cmd, sam_out)]
 
@@ -726,12 +726,12 @@ def separate_bowtie(reads_dict, bowtie2_db):
 
         if 'paired' in group_type:  # Shouldn't have to double-check at this point
             input_cmd += ' -1 {} -2 {}'.format(group_type['paired'][0], group_type['paired'][1])
-            sam_out = args.out_dir + group_type['paired'][0].rsplit('.', 1)[0] + '.sam'
+            sam_out = os.path.join(args.out_dir, group_type['paired'][0].rsplit('.', 1)[0] + '.sam')
         if 'unpaired' in group_type:
             input_cmd += ' -U {}'.format(','.join(group_type['unpaired']))
 
             if not sam_out:
-                sam_out = args.out_dir + group_type['unpaired'][0].rsplit('.', 1)[0] + '.sam'
+                sam_out = os.path.join(args.out_dir,group_type['unpaired'][0].rsplit('.', 1)[0] + '.sam')
 
         bowtie2_cmd = 'bowtie2 {} --phred33 --{} --{} -p {} -I {} -X {} --no-unal -x {}{}'.format(
         inFmt, args.align_type, preset, args.threads, args.minins, args.maxins, bowtie2_db, input_cmd)
