@@ -10,18 +10,19 @@
 #SBATCH --mail-user scottdaniel@email.arizona.edu
 
 #for local testing#####
-export HOST="/vagrant"
-export GUEST="/work"
+#if the singularity.conf is right, then /vagrant should be auto-shared
+export WORK="/vagrant"
+#export GUEST="/work"
 ########################
 
-export OUT_DIR="$HOST/bowtie_test"
+export OUT_DIR="$WORK/bowtie_test"
 
 #export MY_PARAMRUN="$HOME/launcher/paramrun"
 
 [[ -d "$OUT_DIR" ]] && rm -rf $OUT_DIR/*
 
-bash run.sh -i "$HOST/genomes" \
-    -r "$HOST/rna/control" \
+bash run.sh -i "$WORK/genomes" \
+    -r "$WORK/rna/control" \
     -O $OUT_DIR \
     -f fastq -t 4
 
