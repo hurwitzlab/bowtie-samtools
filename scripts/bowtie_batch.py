@@ -79,16 +79,16 @@ inputs.add_argument('-f', '--fmt', '--input-format', dest='input_fmt',
         "Compressed files (*.gz, *.tar.gz) will be automatically\n"
         "recognized.")
 
-#inputs.add_argument('-i', '--interleaved', dest='interleaved', 
-#        action='store_true',
-#        help="If enabled, will treat each file as INTERLEAVED\n"
-#        "and process them as paired files.\n "
-#        "Interleaved reads are assumed to be in the format F,R,F,R.")
+inputs.add_argument('-i', '--interleaved', dest='interleaved', 
+        action='store_true',
+        help="If enabled, will treat each file as INTERLEAVED\n"
+        "and process them as paired files.\n "
+        "Interleaved reads are assumed to be in the format F,R,F,R.")
 
 gen_opts = parser.add_argument_group('General Options')  
 # Bowtie2 and Samtools no longer specified #SGD: i don't know that this means, Ben?
 
-gen_opts.add_argument('-O', '--out-dir', dest='OUT_DIR', type=str,
+gen_opts.add_argument('-O', '--out-dir', dest='out_dir', type=str,
         default=os.getcwd, help="Output directory to put all the\n"
         "results in.")
 
@@ -96,61 +96,61 @@ gen_opts.add_argument('-y', '--read-types', dest='read_types',
         choices=['paired', 'unpaired', 'mixed'], default='mixed',
         help="Whether or not reads are paired, unpaired or mixed.")
 
-#gen_opts.add_argument('-D', '--dist', dest='distance', 
-#        type=int, default=1,
-#        help="Levenshtein distance between filenames, used \n"
-#        "to determine pairing/grouping of paired and\n"
-#        " unpaired files. So OSD101_R1 and OSD101_R2 have a \n"
-#        "distance of 1, OSD101_R1_paired and\n "
-#        "OSD101_R2_unpaired have a distance of 2. For many \n"
-#        "cases (like using all paired reads), the \n"
-#        "default is fine. It will correctly identify all \n"
-#        "the read 'pairings.' For mixing paired and \n"
-#        "unpaired files, it is suggested to use 2-3.\n"
-#        "That way the script can identify AND GROUP all \n"
-#        "the paired and unpaired reads from a single experiment\n"
-#        "into a single group. Basically, \n"
-#        "naming within a group should be closer than between\n"
-#        "groups. Naturally sorting files ASSUMES \n"
-#        "that unpaired read files will ALWAYS follow their paired version.")
-#
-#gen_opts.add_argument('-x', '--exclude', dest='filter', 
-#        action='append', default=['.py'],
-#        help="A list of strings (with -x for each item)\n"
-#        "to filter out files within the input directory.\n"
-#        "This is useful when there are paired, unpaired,\n"
-#        "QCd and non-QCd versions of read files\n"
-#        "existing in the soure directory - and the \n"
-#        "user only wants finalized, paired reads. For\n"
-#        "example, one can use '-x unpaired -x singles'\n"
-#        "to remove all files containing the words\n"
-#        " 'unpaired' and 'singles.' The string \n"
-#        "matching is not case-sensitive.")
-#
-#gen_opts.add_argument('-u', '--unpair-terms', 
-#        dest='unpair_term', action='append', 
-#        default=['unpair'],
-#        help="A list of strings (with -u for\n"
-#        "each item) to help identify unpaired\n" 
-#        "read files (if in the\n"
-#        "input). By default, unpaired files are\n"
-#        "identified by their natural sort order against\n"
-#        "'predicted' paired-end files. For example, if\n"
-#        "all unpaired read files have 'unpaired' in\n"
-#        "their name, you can use '-u unpaired' The\n"
-#        "string matching is not case-sensitive.")
-#
-#gen_opts.add_argument('-p', '--pair-terms', dest='pair_term', 
-#        action='append', default=['pair'],
-#        help="A list of strings (with -p for each item) \n"
-#        "to help identify paired read files (if in the\n"
-#        "input). By default, paired files are identified \n"
-#        "by their natural sort order against \n"
-#        "'predicted' unpaired-end files. For example,\n"
-#        "if all paired read files have 'paired' in \n"
-#        "their name, you can use '-p paired' This \n"
-#        "is applied AFTER unpaired reads are filtered out.\n"
-#        " The string matching is not case-sensitive.")
+gen_opts.add_argument('-D', '--dist', dest='distance', 
+        type=int, default=1,
+        help="Levenshtein distance between filenames, used \n"
+        "to determine pairing/grouping of paired and\n"
+        " unpaired files. So OSD101_R1 and OSD101_R2 have a \n"
+        "distance of 1, OSD101_R1_paired and\n "
+        "OSD101_R2_unpaired have a distance of 2. For many \n"
+        "cases (like using all paired reads), the \n"
+        "default is fine. It will correctly identify all \n"
+        "the read 'pairings.' For mixing paired and \n"
+        "unpaired files, it is suggested to use 2-3.\n"
+        "That way the script can identify AND GROUP all \n"
+        "the paired and unpaired reads from a single experiment\n"
+        "into a single group. Basically, \n"
+        "naming within a group should be closer than between\n"
+        "groups. Naturally sorting files ASSUMES \n"
+        "that unpaired read files will ALWAYS follow their paired version.")
+
+gen_opts.add_argument('-x', '--exclude', dest='filter', 
+        action='append', default=['.py'],
+        help="A list of strings (with -x for each item)\n"
+        "to filter out files within the input directory.\n"
+        "This is useful when there are paired, unpaired,\n"
+        "QCd and non-QCd versions of read files\n"
+        "existing in the soure directory - and the \n"
+        "user only wants finalized, paired reads. For\n"
+        "example, one can use '-x unpaired -x singles'\n"
+        "to remove all files containing the words\n"
+        " 'unpaired' and 'singles.' The string \n"
+        "matching is not case-sensitive.")
+
+gen_opts.add_argument('-u', '--unpair-terms', 
+        dest='unpair_term', action='append', 
+        default=['unpair'],
+        help="A list of strings (with -u for\n"
+        "each item) to help identify unpaired\n" 
+        "read files (if in the\n"
+        "input). By default, unpaired files are\n"
+        "identified by their natural sort order against\n"
+        "'predicted' paired-end files. For example, if\n"
+        "all unpaired read files have 'unpaired' in\n"
+        "their name, you can use '-u unpaired' The\n"
+        "string matching is not case-sensitive.")
+
+gen_opts.add_argument('-p', '--pair-terms', dest='pair_term', 
+        action='append', default=['pair'],
+        help="A list of strings (with -p for each item) \n"
+        "to help identify paired read files (if in the\n"
+        "input). By default, paired files are identified \n"
+        "by their natural sort order against \n"
+        "'predicted' unpaired-end files. For example,\n"
+        "if all paired read files have 'paired' in \n"
+        "their name, you can use '-p paired' This \n"
+        "is applied AFTER unpaired reads are filtered out.\n"
+        " The string matching is not case-sensitive.")
 
 gen_opts.add_argument('-k', '--keep-sam', dest='keep_sam', 
         action='store_true',
@@ -158,10 +158,10 @@ gen_opts.add_argument('-k', '--keep-sam', dest='keep_sam',
         "during BAM file generation. Without this option,\n"
         "THERE WILL BE NO SAM FILES.")
 
-gen_opts.add_argument('-m', '--merge-args', 
+gen_opts.add_argument('-m', '--merge-output', 
         dest='merge_output', action='store_true',
         help="If enabled, and if multiple reads are \n"
-        "supplied, combine the bowtie2 args into one file.")
+        "supplied, combine the bowtie2 outputs into one file.")
 
 gen_opts.add_argument('-n', '--merge-name', 
         dest='merge_name', metavar='FILENAME', 
@@ -218,15 +218,15 @@ bowtie2_opts.add_argument('-N', '--non-deterministic',
         "re-initialize the pseudo-random number generator.\n"
         "Useful when the input consists of many identical reads.")
 
-#bowtie2_opts.add_argument('-5', '--trim5', 
-#        dest='trim5', metavar='INT', 
-#        type=int, default=0,
-#        help="Trim X bases from 5'/left end of reads.")
-#
-#bowtie2_opts.add_argument('-3', '--trim3', 
-#        dest='trim3', metavar='INT', 
-#        type=int, default=0,
-#        help="Trim X bases from 3'/right end of reads.")
+bowtie2_opts.add_argument('-5', '--trim5', 
+        dest='trim5', metavar='INT', 
+        type=int, default=0,
+        help="Trim X bases from 5'/left end of reads.")
+
+bowtie2_opts.add_argument('-3', '--trim3', 
+        dest='trim3', metavar='INT', 
+        type=int, default=0,
+        help="Trim X bases from 3'/right end of reads.")
 
 bowtie2_opts.add_argument('-I', '--minins', 
         dest='minins', metavar='INT', 
@@ -253,6 +253,10 @@ def error(msg):
 # Ensure there's a DB file
 if not args.input_db:
     error("An input bowtie2 database file or fasta file is required.")
+
+#combine the out_dir with log_fn and merge_name
+args.merge_name = args.out_dir + args.merge_name
+args.log_fn = args.out_dir + args.log_fn
 
 preset = False
 if args.align_type == "end-to-end":
@@ -674,8 +678,8 @@ def merged_bowtie(reads_dict, bowtie2_db):
     if args.non_deterministic:
         input_cmd += ' --non-deterministic {}'
 
-    bowtie2_cmd = 'bowtie2 {} --phred33 --{} --{} -p 16 -I {} -X {} --no-unal -x {}{}'.format(
-        inFmt, args.align_type, preset, args.minins, args.maxins, bowtie2_db, input_cmd)
+    bowtie2_cmd = 'bowtie2 {} --phred33 --{} --{} -p {} -I {} -X {} --no-unal -x {}{}'.format(
+        inFmt, args.align_type, preset, args.threads, args.minins, args.maxins, bowtie2_db, input_cmd)
 
     sam_out = args.merge_name
 
