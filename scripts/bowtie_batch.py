@@ -268,7 +268,7 @@ def cat_fasta(input_dir,input_db):
 if not args.input_db:
     print("No input fasta or bowtie2 db specified, \
             concatenating fastas in {}".format(args.input_dir))
-    fasta_name = cat_fasta(args.input_dir,args.input_db)
+    args.input_db = cat_fasta(args.input_dir,args.input_db)
     print("Created a combined genome for you here {}".format(fasta_name))
 
 #combine the out_dir with log_fn and merge_name
@@ -698,7 +698,7 @@ def merged_bowtie(reads_dict, bowtie2_db):
     bowtie2_cmd = 'bowtie2 {} --phred33 --{} --{} -p {} -I {} -X {} --no-unal -x {}{}'.format(
         inFmt, args.align_type, preset, args.threads, args.minins, args.maxins, bowtie2_db, input_cmd)
 
-    sam_out = args.merge_name
+    sam_out = args.out_dir + args.merge_name
 
     return [(bowtie2_cmd, sam_out)]
 
@@ -726,15 +726,15 @@ def separate_bowtie(reads_dict, bowtie2_db):
 
         if 'paired' in group_type:  # Shouldn't have to double-check at this point
             input_cmd += ' -1 {} -2 {}'.format(group_type['paired'][0], group_type['paired'][1])
-            sam_out = group_type['paired'][0].rsplit('.', 1)[0] + '.sam'
+            sam_out = args.out_dir + group_type['paired'][0].rsplit('.', 1)[0] + '.sam'
         if 'unpaired' in group_type:
             input_cmd += ' -U {}'.format(','.join(group_type['unpaired']))
 
             if not sam_out:
-                sam_out = group_type['unpaired'][0].rsplit('.', 1)[0] + '.sam'
+                sam_out = args.out_dir + group_type['unpaired'][0].rsplit('.', 1)[0] + '.sam'
 
-        bowtie2_cmd = 'bowtie2 {} --phred33 --{} --{} -p 16 -I {} -X {} --no-unal -x {}{}'.format(
-        inFmt, args.align_type, preset, args.minins, args.maxins, bowtie2_db, input_cmd)
+        bowtie2_cmd = 'bowtie2 {} --phred33 --{} --{} -p {} -I {} -X {} --no-unal -x {}{}'.format(
+        inFmt, args.align_type, preset, args.threads, args.minins, args.maxins, bowtie2_db, input_cmd)
 
         if args.non_deterministic:
             bowtie2_cmd += ' --non-deterministic {}'
@@ -784,7 +784,7 @@ def run_bowtie(cmd2run, keep_sam, logfile):
 if __name__ == '__main__':
 
     # Set up directories
-    cwd = os.getcwd()
+    cwd = args.out_dir
     reads_scratch = os.path.join(cwd, 'reads')
     db_scratch = os.path.join(cwd, 'bowtie2-db')
 
