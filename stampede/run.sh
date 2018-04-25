@@ -57,7 +57,7 @@ set -u
 
 INPUT_DIR="./" #-i | --input-dir
 READS_DIR="./" #-r | --reads | --reads-dir
-INPUT_DB="genome.fna" #-d | --db | --input-db
+INPUT_DB=""$INPUT_DIR"/genome.fna" #-d | --db | --input-db
 INPUT_FMT="fastq" #-f | --fmt | --input-format
 #INTERLEAVED="FALSE" #-i | --interleaved
 #READ_TYPES="mixed" #-y | --read-types
@@ -231,7 +231,13 @@ if [[ ! -e "$INPUT_DB" ]]; then
 fi
 
 #Run bowtie_batch
-singularity run -B "$HOST":"$GUEST" $SING_IMG $@
+#TODO: gotta figure out this path stuff
+#TODO: make a "auto-map" in the singularity config file
+#TODO: so that /vagrant is automagically available
+INPUT_DB=$GUEST/$(basename $INPUT_DIR)/$(basename $INPUT_DB)
+singularity run -B "$HOST":"$GUEST" $SING_IMG -d $INPUT_DB \
+    -r $GUEST/rna/control \
+    -f fastq -t 4
 
 echo "Done, look in OUT_DIR \"$OUT_DIR\""
 echo "Comments to Scott Daniel <scottdaniel@email.arizona.edu>"
