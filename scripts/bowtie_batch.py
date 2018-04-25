@@ -34,6 +34,7 @@ __maintainer__ = ["Ben Bolduc", "Scott Daniel"]
 __email__ = ["bbolduc.chem@gmail.com","scottdaniel@email.arizona.edu"]
 __status__ = "Development"
 
+import glob
 import os
 import sys
 import subprocess
@@ -54,12 +55,14 @@ parser = argparse.ArgumentParser(description=
 
 inputs = parser.add_argument_group('Required Inputs and Parameters')
 
-inputs.add_argument('-r', '--reads', '--reads-dir', dest='reads_dir', metavar='DIRECTORY',
+inputs.add_argument('-r', '--reads', '--reads-dir', 
+        dest='reads_dir', metavar='DIRECTORY',
         help="Directory containing the reads files to be aligned.\n"
         " Selecting a single file instead of a\n "
         "directory will result in only one file being read.")
 
-inputs.add_argument('-d', '--db', '--input-db', dest='input_db', metavar='FILENAME',
+inputs.add_argument('-d', '--db', '--input-db', 
+        dest='input_db', metavar='FILENAME', default='genome.fna',
         help="The NAME of a FASTA-formatted sequence file\n"
         "containing sequences/references reads to be\n "
         "aligned against. For example, if the filename\n"
@@ -67,12 +70,14 @@ inputs.add_argument('-d', '--db', '--input-db', dest='input_db', metavar='FILENA
         "If not specified, it will be created from the\n"
         "'Input Directory'")
 
-inputs.add_argument('-i', '--input-dir', dest='input_dir', metavar='DIRECTORY',
+inputs.add_argument('-i', '--input-dir', 
+        dest='input_dir', metavar='DIRECTORY',
         help="The Directory containing individual genomes\n"
         "that will be pasted together. The created genome.fna\n"
         "will be indexed for bowtie2")
 
-inputs.add_argument('-f', '--fmt', '--input-format', dest='input_fmt', 
+inputs.add_argument('-f', '--fmt', '--input-format', 
+        dest='input_fmt', 
         choices=['fastq', 'fasta', 'fq'],
         default='fastq',
         help="File format of reads to be aligned. \n"
@@ -250,9 +255,21 @@ def error(msg):
     sys.stderr.flush()
     sys.exit(1)
 
-# Ensure there's a DB file
+def cat_fasta(input_dir,input_db):
+    with open(args.input_dir + '/' + args.input_db,'w') as w_file:
+        for filen in glob.glob(args.input_dir + "/*.fna"):
+            with open(filen, 'rU') as o_file:
+                seq_records = SeqIO.parse(o_file, 'fasta')
+                SeqIO.write(seq_records, w_file, 'fasta')
+
+        return w_file.name
+
+# Ensure there's a DB file or make one if not
 if not args.input_db:
-    error("An input bowtie2 database file or fasta file is required.")
+    print("No input fasta or bowtie2 db specified, \
+            concatenating fastas in {}".format(args.input_dir))
+    fasta_name = cat_fasta(args.input_dir,args.input_db)
+    print("Created a combined genome for you here {}".format(fasta_name))
 
 preset = False
 if args.align_type == "end-to-end":
