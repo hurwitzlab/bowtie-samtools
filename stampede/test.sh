@@ -20,8 +20,8 @@ export OUT_DIR="$HOST/bowtie_test"
 
 [[ -d "$OUT_DIR" ]] && rm -rf $OUT_DIR/*
 
-bash run.sh -d "$GUEST/genomes" \
-    --reads "$GUEST/rna/control" \
+bash run.sh -i "$HOST/genomes" \
+    -r "$HOST/rna/control" \
     -O $OUT_DIR \
-    -f fastq -p 4
+    -f fastq -t 4
 
