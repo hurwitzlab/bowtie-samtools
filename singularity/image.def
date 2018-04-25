@@ -14,7 +14,7 @@ MirrorURL: http://ftp.us.debian.org/debian/
 %post
     echo "Hello from inside the container"
     apt-get update
-    apt-get install -y automake build-essential zlib1g-dev libncurses5-dev wget unzip
+    apt-get install -y automake build-essential zlib1g-dev libncurses5-dev wget unzip git
     
     # Clean up
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
@@ -38,12 +38,19 @@ MirrorURL: http://ftp.us.debian.org/debian/
     wget --no-verbose https://github.com/samtools/samtools/releases/download/1.3/samtools-1.3.tar.bz2
     tar xf samtools-1.3.tar.bz2 && cd samtools-1.3 && make && make install && cd /
     
-    export BITBUCKET=https://bitbucket.org/MAVERICLab/docker-bowtiebatch/raw/beb39333f41289e2be429add4badfc2b82aa427d
+#    export BITBUCKET=https://bitbucket.org/MAVERICLab/docker-bowtiebatch/raw/beb39333f41289e2be429add4badfc2b82aa427d
     
-    wget --no-verbose -P $BINPATH $BITBUCKET/scripts/bowtie_batch.py
+#    wget --no-verbose -P $BINPATH $BITBUCKET/scripts/bowtie_batch.py
+
+    #using updated version of script
+    git clone https://github.com/hurwitzlab/bowtie-samtools.git
+    cp ./bowtie-samtools/scripts/bowtie_batch.py $BINPATH
     chmod +x $BINPATH/bowtie_batch.py
     
     # Set bind points
     mkdir /work
     mkdir /scratch
     mkdir /home1
+
+    #for ubuntu vbox vagrant
+    mkdir /vagrant
