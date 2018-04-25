@@ -84,7 +84,7 @@ inputs.add_argument('-f', '--fmt', '--input-format',
         "Compressed files (*.gz, *.tar.gz) will be automatically\n"
         "recognized.")
 
-inputs.add_argument('-i', '--interleaved', dest='interleaved', 
+inputs.add_argument('--interleaved', dest='interleaved', 
         action='store_true',
         help="If enabled, will treat each file as INTERLEAVED\n"
         "and process them as paired files.\n "
