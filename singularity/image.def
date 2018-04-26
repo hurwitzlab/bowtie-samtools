@@ -9,7 +9,7 @@ OSVersion: stable
 MirrorURL: http://ftp.us.debian.org/debian/
 
 %environment
-    PATH="/bowtie-samtools/scripts/:${PATH}"
+    PATH="/bowtie-samtools/scripts:${PATH}"
 
 %runscript
     exec bowtie_batch.py "$@"
@@ -32,6 +32,9 @@ MirrorURL: http://ftp.us.debian.org/debian/
     pip install python-Levenshtein
     
     export BINPATH=/usr/local/bin
+
+    #so we dont get those stupid perl warnings
+    locale-gen en_US.UTF-8
 
     #Installing with conda is faster
     # Install Bowtie2
