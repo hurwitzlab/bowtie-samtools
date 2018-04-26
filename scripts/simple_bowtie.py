@@ -305,11 +305,11 @@ if __name__ == '__main__':
 
     #DEBUG#
     log.write('ALL THE ARGUMENTS:' + os.linesep)
-    log.write(args)
-    #END DEBUG#
+    pprint(args, log)
 
     log.write('Directory contents for genomes:' + os.linesep)
     log.write(os.listdir(args.input_dir))
+    #END DEBUG#
     
     if os.path.isfile(args.bt2_idx + '.1.bt2') or os.path.isfile(args.bt2_idx + '.1.bt2l'):
         log.write('Bowtie2 index, {}, already exists... assuming its ok'.format(args.bt2_idx))
