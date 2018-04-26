@@ -16,24 +16,24 @@
 #
 # Set up defaults for inputs, constants
 #
-INPUT_DIR="./" #-i | --input-dir
-READS_DIR="./" #-r | --reads | --reads-dir
-INPUT_DB="genome.fna" #-d | --db | --input-db
-INPUT_FMT="fastq" #-f | --fmt | --input-format
-KEEP_SAM="FALSE" #-k | --keep-sam
-MERGE_OUTPUT="FALSE" #-m | --merge-args
-MERGE_NAME="bowtie2-run.sam" #-n | --merge-name
-REMOVE_TMP="FALSE" #-z | --remove-tmp
-LOG_FN="bowtie2-read-mapping.log" #-l | --log-file
-ALIGN_TYPE="end-to-end" #-a | --alignment-type
-GLOBAL_PRESETS="sensitive" #-e | --end-to-end-presets
-LOCAL_PRESETS="sensitive-local" #-c | --local-presets
-NON_DETERMINISTIC="FALSE" #-N | --non-deterministic
-MININS="0" #-I | --minins
-MAXINS="2000" #-X | --maxins
-THREADS="1" #-t | --threads
+#INPUT_DIR="./" #-i | --input-dir
+#READS_DIR="./" #-r | --reads | --reads-dir
+#INPUT_DB="genome.fna" #-d | --db | --input-db
+#INPUT_FMT="fastq" #-f | --fmt | --input-format
+#KEEP_SAM="FALSE" #-k | --keep-sam
+#MERGE_OUTPUT="FALSE" #-m | --merge-args
+#MERGE_NAME="bowtie2-run.sam" #-n | --merge-name
+#REMOVE_TMP="FALSE" #-z | --remove-tmp
+#LOG_FN="bowtie2-read-mapping.log" #-l | --log-file
+#ALIGN_TYPE="end-to-end" #-a | --alignment-type
+#GLOBAL_PRESETS="sensitive" #-e | --end-to-end-presets
+#LOCAL_PRESETS="sensitive-local" #-c | --local-presets
+#NON_DETERMINISTIC="FALSE" #-N | --non-deterministic
+#MININS="0" #-I | --minins
+#MAXINS="2000" #-X | --maxins
+#THREADS="1" #-t | --threads
 SING_IMG="bowtie_sam.img" #-S | --sing-img
-OUT_DIR="./out_dir" #-O | --out-dir
+#OUT_DIR="./out_dir" #-O | --out-dir
 
 #check for centrifuge image
 if [[ ! -e "$SING_IMG" ]]; then
@@ -68,8 +68,6 @@ echo "ARG = $*"
 #
 # Verify existence of various directories, files
 #
-[[ ! -d "$OUT_DIR" ]] && mkdir -p "$OUT_DIR"
-
 
 #Need to concatenate all the fastas into one
 #Do this in python

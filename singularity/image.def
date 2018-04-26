@@ -8,6 +8,9 @@ BootStrap: debootstrap
 OSVersion: stable
 MirrorURL: http://ftp.us.debian.org/debian/
 
+%environment
+    PATH="/bowtie-samtools/scripts/:${PATH}"
+
 %runscript
     exec bowtie_batch.py "$@"
 
@@ -44,8 +47,7 @@ MirrorURL: http://ftp.us.debian.org/debian/
 
     #using updated version of script
     git clone https://github.com/hurwitzlab/bowtie-samtools.git
-    cp ./bowtie-samtools/scripts/bowtie_batch.py $BINPATH
-    chmod +x $BINPATH/bowtie_batch.py
+    chmod +x /bowtie-samtools/scripts/bowtie_batch.py
     
     # Set bind points
     mkdir /work

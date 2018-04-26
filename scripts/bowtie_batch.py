@@ -760,10 +760,10 @@ def run_bowtie(cmd2run, keep_sam, logfile):
             # Keep sam file or go directly to bam. Two ways of keeping sam file... one of which sometimes hasn't worked
 
             if keep_sam:
-                processCall = '{0} -S {1} && samtools view -Sb -o {2} {1}'.format(bowtie2, sam_out, bam_out)
+                processCall = '{0} -S {1} && samtools view --threads {} -Sb -o {2} {1}'.format(args.threads, bowtie2, sam_out, bam_out)
 
             else:
-                processCall = '{0} | samtools view -Sb - > {1}'.format(bowtie2, bam_out)
+                processCall = '{0} | samtools view --threads {} -Sb - > {1}'.format(args.threads, bowtie2, bam_out)
 
             execute(processCall, logfile)
 
@@ -773,10 +773,10 @@ def run_bowtie(cmd2run, keep_sam, logfile):
         bam_out = sam_out.replace('sam', 'bam')
 
         if keep_sam:
-            processCall = '{0} -S {1} && samtools view -Sb -o {2} {1}'.format(bowtie2, sam_out, bam_out)
+            processCall = '{0} -S {1} && samtools view --threads {} -Sb -o {2} {1}'.format(args.threads, bowtie2, sam_out, bam_out)
 
         else:
-            processCall = '{0} | samtools view -Sb - > {1}'.format(bowtie2, bam_out)
+            processCall = '{0} | samtools view --threads {} -Sb - > {1}'.format(args.threads, bowtie2, bam_out)
             #output = subprocess.check_output(processCall, shell=True)  # Trusted input only!
 
         execute(processCall, logfile)  # bowtie uses stderr to print out args
