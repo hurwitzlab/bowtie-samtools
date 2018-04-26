@@ -275,10 +275,10 @@ def to_sam(cmd2run, keep_sam, logfile):
             # Keep sam file or go directly to bam. Two ways of keeping sam file... one of which sometimes hasn't worked
 
             if keep_sam:
-                processCall = '{0} -S {1} && samtools view --threads {} -Sb -o {2} {1}'.format(args.threads, bowtie2, sam_out, bam_out)
+                processCall = '{1} -S {2} && samtools view --threads {0} -Sb -o {3} {2}'.format(args.threads, bowtie2, sam_out, bam_out)
 
             else:
-                processCall = '{0} | samtools view --threads {} -Sb - > {1}'.format(args.threads, bowtie2, bam_out)
+                processCall = '{1} | samtools view --threads {0} -Sb - > {2}'.format(args.threads, bowtie2, bam_out)
 
             execute(processCall, logfile)
 
