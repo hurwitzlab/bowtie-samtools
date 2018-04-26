@@ -267,8 +267,8 @@ def cat_fasta(input_dir,input_db):
 
 # Ensure there's a DB file or make one if not
 if not os.path.isfile(args.input_dir + '/' + args.input_db):
-    print("No input fasta or bowtie2 db specified, \
-            concatenating fastas in {}".format(args.input_dir))
+    print("No input fasta or bowtie2 db specified," \
+           + " concatenating fastas in {}".format(args.input_dir))
     args.input_db = cat_fasta(args.input_dir,args.input_db)
     print("Created a combined genome for you here {}".format(args.input_db))
 
@@ -651,11 +651,11 @@ def prepare_bowtie_db(fasta, db_dir, logfile):
             logfile.write('WARNING: Bowtie2 DB files already present in bowtie2 database directory. Skipping' + os.linesep)
 
         else:
-            bowtie_db_cmd = 'bowtie2-build -f {} {}'.format(bt2_db_fasta, bt2_db_base)
+            bowtie_db_cmd = 'bowtie2-build --threads {} -f {} {}'.format(args.threads, bt2_db_fasta, bt2_db_base)
             execute(bowtie_db_cmd, logfile)
 
     else:
-        bowtie_db_cmd = 'bowtie2-build -f {} {}'.format(bt2_db_fasta, bt2_db_base)
+        bowtie_db_cmd = 'bowtie2-build --threads {} -f {} {}'.format(args.threads, bt2_db_fasta, bt2_db_base)
         execute(bowtie_db_cmd, logfile)
 
     return bt2_db_base
