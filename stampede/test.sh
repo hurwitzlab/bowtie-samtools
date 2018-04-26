@@ -24,10 +24,8 @@ export OUT_DIR="$WORK/bowtie_test"
 #-i "$WORK/genomes"
 
 bash run_simple.sh \
-    -d "$WORK/bowtie2-db/genome.fna" \
-    --dist 2 \
-    -r "$WORK/rna/control" \
+    -i "$WORK/genomes" \
+    -1 /vagrant/rna/control/RNA_control_R1_sample_01.fastq.gz,/vagrant/rna/control/RNA_control_R1_sample_02.fastq.gz,/vagrant/rna/control/RNA_control_R1_sample_03.fastq.gz \
+    -2 /vagrant/rna/control/RNA_control_R2_sample_01.fastq.gz,/vagrant/rna/control/RNA_control_R2_sample_02.fastq.gz,/vagrant/rna/control/RNA_control_R2_sample_03.fastq.gz \
     -O $OUT_DIR \
-    -f fastq -t 4 \
-    -y paired --merge-output
-
+    -f fastq -t 4

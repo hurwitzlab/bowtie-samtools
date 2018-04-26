@@ -49,7 +49,7 @@ function lc() {
 
 function HELP() {
 
-    singularity exec $SING_IMG bowtie_batch.py -h
+    singularity exec $SING_IMG simple_bowtie.py -h
     
     exit 0
 }
@@ -84,7 +84,7 @@ echo "ARG = $*"
 #fi
 
 #Run bowtie_batch
-singularity run $SING_IMG $@
+singularity exec $SING_IMG simple_bowtie.py $@
 
 echo "Done, look in OUT_DIR \"$OUT_DIR\""
 echo "Comments to Scott Daniel <scottdaniel@email.arizona.edu>"
