@@ -313,6 +313,7 @@ if __name__ == '__main__':
     
     if os.path.isfile(args.bt2_idx + '.1.bt2') or os.path.isfile(args.bt2_idx + '.1.bt2l'):
         log.write('Bowtie2 index, {}, already exists... assuming its ok'.format(args.bt2_idx))
+        bt2_db_base = args.bt2_idx
     else:
         bt2_db_base = prepare_bowtie_db(args.input_dir, args.bt2_idx, log)
 
