@@ -24,5 +24,6 @@ export OUT_DIR="$WORK/bowtie_test"
 bash run_simple.sh -i "$WORK/genomes" \
     -r "$WORK/rna/control" \
     -O $OUT_DIR \
-    -f fastq -t 4
+    -f fastq -t 4 \
+    -y paired --merge-output
 
