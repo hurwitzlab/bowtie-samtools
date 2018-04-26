@@ -308,7 +308,7 @@ if __name__ == '__main__':
     pprint(args, log)
 
     log.write('Directory contents for genomes:' + os.linesep)
-    log.write(os.listdir(args.input_dir))
+    pprint(os.listdir(args.input_dir),log)
     #END DEBUG#
     
     if os.path.isfile(args.bt2_idx + '.1.bt2') or os.path.isfile(args.bt2_idx + '.1.bt2l'):
