@@ -54,7 +54,8 @@ inputs = parser.add_argument_group('Required Inputs and Parameters',
         "E.g. -U file1.fq,file2.fq -U file3.fq.")
 
 inputs.add_argument('-i', '--input-dir', 
-        dest='input_dir', metavar='DIRECTORY', default=os.getenv('WORK'),
+        dest='input_dir', metavar='DIRECTORY', 
+        default=os.path.join(os.getenv('WORK'),'genomes'),
         help="The Directory containing individual genomes\n"
         "that will be pasted together. The created genome.fna\n"
         "will be indexed for bowtie2")
@@ -188,7 +189,7 @@ def error(msg):
 
 def cat_fasta(input_dir,bt2_idx):
     file_list = glob.glob(input_dir + "/*.fna")
-    with open(bt2_idx,'w') as w_file:
+    with open(bt2_idx+'.fna','w') as w_file:
         for filen in file_list:
             with open(filen, 'rU') as o_file:
                 seq_records = SeqIO.parse(o_file, 'fasta')
@@ -220,10 +221,13 @@ def execute(command, logfile):
 
 def prepare_bowtie_db(input_dir, bt2_idx, logfile):
 
-    # Ensure there's a DB file or make one if not
-    if not os.path.isfile(args.bt2_idx):
+    # Ensure there's a genome.fna file or make one if not
+    if not os.path.isfile(args.bt2_idx + '.fna'):
         pprint("No input bowtie2 db specified," \
                + " concatenating fastas in {}".format(args.input_dir),logfile)
+        #make the directory for the bt2 index if not there
+        if not os.path.isdir(os.path.dirname(args.bt2_idx)):
+            os.mkdir(os.path.dirname(args.bt2_idx))
         bt2_db_fasta = cat_fasta(args.input_dir,args.bt2_idx)
         pprint("Created a combined genome for you here {}".format(args.bt2_idx),logfile)
 
