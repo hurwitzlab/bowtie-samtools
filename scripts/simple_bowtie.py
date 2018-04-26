@@ -304,10 +304,6 @@ if __name__ == '__main__':
     pprint(args, log)
     #END DEBUG#
 
-    log.write('Directory contents for bowtie2-db directory:' + os.linesep)
-    #this may not work
-    pprint(os.listdir(args.bt2_idx), log)
-    
     log.write('Directory contents for genomes:' + os.linesep)
     pprint(os.listdir(args.input_dir), log)
 
