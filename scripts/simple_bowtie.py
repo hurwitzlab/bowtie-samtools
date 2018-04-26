@@ -231,7 +231,7 @@ def prepare_bowtie_db(input_dir, bt2_idx, logfile):
         if not os.path.isdir(db_dir): 
             os.mkdir(db_dir) #E.g. mkdir /vagrant/bt2_idx
         bt2_db_fasta = cat_fasta(args.input_dir,args.bt2_idx)
-        pprint("Created a combined genome for you: {}".format(bt2_db_fasta,logfile))
+        pprint("Created a combined genome for you: {}".format(bt2_db_fasta),logfile)
 
     bowtie_db_cmd = 'bowtie2-build --threads {} -f {} {}'.format(args.threads, bt2_db_fasta, args.bt2_idx)
     execute(bowtie_db_cmd, logfile)
@@ -262,7 +262,7 @@ def bowtie(bowtie2_db):
 
     return [(bowtie2_cmd, sam_out)]
 
-def run_bowtie(cmd2run, keep_sam, logfile):
+def to_sam(cmd2run, keep_sam, logfile):
 
     processCall = ''
 
@@ -304,26 +304,23 @@ if __name__ == '__main__':
     log = open(args.log_fn, 'w', 0)  # Set buffer size to 0 to force flushing to disk
 
     #DEBUG#
-    pprint('ALL THE ARGUMENTS:' + os.linesep, log)
-    pprint(args, log)
+    log.write('ALL THE ARGUMENTS:' + os.linesep)
+    log.write(args)
     #END DEBUG#
 
     log.write('Directory contents for genomes:' + os.linesep)
-    pprint(os.listdir(args.input_dir), log)
+    log.write(os.listdir(args.input_dir))
+    
+    if os.path.isfile(args.bt2_idx + '.1.bt2') or os.path.isfile(args.bt2_idx + '.1.bt2l'):
+        log.write('Bowtie2 index, {}, already exists... assuming its ok'.format(args.bt2_idx))
+    else:
+        bt2_db_base = prepare_bowtie_db(args.input_dir, args.bt2_idx, log)
 
-    bt2_db_base = prepare_bowtie_db(args.input_dir, args.bt2_idx, log)
     log.write('Bowtie2 base db: {}'.format(bt2_db_base) + os.linesep)
 
-    cmd_and_sam = []
+    cmd_and_sam = bowtie(bt2_db_base)
 
-    if args.merge_output:
-        # Run merged_bowtie
-        cmd_and_sam = merged_bowtie(bt2_db_base)
-
-    else:  # Individually run
-        cmd_and_sam = separate_bowtie(bt2_db_base)
-
-    run_bowtie(cmd_and_sam, args.keep_sam, log)
+    to_sam(cmd_and_sam, args.keep_sam, log)
 
     log.write('Program Complete, Hopefully it Worked!')
     log.close()
