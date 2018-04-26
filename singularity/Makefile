@@ -4,7 +4,7 @@ SING231 = /home/vagrant/bin/singularity #2.3.1-dist
 SINGULARITY = $(SING231)
 IMG_NAME = bowtie_sam.img
 DEF_NAME = image.def
-SIZE = 2048
+SIZE = 2136
 
 help:
 	sudo $(SINGULARITY) exec $(IMG_NAME) bowtie_batch.py -h

@@ -17,7 +17,7 @@ MirrorURL: http://ftp.us.debian.org/debian/
 %post
     echo "Hello from inside the container"
     apt-get update
-    apt-get install -y automake build-essential zlib1g-dev libncurses5-dev wget unzip git
+    apt-get install -y automake build-essential zlib1g-dev libncurses5-dev wget unzip git sudo
     
     # Clean up
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
@@ -27,19 +27,20 @@ MirrorURL: http://ftp.us.debian.org/debian/
     rm Miniconda2-latest-Linux-x86_64.sh
     
     # Get natsort, biopython, and Levenshtein
-    conda install -y biopython
+    conda install -c bioconda -y biopython samtools bowtie2
     pip install natsort
     pip install python-Levenshtein
     
     export BINPATH=/usr/local/bin
-    
+
+    #Installing with conda is faster
     # Install Bowtie2
-    wget --no-verbose http://sourceforge.net/projects/bowtie-bio/files/bowtie2/2.2.6/bowtie2-2.2.6-linux-x86_64.zip
-    unzip bowtie2-2.2.6-linux-x86_64.zip && cp bowtie2-2.2.6/bowtie2* $BINPATH && cd /
+#    wget --no-verbose http://sourceforge.net/projects/bowtie-bio/files/bowtie2/2.2.6/bowtie2-2.2.6-linux-x86_64.zip
+#    unzip bowtie2-2.2.6-linux-x86_64.zip && cp bowtie2-2.2.6/bowtie2* $BINPATH && cd /
 
     # Install Samtools
-    wget --no-verbose https://github.com/samtools/samtools/releases/download/1.3/samtools-1.3.tar.bz2
-    tar xf samtools-1.3.tar.bz2 && cd samtools-1.3 && make && make install && cd /
+#    wget --no-verbose https://github.com/samtools/samtools/releases/download/1.3/samtools-1.3.tar.bz2
+#    tar xf samtools-1.3.tar.bz2 && cd samtools-1.3 && make && make install && cd /
     
 #    export BITBUCKET=https://bitbucket.org/MAVERICLab/docker-bowtiebatch/raw/beb39333f41289e2be429add4badfc2b82aa427d
     
