@@ -309,7 +309,7 @@ if __name__ == '__main__':
     pprint(args, log)
     #END DEBUG#
 
-    log.write('Directory contents for genomes:' + os.linesep, log)
+    log.write('Directory contents for genomes:' + os.linesep)
     pprint(os.listdir(args.input_dir), log)
 
     bt2_db_base = prepare_bowtie_db(args.input_dir, args.bt2_idx, log)
