@@ -221,13 +221,14 @@ def execute(command, logfile):
 
 def prepare_bowtie_db(input_dir, bt2_idx, logfile):
 
+    db_dir = os.path.dirname(args.bt2_idx)
     # Ensure there's a genome.fna file or make one if not
     if not os.path.isfile(args.bt2_idx + '.fna'):
         pprint("No input bowtie2 db specified," \
                + " concatenating fastas in {}".format(args.input_dir),logfile)
         #make the directory for the bt2 index if not there
-        if not os.path.isdir(os.path.dirname(args.bt2_idx)):
-            os.mkdir(os.path.dirname(args.bt2_idx))
+        if not os.path.isdir(db_dir):
+            os.mkdir(db_dir)
         bt2_db_fasta = cat_fasta(args.input_dir,args.bt2_idx)
         pprint("Created a combined genome for you here {}".format(args.bt2_idx),logfile)
 
@@ -304,11 +305,11 @@ if __name__ == '__main__':
     log = open(args.log_fn, 'w', 0)  # Set buffer size to 0 to force flushing to disk
 
     #DEBUG#
-    pprint('ALL THE ARGUMENTS:' + os.linesep)
+    pprint('ALL THE ARGUMENTS:' + os.linesep, log)
     pprint(args, log)
     #END DEBUG#
 
-    log.write('Directory contents for genomes:' + os.linesep)
+    log.write('Directory contents for genomes:' + os.linesep, log)
     pprint(os.listdir(args.input_dir), log)
 
     bt2_db_base = prepare_bowtie_db(args.input_dir, args.bt2_idx, log)
