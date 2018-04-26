@@ -21,7 +21,7 @@ export OUT_DIR="$WORK/bowtie_test"
 
 [[ -d "$OUT_DIR" ]] && rm -rf $OUT_DIR/*
 
-bash run.sh -i "$WORK/genomes" \
+bash run_simple.sh -i "$WORK/genomes" \
     -r "$WORK/rna/control" \
     -O $OUT_DIR \
     -f fastq -t 4
