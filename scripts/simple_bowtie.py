@@ -221,18 +221,17 @@ def execute(command, logfile):
 
 def prepare_bowtie_db(input_dir, bt2_idx, logfile):
 
+    bt2_db_fasta = args.bt2_idx + '.fna'
     db_dir = os.path.dirname(args.bt2_idx) #E.g. /vagrant/bt2_idx
     # Ensure there's a genome.fna file or make one if not
-    if not os.path.isfile(args.bt2_idx + '.fna'): #E.g. /vagrant/bt2_idx/genome.fna
+    if not os.path.isfile(bt2_db_fasta): #E.g. /vagrant/bt2_idx/genome.fna
         pprint("No input bowtie2 db specified," \
                + " concatenating fastas in {}".format(args.input_dir),logfile)
         #make the directory for the bt2 index if not there
         if not os.path.isdir(db_dir): 
             os.mkdir(db_dir) #E.g. mkdir /vagrant/bt2_idx
         bt2_db_fasta = cat_fasta(args.input_dir,args.bt2_idx)
-        pprint("Created a combined genome for you here {}".format(args.bt2_idx),logfile)
-
-    bt2_db_fasta = args.bt2_idx + '.fna'
+        pprint("Created a combined genome for you: {}".format(bt2_db_fasta,logfile))
 
     bowtie_db_cmd = 'bowtie2-build --threads {} -f {} {}'.format(args.threads, bt2_db_fasta, args.bt2_idx)
     execute(bowtie_db_cmd, logfile)
