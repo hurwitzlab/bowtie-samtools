@@ -63,29 +63,15 @@ set -u
 
 #Read the arguments
 # In case you wanted to check what variables were passed
-echo "ARG = $*"
+#echo "ARG = $*"
 
 #
 # Verify existence of various directories, files
 #
 
-#Need to concatenate all the fastas into one
-#Do this in python
-#if [[ ! -e "$INPUT_DB" ]]; then
-#    echo "Searching $INPUT_DIR for genome fastas"
-#    find $INPUT_DIR -iname "*.fna" > $GENOME_LIST
-#    echo "Found $(lc $GENOME_LIST) in $INPUT_DIR"
-#    if [[ $(lc $GENOME_LIST) -lt 1 ]]; then
-#        echo "No genome fastas found!"
-#        exit 1
-#    else
-#        sed 's/\n/ /' $GENOME_LIST | xargs -I file cat file > $INPUT_DB
-#    fi
-#fi
-
 #Run bowtie_batch
 singularity exec $SING_IMG simple_bowtie.py $@
 
-echo "Done, look in OUT_DIR \"$OUT_DIR\""
+echo "Log messages will be in "$OUT_DIR"/bowtie2-read-mapping.log by default"
 echo "Comments to Scott Daniel <scottdaniel@email.arizona.edu>"
 

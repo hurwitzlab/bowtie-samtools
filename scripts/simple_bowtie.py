@@ -304,15 +304,15 @@ if __name__ == '__main__':
     log = open(args.log_fn, 'w', 0)  # Set buffer size to 0 to force flushing to disk
 
     #DEBUG#
-    log.write('ALL THE ARGUMENTS:' + os.linesep)
-    pprint(args, log)
-
-    log.write('Directory contents for genomes:' + os.linesep)
-    pprint(os.listdir(args.input_dir),log)
+#    log.write('ALL THE ARGUMENTS:' + os.linesep)
+#    pprint(args, log)
+#
+#    log.write('Directory contents for genomes:' + os.linesep)
+#    pprint(os.listdir(args.input_dir),log)
     #END DEBUG#
     
     if os.path.isfile(args.bt2_idx + '.1.bt2') or os.path.isfile(args.bt2_idx + '.1.bt2l'):
-        log.write('Bowtie2 index, {}, already exists... assuming its ok'.format(args.bt2_idx))
+        log.write('Bowtie2 index, {}, already exists... assuming its ok'.format(args.bt2_idx) + os.linesep)
         bt2_db_base = args.bt2_idx
     else:
         bt2_db_base = prepare_bowtie_db(args.input_dir, args.bt2_idx, log)
