@@ -57,12 +57,14 @@ inputs = parser.add_argument_group('Required Inputs and Parameters')
 
 inputs.add_argument('-r', '--reads', '--reads-dir', 
         dest='reads_dir', metavar='DIRECTORY',
+        default=os.path.join(os.getenv('WORK'),'genomes'),
         help="Directory containing the reads files to be aligned.\n"
         " Selecting a single file instead of a\n "
         "directory will result in only one file being read.")
 
 inputs.add_argument('-d', '--db', '--input-db', 
-        dest='input_db', metavar='FILENAME', default='genome.fna',
+        dest='input_db', metavar='FILENAME', 
+        default=os.path.join(os.getenv('WORK'),'genomes/','genome.fna'),
         help="The NAME of a FASTA-formatted sequence file\n"
         "containing sequences/references reads to be\n "
         "aligned against. For example, if the filename\n"
@@ -71,7 +73,7 @@ inputs.add_argument('-d', '--db', '--input-db',
         "'Input Directory'")
 
 inputs.add_argument('-i', '--input-dir', 
-        dest='input_dir', metavar='DIRECTORY',
+        dest='input_dir', metavar='DIRECTORY', default=os.getenv('WORK'),
         help="The Directory containing individual genomes\n"
         "that will be pasted together. The created genome.fna\n"
         "will be indexed for bowtie2")
@@ -256,8 +258,8 @@ def error(msg):
     sys.exit(1)
 
 def cat_fasta(input_dir,input_db):
-    file_list = glob.glob(args.input_dir + "/*.fna")
-    with open(args.input_dir + '/' + args.input_db,'w') as w_file:
+    file_list = glob.glob(input_dir + "/*.fna")
+    with open(input_db,'w') as w_file:
         for filen in file_list:
             with open(filen, 'rU') as o_file:
                 seq_records = SeqIO.parse(o_file, 'fasta')
@@ -266,7 +268,7 @@ def cat_fasta(input_dir,input_db):
         return w_file.name
 
 # Ensure there's a DB file or make one if not
-if not os.path.isfile(args.input_dir + '/' + args.input_db):
+if not os.path.isfile(args.input_db):
     print("No input fasta or bowtie2 db specified," \
            + " concatenating fastas in {}".format(args.input_dir))
     args.input_db = cat_fasta(args.input_dir,args.input_db)
@@ -786,8 +788,9 @@ if __name__ == '__main__':
 
     # Set up directories
     cwd = args.out_dir
-    reads_scratch = os.path.join(cwd, 'reads')
-    db_scratch = os.path.join(cwd, 'bowtie2-db')
+    #TODO: fix this harcoding stuff!
+    reads_scratch = os.path.join(cwd, 'reads') #bad hardcoding!
+    db_scratch = os.path.join(cwd, 'bowtie2-db') #bad hardcoding!
 
     log = open(args.log_fn, 'w', 0)  # Set buffer size to 0 to force flushing to disk
 
