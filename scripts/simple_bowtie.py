@@ -69,19 +69,19 @@ inputs.add_argument('-x', '--bt2-idx',
 
 inputs.add_argument('-1', '--m1', 
         dest='reads_forward', metavar='STRING',
-        default=glob.glob("./*R1*"),
+        default='',
         help="Files with #1 mates, paired with files in <m2>.\n"
         "Could be gzip'ed (extension: .gz) or bzip2'ed (extension: .bz2).\n")
 
 inputs.add_argument('-2', '--m2', 
         dest='reads_reverse', metavar='STRING',
-        default=glob.glob("./*R2*"),
+        default='',
         help="Files with #2 mates, paired with files in <m1>.\n"
         "Could be gzip'ed (extension: .gz) or bzip2'ed (extension: .bz2).\n")
 
 inputs.add_argument('-U', '--unpaired', 
         dest='reads_unpaired', metavar='STRING',
-        default=glob.glob("*unpaired*"),
+        default='',
         help="Files with unpaired reads.\n"
         "Could be gzip'ed (extension: .gz) or bzip2'ed (extension: .bz2).")
 
@@ -252,7 +252,17 @@ def bowtie(bowtie2_db):
     if not inFmt:
         error('No format selected during bowtie2 search.')
 
-    input_cmd = '-1 {} -2 {} -U {}'.format(args.reads_forward,args.reads_reverse,args.reads_unpaired)
+    #i wish python had case switching! ... this is probably more complicated than it needs to be!
+    if args.reads_unpaired and args.reads_forward and args.reads_reverse:
+        input_cmd = '-1 {} -2 {} -U {}'.format(args.reads_forward,args.reads_reverse,args.reads_unpaired)
+    elif args.reads_unpaired and not (args.reads_forward and args.reads_reverse):
+        input_cmd = '-U {}'.format(args.reads_unpaired)
+    elif (args.reads_forward and args.reads_reverse) and not args.reads_unpaired:
+        input_cmd = '-1 {} -2 {}'.format(args.reads_forward,args.reads_reverse)
+    else:
+        error("Something is wrong in how the input string is formatted\n"
+        "Did you only enter forward reads? Did you only enter reverse reads?\n")
+
 
     bowtie2_cmd = 'bowtie2 {} --phred33 --{} --{} -p {} -I {} -X {} --no-unal {} -x {} {}'.format(
         inFmt, args.align_type, preset, args.threads, args.minins, 
