@@ -41,6 +41,7 @@ if [[ ! -e "$SING_IMG" ]]; then
     exit 1
 fi
 
+#
 # Some needed functions
 #
 function lc() { 
@@ -49,7 +50,7 @@ function lc() {
 
 function HELP() {
 
-    singularity exec $SING_IMG simple_bowtie.py -h
+    singularity exec $SING_IMG patric_bowtie2.py -h
     
     exit 0
 }
@@ -61,16 +62,16 @@ function HELP() {
 
 set -u
 
-#Read the arguments
 # In case you wanted to check what variables were passed
 #echo "ARG = $*"
 
 #
 # Verify existence of various directories, files
+# Don't need this if python script is already checking
 #
 
 #Run bowtie_batch
-singularity exec $SING_IMG simple_bowtie.py $@
+singularity exec $SING_IMG patric_bowtie2.py $@
 
 echo "Log messages will be in "$OUT_DIR"/bowtie2-read-mapping.log by default"
 echo "Comments to Scott Daniel <scottdaniel@email.arizona.edu>"
