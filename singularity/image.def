@@ -10,7 +10,6 @@ MirrorURL: http://us.archive.ubuntu.com/ubuntu/
 
 %environment
     PATH="/bowtie-samtools/scripts:${PATH}"
-    WORK=""
 
 %runscript
     exec simple_bowtie.py "$@"
