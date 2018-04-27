@@ -62,4 +62,5 @@ MirrorURL: http://us.archive.ubuntu.com/ubuntu/
     mkdir /home1
 
     #for ubuntu vbox vagrant
+    #comment out once ready for deployment
     mkdir /vagrant
