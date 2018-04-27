@@ -43,8 +43,14 @@ import itertools
 from pprint import pprint
 from Bio import SeqIO
 
+#WORK env var will be present on TACC
+#But may not be set when testing locally
 if os.getenv('WORK') is None:
     os.putenv('WORK','./')
+
+####################
+# ARGUMENTS ########
+####################
 
 parser = argparse.ArgumentParser(description=
         "The script essentially wraps bowtie2 for aligning\n"
@@ -185,6 +191,28 @@ bowtie2_opts.add_argument('--additional',
 
 args = parser.parse_args()
 
+####################
+# SETS AND CHECKS ##
+####################
+
+#combine the out_dir with log_fn and sam_name
+args.sam_name = os.path.join(args.out_dir,args.sam_name)
+args.log_fn = os.path.join(args.out_dir,args.log_fn)
+
+#check for args that need to be set (the app.json / agave api should do this too)
+preset = False
+if args.align_type == "end-to-end":
+    preset = args.global_presets
+if args.align_type == "local":
+    preset = args.local_presets
+
+if args.input_fmt not in ['fasta', 'fastq', 'fq']:
+    error('ERROR: Input format must be either fasta or fastq formatted')
+
+###############
+# FUNCTIONS ###
+###############
+
 def error(msg):
     sys.stderr.write("ERROR: {}\n".format(msg))
     sys.stderr.flush()
@@ -200,18 +228,6 @@ def cat_fasta(input_dir,bt2_idx):
 
         return w_file.name
 
-#combine the out_dir with log_fn and sam_name
-args.sam_name = os.path.join(args.out_dir,args.sam_name)
-args.log_fn = os.path.join(args.out_dir,args.log_fn)
-
-preset = False
-if args.align_type == "end-to-end":
-    preset = args.global_presets
-if args.align_type == "local":
-    preset = args.local_presets
-
-if args.input_fmt not in ['fasta', 'fastq', 'fq']:
-    error('ERROR: Input format must be either fasta or fastq formatted')
 
 def execute(command, logfile):
 
@@ -311,6 +327,10 @@ def to_sam(cmd2run, keep_sam, logfile):
 
     if (len(cmd2run) < 1) and (len(cmd2run) != 1):  # This *should not* ever be triggered
         logfile.write('ERROR: Not >1 or ==1, but sam file specified')
+
+##################
+# THE MAIN LOOP ##
+##################
 
 if __name__ == '__main__':
 
