@@ -46,7 +46,7 @@ from Bio import SeqIO
 #WORK env var will be present on TACC
 #But may not be set when testing locally
 if os.getenv('WORK') is None:
-    os.putenv('WORK','./')
+    os.environ['WORK'] = './'
 
 ####################
 # ARGUMENTS ########
