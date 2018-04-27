@@ -2,12 +2,12 @@
 
 ###############################################################################
 #                                                                             #
-#    BatchBowtie                                                              #
+#    patric_bowtie2.py                                                        #
 #                                                                             #
-#    A wrapper script for Bowtie2, that runs Bowtie and Samtools on a         #
-#    directory of read files.                                                 #
+#    A wrapper script for Bowtie2, that runs Bowtie and Samtools on           #
+#    read files using a directory of PATRIC (patricbrc.org) genomes           #
 #                                                                             #
-#    Copyright (C) Benjamin Bolduc                                            #
+#    Copyright (C) Benjamin Bolduc, Scott G Daniel                            #
 #                                                                             #
 ###############################################################################
 #                                                                             #
@@ -26,11 +26,11 @@
 #                                                                             #
 ###############################################################################
 
-__author__ = ["Ben Bolduc", "Scott Daniel"]
+__author__ = ["Ben Bolduc", "Scott G Daniel"]
 __copyright__ = "Copyright 2018"
-__credits__ = ["Ben Bolduc","Scott Daniel"]
+__credits__ = ["Ben Bolduc","Scott G Daniel"]
 __license__ = "LGPLv3"
-__maintainer__ = ["Ben Bolduc", "Scott Daniel"]
+__maintainer__ = ["Ben Bolduc", "Scott G Daniel"]
 __email__ = ["bbolduc.chem@gmail.com","scottdaniel@email.arizona.edu"]
 __status__ = "Development"
 
@@ -42,6 +42,9 @@ import argparse
 import itertools
 from pprint import pprint
 from Bio import SeqIO
+
+if os.getenv('WORK') is None:
+    os.putenv('WORK','./')
 
 parser = argparse.ArgumentParser(description=
         "The script essentially wraps bowtie2 for aligning\n"
