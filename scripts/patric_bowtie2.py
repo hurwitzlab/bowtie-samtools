@@ -195,9 +195,6 @@ args = parser.parse_args()
 # SETS AND CHECKS ##
 ####################
 
-#combine the out_dir with log_fn and sam_name
-args.sam_name = os.path.join(args.out_dir,args.sam_name)
-args.log_fn = os.path.join(args.out_dir,args.log_fn)
 
 #check for args that need to be set (the app.json / agave api should do this too)
 preset = False
@@ -333,7 +330,13 @@ def to_sam(cmd2run, keep_sam, logfile):
 ##################
 
 if __name__ == '__main__':
+   
+    #make the out dir if does not exist
+    if not os.path.isdir(args.out_dir):
+        os.mkdir(args.out_dir)
 
+    #make the log file
+    args.log_fn = os.path.join(args.out_dir,args.log_fn)
     log = open(args.log_fn, 'w', 0)  # Set buffer size to 0 to force flushing to disk
 
     #DEBUG#
