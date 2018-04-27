@@ -12,7 +12,7 @@ MirrorURL: http://us.archive.ubuntu.com/ubuntu/
     PATH="/bowtie-samtools/scripts:${PATH}"
 
 %runscript
-    exec simple_bowtie.py "$@"
+    exec patric_bowtie2.py "$@"
 
 %post
 	
@@ -54,7 +54,7 @@ MirrorURL: http://us.archive.ubuntu.com/ubuntu/
 
     #using updated version of script
     git clone https://github.com/hurwitzlab/bowtie-samtools.git
-    chmod +x /bowtie-samtools/scripts/bowtie_batch.py
+    chmod +x /bowtie-samtools/scripts/patric_bowtie2.py
     
     # Set bind points
     mkdir /work

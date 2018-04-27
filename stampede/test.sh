@@ -15,7 +15,7 @@ export WORK="/vagrant"
 #export GUEST="/work"
 ########################
 
-export OUT_DIR="$WORK/bowtie_test"
+export OUT_DIR="$WORK/control_out"
 
 #export MY_PARAMRUN="$HOME/launcher/paramrun"
 
@@ -25,7 +25,7 @@ export OUT_DIR="$WORK/bowtie_test"
 
 bash run_simple.sh \
     -i "$WORK/genomes" \
-    -1 /vagrant/rna/cancer/RNA_cancer_R1_sample_01.fastq.gz,/vagrant/rna/cancer/RNA_cancer_R1_sample_02.fastq.gz,/vagrant/rna/cancer/RNA_cancer_R1_sample_03.fastq.gz \
-    -2 /vagrant/rna/cancer/RNA_cancer_R2_sample_01.fastq.gz,/vagrant/rna/cancer/RNA_cancer_R2_sample_02.fastq.gz,/vagrant/rna/cancer/RNA_cancer_R2_sample_03.fastq.gz \
+    -1 /vagrant/rna/control/RNA_control_R1_sample_01.fastq.gz,/vagrant/rna/control/RNA_control_R1_sample_02.fastq.gz,/vagrant/rna/control/RNA_control_R1_sample_03.fastq.gz \
+    -2 /vagrant/rna/control/RNA_control_R2_sample_01.fastq.gz,/vagrant/rna/control/RNA_control_R2_sample_02.fastq.gz,/vagrant/rna/control/RNA_control_R2_sample_03.fastq.gz \
     -O $OUT_DIR \
     -f fastq -t 4

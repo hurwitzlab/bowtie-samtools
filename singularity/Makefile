@@ -7,7 +7,7 @@ DEF_NAME = image.def
 SIZE = 2136
 
 help:
-	WORK="./" $(SINGULARITY) exec $(IMG_NAME) simple_bowtie.py -h
+	$(SINGULARITY) exec $(IMG_NAME) patric_bowtie2.py -h
 
 run:
 	$(SINGULARITY) run $(IMG_NAME)

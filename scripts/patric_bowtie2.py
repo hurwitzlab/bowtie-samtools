@@ -183,7 +183,7 @@ bowtie2_opts.add_argument('-t', '--threads',
         type=int, default=1,
         help="number of alignment threads to launch (1)")
 
-bowtie2_opts.add_argument('--additional',
+bowtie2_opts.add_argument('-A', '--additional',
         dest='more_args', metavar='STRING',
         default='',
         help="Additional arguments to pass to bowtie2.\n"
