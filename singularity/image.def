@@ -5,20 +5,25 @@
 # required approvals from the U.S. Dept. of Energy).  All rights reserved.
 
 BootStrap: debootstrap
-OSVersion: stable
-MirrorURL: http://ftp.us.debian.org/debian/
+OSVersion: trusty
+MirrorURL: http://us.archive.ubuntu.com/ubuntu/ 
 
 %environment
     PATH="/bowtie-samtools/scripts:${PATH}"
 
 %runscript
-    exec bowtie_batch.py "$@"
+    exec simple_bowtie.py "$@"
 
 %post
-    echo "Hello from inside the container"
-    apt-get update
-    apt-get install -y automake build-essential zlib1g-dev libncurses5-dev wget unzip git sudo
-    
+	
+	echo "Hello from inside the container"
+    sed -i 's/$/ universe/' /etc/apt/sources.list
+    #essential stuff
+    apt update
+    apt -y --force-yes install git sudo man vim build-essential wget unzip
+    #needed for bowtie2
+    apt -y --force-yes install libtbb-dev
+
     # Clean up
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
     
@@ -28,8 +33,6 @@ MirrorURL: http://ftp.us.debian.org/debian/
     
     # Get natsort, biopython, and Levenshtein
     conda install -c bioconda -y biopython samtools bowtie2
-    pip install natsort
-    pip install python-Levenshtein
     
     export BINPATH=/usr/local/bin
 

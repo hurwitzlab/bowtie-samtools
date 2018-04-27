@@ -7,10 +7,10 @@ DEF_NAME = image.def
 SIZE = 2136
 
 help:
-	sudo $(SINGULARITY) exec $(IMG_NAME) bowtie_batch.py -h
+	WORK="./" $(SINGULARITY) exec $(IMG_NAME) simple_bowtie.py -h
 
 run:
-	sudo $(SINGULARITY) run $(IMG_NAME)
+	$(SINGULARITY) run $(IMG_NAME)
 
 clean:
 	rm -f $(IMG_NAME)
