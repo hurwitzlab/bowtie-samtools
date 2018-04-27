@@ -62,8 +62,8 @@ inputs = parser.add_argument_group('Required Inputs and Parameters',
         "and can be specified many times.\n"
         "E.g. -U file1.fq,file2.fq -U file3.fq.")
 
-inputs.add_argument('-i', '--input-dir', 
-        dest='input_dir', metavar='DIRECTORY', 
+inputs.add_argument('-g', '--genome-dir', 
+        dest='genome_dir', metavar='DIRECTORY', 
         default=os.path.join(os.getenv('WORK'),'genomes'),
         help="The Directory containing individual genomes\n"
         "that will be pasted together. The created genome.fna\n"
@@ -215,8 +215,8 @@ def error(msg):
     sys.stderr.flush()
     sys.exit(1)
 
-def cat_fasta(input_dir,bt2_idx):
-    file_list = glob.glob(input_dir + "/*.fna")
+def cat_fasta(genome_dir,bt2_idx):
+    file_list = glob.glob(genome_dir + "/*.fna")
     with open(bt2_idx+'.fna','w') as w_file:
         for filen in file_list:
             with open(filen, 'rU') as o_file:
@@ -235,18 +235,18 @@ def execute(command, logfile):
 
     logfile.write(stderr + os.linesep)
 
-def prepare_bowtie_db(input_dir, bt2_idx, logfile):
+def prepare_bowtie_db(genome_dir, bt2_idx, logfile):
 
     bt2_db_fasta = args.bt2_idx + '.fna'
     db_dir = os.path.dirname(args.bt2_idx) #E.g. /vagrant/bt2_idx
     # Ensure there's a genome.fna file or make one if not
     if not os.path.isfile(bt2_db_fasta): #E.g. /vagrant/bt2_idx/genome.fna
         pprint("No input bowtie2 db specified," \
-               + " concatenating fastas in {}".format(args.input_dir),logfile)
+               + " concatenating fastas in {}".format(args.genome_dir),logfile)
         #make the directory for the bt2 index if not there
         if not os.path.isdir(db_dir): 
             os.mkdir(db_dir) #E.g. mkdir /vagrant/bt2_idx
-        bt2_db_fasta = cat_fasta(args.input_dir,args.bt2_idx)
+        bt2_db_fasta = cat_fasta(args.genome_dir,args.bt2_idx)
         pprint("Created a combined genome for you: {}".format(bt2_db_fasta),logfile)
 
     bowtie_db_cmd = 'bowtie2-build --threads {} -f {} {}'.format(args.threads, bt2_db_fasta, args.bt2_idx)
@@ -344,14 +344,14 @@ if __name__ == '__main__':
 #    pprint(args, log)
 #
 #    log.write('Directory contents for genomes:' + os.linesep)
-#    pprint(os.listdir(args.input_dir),log)
+#    pprint(os.listdir(args.genome_dir),log)
     #END DEBUG#
     
     if os.path.isfile(args.bt2_idx + '.1.bt2') or os.path.isfile(args.bt2_idx + '.1.bt2l'):
         log.write('Bowtie2 index, {}, already exists... assuming its ok'.format(args.bt2_idx) + os.linesep)
         bt2_db_base = args.bt2_idx
     else:
-        bt2_db_base = prepare_bowtie_db(args.input_dir, args.bt2_idx, log)
+        bt2_db_base = prepare_bowtie_db(args.genome_dir, args.bt2_idx, log)
 
     log.write('Bowtie2 base db: {}'.format(bt2_db_base) + os.linesep)
 
