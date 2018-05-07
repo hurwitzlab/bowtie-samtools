@@ -221,7 +221,7 @@
             "id": "keep_sam",
             "value": {
                 "default": false,
-                "type": "boolean",
+                "type": "bool",
                 "order": 2,
                 "required": false,
                 "visible": true,
