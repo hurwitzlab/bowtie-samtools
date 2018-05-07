@@ -31,7 +31,7 @@
     ],
     "inputs": [
         {
-            "id": "genome-dir",
+            "id": "genome_dir",
             "value": {
                 "default": "",
                 "order": 1,
@@ -59,7 +59,7 @@
             }
         },
         {
-            "id": "bt2-idx",
+            "id": "bt2_idx",
             "value": {
                 "default": "",
                 "order": 2,
@@ -199,7 +199,7 @@
             }
         },
         {
-            "id": "out-dir",
+            "id": "out_dir",
             "value": {
                 "default": "",
                 "type": "string",
@@ -340,7 +340,7 @@
             }
         },
         {
-            "id": "non-deterministic",
+            "id": "non_deterministic",
             "value": {
                 "default": false,
                 "type": "boolean",
