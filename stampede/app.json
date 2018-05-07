@@ -1,41 +1,40 @@
 {
-    "name": "centrifuge-patric",
-    "version": "0.0.5",
-    "shortDescription": "1. Classifies metagenomic sequences by species\n2. Downloads genomes (fasta and gff) from patricbrc.org ",
-    "longDescription": "Centrifuge is a microbial classification engine that enables rapid, accurate and sensitive labeling of reads and quantification of species on desktop computers. The system uses a indexing scheme based on the Burrows-Wheeler transform (BWT) and the Ferragina-Manzini (FM) index optimized specifically for the metagenomic classification problem. Centrifuge requires a relatively small index (5.8 GB for all complete bacterial and viral genomes plus the human genome) and classifies sequences at a very high speed, allowing it to process the millions of reads from a typical high-throughput DNA sequencing run within a few minutes. Together these advances enable timely and accurate analysis of large metagenomics data sets on conventional desktop computers.",
+    "name": "Bowtie-samtools",
+    "version": "0.0.1",
+    "shortDescription": "Bowtie-samtools is a fast short-read alignment program",
+    "longDescription": "Bowtie-samtools:\n* Uses bowtie2 to align comma-separated lists of reads (paired or unpaired) to a bowtie2-indexed genome\n* If a bowtie2-indexed genome is not provided, one will be created from a directory of genome(s)\n* After alignment, samtools converts the *.sam file into *.bam format for downstream analysis ",
     "available": true,
     "checkpointable": false,
     "defaultMemoryPerNode": 32,
     "defaultProcessorsPerNode": 16,
-    "defaultMaxRunTime": "12:00:00",
+    "defaultMaxRunTime": "24:00:00",
     "defaultNodeCount": 1,
     "defaultQueue": "normal",
-    "deploymentPath": "scottdaniel/applications/centrifuge-patric-0.0.5/stampede",
+    "deploymentPath": "scottdaniel/applications/bowtie-samtools-0.0.1/stampede",
     "deploymentSystem": "data.iplantcollaborative.org",
     "executionSystem": "tacc-stampede2-sdaniel",
     "executionType": "HPC",
-    "helpURI": "https://ccb.jhu.edu/software/centrifuge/manual.shtml",
-    "label": "Centrifuge-Patric",
+    "helpURI": "http://bowtie-bio.sourceforge.net/bowtie2/index.shtml",
+    "label": "Bowtie-samtools",
     "parallelism": "SERIAL",
     "templatePath": "template.sh",
     "testPath": "test.sh",
-    "modules": [],
+    "modules": [
+        "tacc-launcher",
+        "singularity"
+    ],
     "tags": [
-        "centrifuge",
-        "taxonomy",
-        "classifier",
-        "PATRIC",
-        "genomes"
+        ""
     ],
     "ontology": [
         "http://sswapmeet.sswap.info/agave/apps/Application"
     ],
     "inputs": [
         {
-            "id": "QUERY",
+            "id": "genome-dir",
             "value": {
                 "default": "",
-                "order": 0,
+                "order": 1,
                 "validator": "",
                 "required": true,
                 "visible": true,
@@ -43,7 +42,7 @@
             },
             "semantics": {
                 "ontology": [
-                    "http://sswapmeet.sswap.info/mime/application/X-bam"
+                    "http://sswapmeet.sswap.info/mime/application/X-fasta"
                 ],
                 "minCardinality": 1,
                 "maxCardinality": -1,
@@ -52,109 +51,373 @@
                 ]
             },
             "details": {
-                "description": "",
-                "label": "Input files or directories",
-                "argument": "-q ",
-                "repeatArgument": true,
+                "description": "The Directory containing individual genomes that will be pasted together. The created genome.fna will be indexed for bowtie2.",
+                "label": "genome-dir",
+                "argument": "-g",
+                "repeatArgument": false,
+                "showArgument": true
+            }
+        },
+        {
+            "id": "bt2-idx",
+            "value": {
+                "default": "",
+                "order": 2,
+                "validator": "",
+                "required": true,
+                "visible": true,
+                "enquote": false
+            },
+            "semantics": {
+                "ontology": [
+                    "http://sswapmeet.sswap.info/mime/application/X-bt2"
+                ],
+                "minCardinality": 1,
+                "maxCardinality": -1,
+                "fileTypes": [
+                    "raw-0"
+                ]
+            },
+            "details": {
+                "description": "Index filename prefix (minus trailing .X.bt2). This will also be the name of the fasta file, E.g. [bt2-idx].fna. NOTE: Bowtie 1 and Bowtie 2 indexes are not compatible. ",
+                "label": "bt2-idx",
+                "argument": "-x",
+                "repeatArgument": false,
+                "showArgument": true
+            }
+        },
+        {
+            "id": "m1",
+            "value": {
+                "default": "",
+                "order": 3,
+                "validator": "",
+                "required": true,
+                "visible": true,
+                "enquote": false
+            },
+            "semantics": {
+                "ontology": [
+                    "http://sswapmeet.sswap.info/mime/application/X-fastq"
+                ],
+                "minCardinality": 1,
+                "maxCardinality": -1,
+                "fileTypes": [
+                    "raw-0"
+                ]
+            },
+            "details": {
+                "description": "Files with #1 mates, paired with files in <m2>. Could be gzip'ed (extension: .gz) or bzip2'ed (extension: .bz2). <m1>, <m2>, <r> can be comma-separated lists (no whitespace) and can be specified many times.",
+                "label": "m1",
+                "argument": "-1",
+                "repeatArgument": false,
                 "showArgument": true
             }
         }
     ],
     "parameters": [
         {
-            "id": "INDEX",
+            "id": "input_fmt",
             "value": {
-                "default": "nt",
+                "default": "fastq",
                 "type": "enumeration",
-                "order": 1,
-                "required": false,
-                "visible": true,
-                "enquote": false,
-                "enumValues": [
-                    {
-                        "nt": "NCBI nucleotide non-redundant sequences"
-                    },
-                    {
-                        "p_compressed": "Bacteria, Archaea (compressed)"
-                    },
-                    {
-                        "p_compressed+h+v": "Bacteria, Archaea, Viruses, Human (compressed)"
-                    },
-                    {
-                        "p+h+v": "Bacteria, Archaea, Viruses, Human"
-                    }
-                ]
-            },
-            "details": {
-                "description": "Index to use for classification",
-                "label": "Index name",
-                "argument": "-i ",
-                "repeatArgument": false,
-                "showArgument": true
-            }
-        },
-        {
-            "id": "EXCLUDE_TAXIDS",
-            "value": {
-                "default": "",
-                "type": "string",
-                "order": 2,
-                "required": false,
-                "visible": true,
-                "enquote": false,
-                "validator": ""
-            },
-            "details": {
-                "description": "NCBI Taxon IDs that are excluded from output and abundance calculations",
-                "label": "Exclude Tax IDs",
-                "argument": "-x ",
-                "repeatArgument": false,
-                "showArgument": true
-            }
-        },
-        {
-            "id": "FORMAT",
-            "value": {
-                "default": "fasta",
-                "type": "enumeration",
-                "order": 3,
+                "order": 0,
                 "required": true,
                 "visible": true,
                 "enquote": false,
-                "enumValues": [
-                    {
-                        "fasta": "FASTA"
-                    },
-                    {
-                        "fastq": "FASTQ"
-                    }
-                ]
+                "enumValues": []
             },
             "details": {
-                "description": "FASTA (default) or FASTQ",
-                "label": "File format",
-                "argument": "-f ",
+                "description": "File format of reads to be aligned.",
+                "label": "File extension.",
+                "argument": "",
                 "repeatArgument": false,
-                "showArgument": true
+                "showArgument": false
             }
         },
         {
-            "id": "MIN_ABUNDANCE",
+            "id": "interleaved",
             "value": {
-                "default": 0.01,
-                "type": "number",
-                "order": 4,
+                "default": false,
+                "type": "boolean",
+                "order": 0,
                 "required": false,
                 "visible": true,
                 "enquote": false,
                 "validator": ""
             },
             "details": {
-                "description": "Minimum abundance of a species required to download from PATRIC, Default is 0.01 / 1%",
-                "label": "Minimum abundance",
-                "argument": "-m ",
+                "description": "If enabled, will treat each file as INTERLEAVED and process them as paired files.",
+                "label": "Interleaved files.",
+                "argument": "--interleaved",
                 "repeatArgument": false,
-                "showArgument": true
+                "showArgument": false
+            }
+        },
+        {
+            "id": "read_types",
+            "value": {
+                "default": "mixed",
+                "type": "enumeration",
+                "order": 0,
+                "required": true,
+                "visible": true,
+                "enquote": false,
+                "enumValues": []
+            },
+            "details": {
+                "description": "Paired or unpaired reads?",
+                "label": "Read type",
+                "argument": "",
+                "repeatArgument": false,
+                "showArgument": false
+            }
+        },
+        {
+            "id": "dist",
+            "value": {
+                "default": "1",
+                "type": "string",
+                "order": 0,
+                "required": false,
+                "visible": true,
+                "enquote": false,
+                "validator": ""
+            },
+            "details": {
+                "description": "Levenshtein distance between filenames. 1 for paired or unpaired only, 2-3 for mixed.",
+                "label": "Levenshtein distance between filenames. See documentation. 1 paired/unpaired only. 3 mixed.",
+                "argument": "",
+                "repeatArgument": false,
+                "showArgument": false
+            }
+        },
+        {
+            "id": "keep_sam",
+            "value": {
+                "default": false,
+                "type": "boolean",
+                "order": 0,
+                "required": false,
+                "visible": true,
+                "enquote": false,
+                "validator": ""
+            },
+            "details": {
+                "description": "If enabled, SAM files will be preserved during BAM file generation.",
+                "label": "Keep SAM files.",
+                "argument": "--keep-sam",
+                "repeatArgument": false,
+                "showArgument": false
+            }
+        },
+        {
+            "id": "logFile",
+            "value": {
+                "default": "bowtie2-read-mapping.log",
+                "type": "string",
+                "order": 0,
+                "required": true,
+                "visible": true,
+                "enquote": false,
+                "validator": ""
+            },
+            "details": {
+                "description": "Log file name",
+                "label": "Log file name",
+                "argument": "",
+                "repeatArgument": false,
+                "showArgument": false
+            }
+        },
+        {
+            "id": "merge_results",
+            "value": {
+                "default": false,
+                "type": "boolean",
+                "order": 0,
+                "required": false,
+                "visible": true,
+                "enquote": false,
+                "validator": ""
+            },
+            "details": {
+                "description": "If enabled, and if multiple reads are supplied, combine the bowtie2 results into one file.",
+                "label": "Merge results",
+                "argument": "--merge-results",
+                "repeatArgument": false,
+                "showArgument": false
+            }
+        },
+        {
+            "id": "merge_name",
+            "value": {
+                "default": "bowtie2-run.sam",
+                "type": "string",
+                "order": 0,
+                "required": true,
+                "visible": true,
+                "enquote": false,
+                "validator": ""
+            },
+            "details": {
+                "description": "Merged file name. Only used if merge-results is used.",
+                "label": "Merged file name",
+                "argument": "",
+                "repeatArgument": false,
+                "showArgument": false
+            }
+        },
+        {
+            "id": "alignment_type",
+            "value": {
+                "default": "end-to-end",
+                "type": "enumeration",
+                "order": 0,
+                "required": true,
+                "visible": true,
+                "enquote": false,
+                "enumValues": []
+            },
+            "details": {
+                "description": "Whether the entire read must align (end-to-end) or only a local region (local)",
+                "label": "Local or global alignment",
+                "argument": "",
+                "repeatArgument": false,
+                "showArgument": false
+            }
+        },
+        {
+            "id": "end_to_end_presets",
+            "value": {
+                "default": "sensitive",
+                "type": "enumeration",
+                "order": 0,
+                "required": true,
+                "visible": true,
+                "enquote": false,
+                "enumValues": []
+            },
+            "details": {
+                "description": "End-to-end alignment presets. Only used if end-to-end alignment is selected.",
+                "label": "End-to-end alignment presets",
+                "argument": "",
+                "repeatArgument": false,
+                "showArgument": false
+            }
+        },
+        {
+            "id": "local_presets",
+            "value": {
+                "default": "sensitive-local",
+                "type": "enumeration",
+                "order": 0,
+                "required": true,
+                "visible": true,
+                "enquote": false,
+                "enumValues": []
+            },
+            "details": {
+                "description": "Local alignment presets. Only used if local alignment is selected.",
+                "label": "Local alignment presets",
+                "argument": "",
+                "repeatArgument": false,
+                "showArgument": false
+            }
+        },
+        {
+            "id": "non_deterministic",
+            "value": {
+                "default": false,
+                "type": "boolean",
+                "order": 0,
+                "required": false,
+                "visible": true,
+                "enquote": false,
+                "validator": ""
+            },
+            "details": {
+                "description": "Bowtie 2 will use the current time to re-initialize the pseudo-random number generator. Useful when the input consists of many identical reads",
+                "label": "Use non-deterministic method.",
+                "argument": "--non-deterministic",
+                "repeatArgument": false,
+                "showArgument": false
+            }
+        },
+        {
+            "id": "trim5",
+            "value": {
+                "default": "0",
+                "type": "string",
+                "order": 0,
+                "required": false,
+                "visible": true,
+                "enquote": false,
+                "validator": ""
+            },
+            "details": {
+                "description": "Trim X bases from 5'/left end of reads.",
+                "label": "Trim 5' bases.",
+                "argument": "",
+                "repeatArgument": false,
+                "showArgument": false
+            }
+        },
+        {
+            "id": "trim3",
+            "value": {
+                "default": "0",
+                "type": "string",
+                "order": 0,
+                "required": false,
+                "visible": true,
+                "enquote": false,
+                "validator": ""
+            },
+            "details": {
+                "description": "Trim X bases from 3'/right end of reads.",
+                "label": "Trim 3' bases.",
+                "argument": "",
+                "repeatArgument": false,
+                "showArgument": false
+            }
+        },
+        {
+            "id": "minFragLen",
+            "value": {
+                "default": "0",
+                "type": "string",
+                "order": 0,
+                "required": false,
+                "visible": true,
+                "enquote": false,
+                "validator": ""
+            },
+            "details": {
+                "description": "Minimum fragment length.",
+                "label": "Minimum fragment length.",
+                "argument": "",
+                "repeatArgument": false,
+                "showArgument": false
+            }
+        },
+        {
+            "id": "maxFragLen",
+            "value": {
+                "default": "2000",
+                "type": "string",
+                "order": 0,
+                "required": false,
+                "visible": true,
+                "enquote": false,
+                "validator": ""
+            },
+            "details": {
+                "description": "Maximum fragment length.",
+                "label": "Maximum fragment length.",
+                "argument": "",
+                "repeatArgument": false,
+                "showArgument": false
             }
         }
     ],
