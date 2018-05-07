@@ -20,4 +20,4 @@ jobs-submit:
 	jobs-submit -F job.json
 
 list:
-	files-list -S data.iplantcollaborative.org scottdaniel/applications/$(APP)/stampede
+	files-list -L -S data.iplantcollaborative.org scottdaniel/applications/$(APP)/stampede

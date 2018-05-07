@@ -1,29 +1,34 @@
 {
-  "name": "centrifuge-patric soilAssembly test",
-  "appId": "centrifuge-patric-0.0.5",
-  "batchQueue": "normal",
+  "name":" test-1525726453",
+  "appId": "bowtie-samtools-0.0.1",
+  "batchQueue": "skx-large",
   "executionSystem": "tacc-stampede2-sdaniel",
-  "maxRunTime": "12:00:00",
-  "memoryPerNode": "96GB",
+  "maxRunTime": "01:00:00",
+  "memoryPerNode": "192GB",
   "nodeCount": 1,
-  "processorsPerNode": 16,
-  "archive": false,
+  "processorsPerNode": 41664,
+  "archive": true,
   "archiveSystem": "data.iplantcollaborative.org",
-  "archivePath": "",
+  "archivePath": null,
   "inputs": {
-    "QUERY": [
-      "scottdaniel/foodMicrobes"
-      ]
   },
-  "parameter": {
-    "FORMAT": [
-      "fastq"
-      ],
-    "MIN_ABUNDANCE": [
-      0.05
-      ],
-    "EXCLUDE_TAXIDS": [
-      "9606,32630"
-      ]
-  }
+  "parameters": {
+  },
+  "notifications": [
+    {
+      "url":"https://requestbin.agaveapi.co/1ni7ks41?job_id=${JOB_ID}&status=${JOB_STATUS}",
+      "event":"*",
+      "persistent":true
+    },
+    {
+      "url":"scottdaniel@email.arizona.edu",
+      "event":"FINISHED",
+          "persistent":false
+    },
+    {
+      "url":"scottdaniel@email.arizona.edu",
+      "event":"FAILED",
+      "persistent":false
+    }
+  ]
 }
