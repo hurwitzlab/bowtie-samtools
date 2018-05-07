@@ -24,7 +24,7 @@ export MY_PARAMRUN="$HOME/launcher/paramrun"
 #-i "$WORK/genomes"
 
 bash run_simple.sh \
-    -i "$WORK/genomes" \
+    -g "$WORK/genomes" \
     -1 /$WORK/rna/control/RNA_control_R1_sample_01.fastq.gz,/$WORK/rna/control/RNA_control_R1_sample_02.fastq.gz,/$WORK/rna/control/RNA_control_R1_sample_03.fastq.gz \
     -2 /$WORK/rna/control/RNA_control_R2_sample_01.fastq.gz,/$WORK/rna/control/RNA_control_R2_sample_02.fastq.gz,/$WORK/rna/control/RNA_control_R2_sample_03.fastq.gz \
     -O $OUT_DIR \
