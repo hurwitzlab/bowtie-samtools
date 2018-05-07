@@ -2,7 +2,7 @@
     "name": "Bowtie-samtools",
     "version": "0.0.1",
     "shortDescription": "Bowtie-samtools is a fast short-read alignment program",
-    "longDescription": "Bowtie-samtools:\n* Uses bowtie2 to align comma-separated lists of reads (paired or unpaired) to a bowtie2-indexed genome\n* If a bowtie2-indexed genome is not provided, one will be created from a directory of genome(s)\n* After alignment, samtools converts the *.sam file into *.bam format for downstream analysis ",
+    "longDescription": "Bowtie-samtools:\n* Uses bowtie2 to align comma-separated lists of reads (paired or unpaired) to a bowtie2-indexed genome\n* If a bowtie2-indexed genome is not provided, one will be created from a directory of genome(s)\n* After alignment, samtools converts the *.sam file into *.bam format for downstream analysis \n\nDO NOT FORGET TO COMMA-SEPARATE INPUT FILES!!!",
     "available": true,
     "checkpointable": false,
     "defaultMemoryPerNode": 32,
@@ -113,6 +113,62 @@
                 "repeatArgument": false,
                 "showArgument": true
             }
+        },
+        {
+            "id": "m2",
+            "value": {
+                "default": "",
+                "order": 4,
+                "validator": "",
+                "required": true,
+                "visible": true,
+                "enquote": false
+            },
+            "semantics": {
+                "ontology": [
+                    "http://sswapmeet.sswap.info/mime/application/X-fastq"
+                ],
+                "minCardinality": 1,
+                "maxCardinality": -1,
+                "fileTypes": [
+                    "raw-0"
+                ]
+            },
+            "details": {
+                "description": "Files with #2 mates, paired with files in <m1>. Could be gzip'ed (extension: .gz) or bzip2'ed (extension: .bz2). <-1>, <-2>, <-U> can be comma-separated lists (no whitespace) and can be specified many times.",
+                "label": "m2",
+                "argument": "-2",
+                "repeatArgument": false,
+                "showArgument": true
+            }
+        },
+        {
+            "id": "unpaired",
+            "value": {
+                "default": "",
+                "order": 5,
+                "validator": "",
+                "required": true,
+                "visible": true,
+                "enquote": false
+            },
+            "semantics": {
+                "ontology": [
+                    "http://sswapmeet.sswap.info/mime/application/X-fastq"
+                ],
+                "minCardinality": 1,
+                "maxCardinality": -1,
+                "fileTypes": [
+                    "raw-0"
+                ]
+            },
+            "details": {
+                "description": "Files with unpaired reads. Could be gzip'ed (extension: .gz) or bzip2'ed (extension: .bz2). <-1>, <-2>, <-U> can be comma-separated lists (no whitespace) and can be specified many times.",
+                "label": "unpaired",
+                "argument": "-U",
+                "repeatArgument": false,
+                "showArgument": true
+            }
         }
     ],
     "parameters": [
@@ -125,71 +181,40 @@
                 "required": true,
                 "visible": true,
                 "enquote": false,
-                "enumValues": []
+                "enumValues": [
+                    {
+                        "fastq": "fastq"
+                    },
+                    {
+                        "fasta": "fasta"
+                    }
+                ]
             },
             "details": {
                 "description": "File format of reads to be aligned.",
                 "label": "File extension.",
-                "argument": "",
+                "argument": "-f",
                 "repeatArgument": false,
-                "showArgument": false
+                "showArgument": true
             }
         },
         {
-            "id": "interleaved",
+            "id": "out-dir",
             "value": {
-                "default": false,
-                "type": "boolean",
-                "order": 0,
-                "required": false,
-                "visible": true,
-                "enquote": false,
-                "validator": ""
-            },
-            "details": {
-                "description": "If enabled, will treat each file as INTERLEAVED and process them as paired files.",
-                "label": "Interleaved files.",
-                "argument": "--interleaved",
-                "repeatArgument": false,
-                "showArgument": false
-            }
-        },
-        {
-            "id": "read_types",
-            "value": {
-                "default": "mixed",
-                "type": "enumeration",
-                "order": 0,
+                "default": "",
+                "type": "string",
+                "order": 1,
                 "required": true,
                 "visible": true,
                 "enquote": false,
-                "enumValues": []
-            },
-            "details": {
-                "description": "Paired or unpaired reads?",
-                "label": "Read type",
-                "argument": "",
-                "repeatArgument": false,
-                "showArgument": false
-            }
-        },
-        {
-            "id": "dist",
-            "value": {
-                "default": "1",
-                "type": "string",
-                "order": 0,
-                "required": false,
-                "visible": true,
-                "enquote": false,
                 "validator": ""
             },
             "details": {
-                "description": "Levenshtein distance between filenames. 1 for paired or unpaired only, 2-3 for mixed.",
-                "label": "Levenshtein distance between filenames. See documentation. 1 paired/unpaired only. 3 mixed.",
-                "argument": "",
+                "description": "Output directory to put all the results in.",
+                "label": "Output Directory",
+                "argument": "-O",
                 "repeatArgument": false,
-                "showArgument": false
+                "showArgument": true
             }
         },
         {
@@ -197,7 +222,7 @@
             "value": {
                 "default": false,
                 "type": "boolean",
-                "order": 0,
+                "order": 2,
                 "required": false,
                 "visible": true,
                 "enquote": false,
@@ -206,7 +231,7 @@
             "details": {
                 "description": "If enabled, SAM files will be preserved during BAM file generation.",
                 "label": "Keep SAM files.",
-                "argument": "--keep-sam",
+                "argument": "-k",
                 "repeatArgument": false,
                 "showArgument": false
             }
@@ -216,7 +241,7 @@
             "value": {
                 "default": "bowtie2-read-mapping.log",
                 "type": "string",
-                "order": 0,
+                "order": 3,
                 "required": true,
                 "visible": true,
                 "enquote": false,
@@ -225,45 +250,7 @@
             "details": {
                 "description": "Log file name",
                 "label": "Log file name",
-                "argument": "",
-                "repeatArgument": false,
-                "showArgument": false
-            }
-        },
-        {
-            "id": "merge_results",
-            "value": {
-                "default": false,
-                "type": "boolean",
-                "order": 0,
-                "required": false,
-                "visible": true,
-                "enquote": false,
-                "validator": ""
-            },
-            "details": {
-                "description": "If enabled, and if multiple reads are supplied, combine the bowtie2 results into one file.",
-                "label": "Merge results",
-                "argument": "--merge-results",
-                "repeatArgument": false,
-                "showArgument": false
-            }
-        },
-        {
-            "id": "merge_name",
-            "value": {
-                "default": "bowtie2-run.sam",
-                "type": "string",
-                "order": 0,
-                "required": true,
-                "visible": true,
-                "enquote": false,
-                "validator": ""
-            },
-            "details": {
-                "description": "Merged file name. Only used if merge-results is used.",
-                "label": "Merged file name",
-                "argument": "",
+                "argument": "-l",
                 "repeatArgument": false,
                 "showArgument": false
             }
@@ -273,7 +260,7 @@
             "value": {
                 "default": "end-to-end",
                 "type": "enumeration",
-                "order": 0,
+                "order": 4,
                 "required": true,
                 "visible": true,
                 "enquote": false,
@@ -282,7 +269,7 @@
             "details": {
                 "description": "Whether the entire read must align (end-to-end) or only a local region (local)",
                 "label": "Local or global alignment",
-                "argument": "",
+                "argument": "-a",
                 "repeatArgument": false,
                 "showArgument": false
             }
@@ -292,16 +279,26 @@
             "value": {
                 "default": "sensitive",
                 "type": "enumeration",
-                "order": 0,
+                "order": 5,
                 "required": true,
                 "visible": true,
                 "enquote": false,
-                "enumValues": []
+                "enumValues": [
+                    {
+                        "very-fast": "-D 5 -R 1 -N 0 -L 22 -i S,0,2.50"
+                    },
+                    {
+                        "fast": "-R 2 -N 0 -L 22 -i S,0,2.50"
+                    },
+                    {
+                        "sensitive (default)": "-D 15 -R 2 -N 0 -L 22 -i S,1,1.15"
+                    }
+                ]
             },
             "details": {
                 "description": "End-to-end alignment presets. Only used if end-to-end alignment is selected.",
                 "label": "End-to-end alignment presets",
-                "argument": "",
+                "argument": "-e",
                 "repeatArgument": false,
                 "showArgument": false
             }
@@ -311,26 +308,36 @@
             "value": {
                 "default": "sensitive-local",
                 "type": "enumeration",
-                "order": 0,
+                "order": 6,
                 "required": true,
                 "visible": true,
                 "enquote": false,
-                "enumValues": []
+                "enumValues": [
+                    {
+                        "very-fast-local": "-D 5 -R 1 -N 0 -L 25 -i S,1,2.00"
+                    },
+                    {
+                        "fast-local": "-D 10 -R 2 -N 0 -L 22 -i S,1,1.75"
+                    },
+                    {
+                        "sensitive-local (default)": "-D 15 -R 2 -N 0 -L 20 -i S,1,0.75"
+                    }
+                ]
             },
             "details": {
                 "description": "Local alignment presets. Only used if local alignment is selected.",
                 "label": "Local alignment presets",
-                "argument": "",
+                "argument": "-L",
                 "repeatArgument": false,
                 "showArgument": false
             }
         },
         {
-            "id": "non_deterministic",
+            "id": "non-deterministic",
             "value": {
                 "default": false,
                 "type": "boolean",
-                "order": 0,
+                "order": 7,
                 "required": false,
                 "visible": true,
                 "enquote": false,
@@ -339,7 +346,7 @@
             "details": {
                 "description": "Bowtie 2 will use the current time to re-initialize the pseudo-random number generator. Useful when the input consists of many identical reads",
                 "label": "Use non-deterministic method.",
-                "argument": "--non-deterministic",
+                "argument": "-N",
                 "repeatArgument": false,
                 "showArgument": false
             }
@@ -347,9 +354,9 @@
         {
             "id": "trim5",
             "value": {
-                "default": "0",
-                "type": "string",
-                "order": 0,
+                "default": 0,
+                "type": "number",
+                "order": 8,
                 "required": false,
                 "visible": true,
                 "enquote": false,
@@ -358,7 +365,7 @@
             "details": {
                 "description": "Trim X bases from 5'/left end of reads.",
                 "label": "Trim 5' bases.",
-                "argument": "",
+                "argument": "-5",
                 "repeatArgument": false,
                 "showArgument": false
             }
@@ -366,9 +373,9 @@
         {
             "id": "trim3",
             "value": {
-                "default": "0",
-                "type": "string",
-                "order": 0,
+                "default": 0,
+                "type": "number",
+                "order": 9,
                 "required": false,
                 "visible": true,
                 "enquote": false,
@@ -377,7 +384,7 @@
             "details": {
                 "description": "Trim X bases from 3'/right end of reads.",
                 "label": "Trim 3' bases.",
-                "argument": "",
+                "argument": "-3",
                 "repeatArgument": false,
                 "showArgument": false
             }
@@ -385,9 +392,9 @@
         {
             "id": "minFragLen",
             "value": {
-                "default": "0",
-                "type": "string",
-                "order": 0,
+                "default": 0,
+                "type": "number",
+                "order": 10,
                 "required": false,
                 "visible": true,
                 "enquote": false,
@@ -396,7 +403,7 @@
             "details": {
                 "description": "Minimum fragment length.",
                 "label": "Minimum fragment length.",
-                "argument": "",
+                "argument": "-I",
                 "repeatArgument": false,
                 "showArgument": false
             }
@@ -404,9 +411,9 @@
         {
             "id": "maxFragLen",
             "value": {
-                "default": "2000",
-                "type": "string",
-                "order": 0,
+                "default": 0,
+                "type": "number",
+                "order": 11,
                 "required": false,
                 "visible": true,
                 "enquote": false,
@@ -415,9 +422,47 @@
             "details": {
                 "description": "Maximum fragment length.",
                 "label": "Maximum fragment length.",
-                "argument": "",
+                "argument": "-X",
                 "repeatArgument": false,
                 "showArgument": false
+            }
+        },
+        {
+            "id": "threads",
+            "value": {
+                "default": "12",
+                "type": "string",
+                "order": 12,
+                "required": true,
+                "visible": true,
+                "enquote": false,
+                "validator": ""
+            },
+            "details": {
+                "description": "The number of computation threads to use for both bowtie2 and samtools",
+                "label": "threads",
+                "argument": "-t",
+                "repeatArgument": false,
+                "showArgument": true
+            }
+        },
+        {
+            "id": "additional",
+            "value": {
+                "default": "",
+                "type": "string",
+                "order": 13,
+                "required": false,
+                "visible": true,
+                "enquote": false,
+                "validator": ""
+            },
+            "details": {
+                "description": "Additional arguments to pass to bowtie2. Put options in single quotes to protect from shell.",
+                "label": "additional",
+                "argument": "-A",
+                "repeatArgument": false,
+                "showArgument": true
             }
         }
     ],
