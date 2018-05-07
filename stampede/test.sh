@@ -25,7 +25,7 @@ export MY_PARAMRUN="$HOME/launcher/paramrun"
 
 bash run_simple.sh \
     -x "$WORK/bt2_index/genome" \
-    -1 /$WORK/rna/control/RNA_control_R1_sample_01.fastq.gz,/$WORK/rna/control/RNA_control_R1_sample_02.fastq.gz,/$WORK/rna/control/RNA_control_R1_sample_03.fastq.gz \
-    -2 /$WORK/rna/control/RNA_control_R2_sample_01.fastq.gz,/$WORK/rna/control/RNA_control_R2_sample_02.fastq.gz,/$WORK/rna/control/RNA_control_R2_sample_03.fastq.gz \
+    -1 $WORK/rna/control/RNA_control_R1_sample_01.fastq.gz,$WORK/rna/control/RNA_control_R1_sample_02.fastq.gz,$WORK/rna/control/RNA_control_R1_sample_03.fastq.gz \
+    -2 $WORK/rna/control/RNA_control_R2_sample_01.fastq.gz,$WORK/rna/control/RNA_control_R2_sample_02.fastq.gz,$WORK/rna/control/RNA_control_R2_sample_03.fastq.gz \
     -O $OUT_DIR \
     -f fastq -t 12
