@@ -1,4 +1,4 @@
 ./test.sh
 ./template.sh
 ./run.sh
-./centrifuge-patric.img
+./bowtie_sam.img
