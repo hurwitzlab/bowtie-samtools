@@ -264,7 +264,14 @@
                 "required": true,
                 "visible": true,
                 "enquote": false,
-                "enumValues": []
+                "enumValues": [
+                  { 
+                    "end-to-end":"end-to-end" 
+                  },
+                  {
+                    "local":"local"
+                  }
+                ]
             },
             "details": {
                 "description": "Whether the entire read must align (end-to-end) or only a local region (local)",
