@@ -53,7 +53,7 @@
             "details": {
                 "description": "The Directory containing individual genomes that will be pasted together. The created genome.fna will be indexed for bowtie2.",
                 "label": "genome-dir",
-                "argument": "-g",
+                "argument": "-g ",
                 "repeatArgument": false,
                 "showArgument": true
             }
@@ -81,7 +81,7 @@
             "details": {
                 "description": "Index filename prefix (minus trailing .X.bt2). This will also be the name of the fasta file, E.g. [bt2-idx].fna. NOTE: Bowtie 1 and Bowtie 2 indexes are not compatible. ",
                 "label": "bt2-idx",
-                "argument": "-x",
+                "argument": "-x ",
                 "repeatArgument": false,
                 "showArgument": true
             }
@@ -109,7 +109,7 @@
             "details": {
                 "description": "Files with #1 mates, paired with files in <m2>. Could be gzip'ed (extension: .gz) or bzip2'ed (extension: .bz2). <m1>, <m2>, <r> can be comma-separated lists (no whitespace) and can be specified many times.",
                 "label": "m1",
-                "argument": "-1",
+                "argument": "-1 ",
                 "repeatArgument": false,
                 "showArgument": true
             }
@@ -137,7 +137,7 @@
             "details": {
                 "description": "Files with #2 mates, paired with files in <m1>. Could be gzip'ed (extension: .gz) or bzip2'ed (extension: .bz2). <-1>, <-2>, <-U> can be comma-separated lists (no whitespace) and can be specified many times.",
                 "label": "m2",
-                "argument": "-2",
+                "argument": "-2 ",
                 "repeatArgument": false,
                 "showArgument": true
             }
@@ -165,7 +165,7 @@
             "details": {
                 "description": "Files with unpaired reads. Could be gzip'ed (extension: .gz) or bzip2'ed (extension: .bz2). <-1>, <-2>, <-U> can be comma-separated lists (no whitespace) and can be specified many times.",
                 "label": "unpaired",
-                "argument": "-U",
+                "argument": "-U ",
                 "repeatArgument": false,
                 "showArgument": true
             }
@@ -193,7 +193,7 @@
             "details": {
                 "description": "File format of reads to be aligned.",
                 "label": "File extension.",
-                "argument": "-f",
+                "argument": "-f ",
                 "repeatArgument": false,
                 "showArgument": true
             }
@@ -212,7 +212,7 @@
             "details": {
                 "description": "Output directory to put all the results in.",
                 "label": "Output Directory",
-                "argument": "-O",
+                "argument": "-O ",
                 "repeatArgument": false,
                 "showArgument": true
             }
@@ -231,7 +231,7 @@
             "details": {
                 "description": "If enabled, SAM files will be preserved during BAM file generation.",
                 "label": "Keep SAM files.",
-                "argument": "-k",
+                "argument": "-k ",
                 "repeatArgument": false,
                 "showArgument": false
             }
@@ -250,7 +250,7 @@
             "details": {
                 "description": "Log file name",
                 "label": "Log file name",
-                "argument": "-l",
+                "argument": "-l ",
                 "repeatArgument": false,
                 "showArgument": false
             }
@@ -276,7 +276,7 @@
             "details": {
                 "description": "Whether the entire read must align (end-to-end) or only a local region (local)",
                 "label": "Local or global alignment",
-                "argument": "-a",
+                "argument": "-a ",
                 "repeatArgument": false,
                 "showArgument": false
             }
@@ -305,7 +305,7 @@
             "details": {
                 "description": "End-to-end alignment presets. Only used if end-to-end alignment is selected. Default is sensitive",
                 "label": "End-to-end alignment presets",
-                "argument": "-e",
+                "argument": "-e ",
                 "repeatArgument": false,
                 "showArgument": false
             }
@@ -334,7 +334,7 @@
             "details": {
                 "description": "Local alignment presets. Only used if local alignment is selected. Default is sensitive-local",
                 "label": "Local alignment presets",
-                "argument": "-L",
+                "argument": "-L ",
                 "repeatArgument": false,
                 "showArgument": false
             }
@@ -353,7 +353,7 @@
             "details": {
                 "description": "Bowtie 2 will use the current time to re-initialize the pseudo-random number generator. Useful when the input consists of many identical reads",
                 "label": "Use non-deterministic method.",
-                "argument": "-N",
+                "argument": "-N ",
                 "repeatArgument": false,
                 "showArgument": false
             }
@@ -372,7 +372,7 @@
             "details": {
                 "description": "Trim X bases from 5'/left end of reads.",
                 "label": "Trim 5' bases.",
-                "argument": "-5",
+                "argument": "-5 ",
                 "repeatArgument": false,
                 "showArgument": false
             }
@@ -391,7 +391,7 @@
             "details": {
                 "description": "Trim X bases from 3'/right end of reads.",
                 "label": "Trim 3' bases.",
-                "argument": "-3",
+                "argument": "-3 ",
                 "repeatArgument": false,
                 "showArgument": false
             }
@@ -410,7 +410,7 @@
             "details": {
                 "description": "Minimum fragment length.",
                 "label": "Minimum fragment length.",
-                "argument": "-I",
+                "argument": "-I ",
                 "repeatArgument": false,
                 "showArgument": false
             }
@@ -429,7 +429,7 @@
             "details": {
                 "description": "Maximum fragment length.",
                 "label": "Maximum fragment length.",
-                "argument": "-X",
+                "argument": "-X ",
                 "repeatArgument": false,
                 "showArgument": false
             }
@@ -448,7 +448,7 @@
             "details": {
                 "description": "The number of computation threads to use for both bowtie2 and samtools",
                 "label": "threads",
-                "argument": "-t",
+                "argument": "-t ",
                 "repeatArgument": false,
                 "showArgument": true
             }
@@ -467,7 +467,7 @@
             "details": {
                 "description": "Additional arguments to pass to bowtie2. Put options in single quotes to protect from shell.",
                 "label": "additional",
-                "argument": "-A",
+                "argument": "-A ",
                 "repeatArgument": false,
                 "showArgument": true
             }
