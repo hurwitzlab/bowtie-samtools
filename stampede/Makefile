@@ -13,9 +13,6 @@ app:
 test: clean
 	sbatch test.sh
 
-job:
-	jobs-submit -F job.json
-
 jobs-template:
 	jobs-template -A $(APP) > job.json
 
