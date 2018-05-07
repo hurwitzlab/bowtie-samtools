@@ -1,18 +1,36 @@
 {
-  "name":" test-1525726453",
+  "name":"bowtie-samtools mouse test",
   "appId": "bowtie-samtools-0.0.1",
-  "batchQueue": "skx-large",
+  "batchQueue": "normal",
   "executionSystem": "tacc-stampede2-sdaniel",
   "maxRunTime": "01:00:00",
-  "memoryPerNode": "192GB",
+  "memoryPerNode": "96GB",
   "nodeCount": 1,
-  "processorsPerNode": 41664,
-  "archive": true,
+  "processorsPerNode": 16,
+  "archive": false,
   "archiveSystem": "data.iplantcollaborative.org",
-  "archivePath": null,
+  "archivePath": "",
   "inputs": {
+    "genome_dir": [
+      "scottdaniel/genomes"
+      ],
+    "m1": [
+      "scottdaniel/rna/control/RNA_control_R1_sample_01.fastq.gz,scottdaniel/rna/control/RNA_control_R1_sample_02.fastq.gz,scottdaniel/rna/control/RNA_control_R1_sample_03.fastq.gz"
+      ],
+    "m2": [
+      "scottdaniel/rna/control/RNA_control_R2_sample_01.fastq.gz,scottdaniel/rna/control/RNA_control_R2_sample_02.fastq.gz,scottdaniel/rna/control/RNA_control_R2_sample_03.fastq.gz"
+      ]
   },
   "parameters": {
+    "out_dir": [
+      "scottdaniel/control_out"
+      ],
+    "input_fmt": [
+      "fastq"
+      ],
+    "threads": [
+      12
+      ]
   },
   "notifications": [
     {
