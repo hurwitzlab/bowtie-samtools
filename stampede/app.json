@@ -36,7 +36,7 @@
                 "default": "",
                 "order": 1,
                 "validator": "",
-                "required": true,
+                "required": false,
                 "visible": true,
                 "enquote": false
             },
@@ -64,7 +64,7 @@
                 "default": "",
                 "order": 2,
                 "validator": "",
-                "required": true,
+                "required": false,
                 "visible": true,
                 "enquote": false
             },
@@ -92,7 +92,7 @@
                 "default": "",
                 "order": 3,
                 "validator": "",
-                "required": true,
+                "required": false,
                 "visible": true,
                 "enquote": false
             },
@@ -120,7 +120,7 @@
                 "default": "",
                 "order": 4,
                 "validator": "",
-                "required": true,
+                "required": false,
                 "visible": true,
                 "enquote": false
             },
@@ -148,7 +148,7 @@
                 "default": "",
                 "order": 5,
                 "validator": "",
-                "required": true,
+                "required": false,
                 "visible": true,
                 "enquote": false
             },
@@ -178,7 +178,7 @@
                 "default": "fastq",
                 "type": "enumeration",
                 "order": 0,
-                "required": true,
+                "required": false,
                 "visible": true,
                 "enquote": false,
                 "enumValues": [
@@ -204,7 +204,7 @@
                 "default": "",
                 "type": "string",
                 "order": 1,
-                "required": true,
+                "required": false,
                 "visible": true,
                 "enquote": false,
                 "validator": ""
@@ -242,7 +242,7 @@
                 "default": "bowtie2-read-mapping.log",
                 "type": "string",
                 "order": 3,
-                "required": true,
+                "required": false,
                 "visible": true,
                 "enquote": false,
                 "validator": ""
@@ -261,7 +261,7 @@
                 "default": "end-to-end",
                 "type": "enumeration",
                 "order": 4,
-                "required": true,
+                "required": false,
                 "visible": true,
                 "enquote": false,
                 "enumValues": [
@@ -287,7 +287,7 @@
                 "default": "sensitive",
                 "type": "enumeration",
                 "order": 5,
-                "required": true,
+                "required": false,
                 "visible": true,
                 "enquote": false,
                 "enumValues": [
@@ -316,7 +316,7 @@
                 "default": "sensitive-local",
                 "type": "enumeration",
                 "order": 6,
-                "required": true,
+                "required": false,
                 "visible": true,
                 "enquote": false,
                 "enumValues": [
@@ -440,7 +440,7 @@
                 "default": "12",
                 "type": "string",
                 "order": 12,
-                "required": true,
+                "required": false,
                 "visible": true,
                 "enquote": false,
                 "validator": ""

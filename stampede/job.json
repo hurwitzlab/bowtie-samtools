@@ -15,10 +15,10 @@
       "scottdaniel/genomes"
       ],
     "m1": [
-      "scottdaniel/rna/control/RNA_control_R1_sample_01.fastq.gz,scottdaniel/rna/control/RNA_control_R1_sample_02.fastq.gz,scottdaniel/rna/control/RNA_control_R1_sample_03.fastq.gz"
-      ],
+      "scottdaniel/rna/control/RNA_control_R1_sample_01.fastq.gz","scottdaniel/rna/control/RNA_control_R1_sample_02.fastq.gz","scottdaniel/rna/control/RNA_control_R1_sample_03.fastq.gz"
+      ]","
     "m2": [
-      "scottdaniel/rna/control/RNA_control_R2_sample_01.fastq.gz,scottdaniel/rna/control/RNA_control_R2_sample_02.fastq.gz,scottdaniel/rna/control/RNA_control_R2_sample_03.fastq.gz"
+      "scottdaniel/rna/control/RNA_control_R2_sample_01.fastq.gz","scottdaniel/rna/control/RNA_control_R2_sample_02.fastq.gz","scottdaniel/rna/control/RNA_control_R2_sample_03.fastq.gz"
       ]
   },
   "parameters": {
