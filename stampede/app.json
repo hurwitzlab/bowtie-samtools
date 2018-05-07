@@ -298,12 +298,12 @@
                         "fast": "-R 2 -N 0 -L 22 -i S,0,2.50"
                     },
                     {
-                        "sensitive (default)": "-D 15 -R 2 -N 0 -L 22 -i S,1,1.15"
+                        "sensitive": "-D 15 -R 2 -N 0 -L 22 -i S,1,1.15"
                     }
                 ]
             },
             "details": {
-                "description": "End-to-end alignment presets. Only used if end-to-end alignment is selected.",
+                "description": "End-to-end alignment presets. Only used if end-to-end alignment is selected. Default is sensitive",
                 "label": "End-to-end alignment presets",
                 "argument": "-e",
                 "repeatArgument": false,
@@ -327,12 +327,12 @@
                         "fast-local": "-D 10 -R 2 -N 0 -L 22 -i S,1,1.75"
                     },
                     {
-                        "sensitive-local (default)": "-D 15 -R 2 -N 0 -L 20 -i S,1,0.75"
+                        "sensitive-local": "-D 15 -R 2 -N 0 -L 20 -i S,1,0.75"
                     }
                 ]
             },
             "details": {
-                "description": "Local alignment presets. Only used if local alignment is selected.",
+                "description": "Local alignment presets. Only used if local alignment is selected. Default is sensitive-local",
                 "label": "Local alignment presets",
                 "argument": "-L",
                 "repeatArgument": false,
@@ -343,7 +343,7 @@
             "id": "non_deterministic",
             "value": {
                 "default": false,
-                "type": "boolean",
+                "type": "bool",
                 "order": 7,
                 "required": false,
                 "visible": true,

@@ -13,9 +13,6 @@ app:
 test: clean
 	sbatch test.sh
 
-job:
-	jobs-submit -F job.json
-
 jobs-template:
 	jobs-template -A $(APP) > job.json
 
@@ -23,4 +20,4 @@ jobs-submit:
 	jobs-submit -F job.json
 
 list:
-	files-list -S data.iplantcollaborative.org scottdaniel/applications/$(APP)/stampede
+	files-list -L -S data.iplantcollaborative.org scottdaniel/applications/$(APP)/stampede
