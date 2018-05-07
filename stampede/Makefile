@@ -1,4 +1,4 @@
-APP = centrifuge-patric-0.0.5
+APP = bowtie-samtools-0.0.1
 EMAIL = scottdaniel@email.arizona.edu
 
 clean:
