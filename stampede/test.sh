@@ -11,13 +11,13 @@
 
 #for local testing#####
 #if the singularity.conf is right, then /vagrant should be auto-shared
-export WORK="/vagrant"
+#export WORK="/vagrant"
 #export GUEST="/work"
 ########################
 
 export OUT_DIR="$WORK/control_out"
 
-#export MY_PARAMRUN="$HOME/launcher/paramrun"
+export MY_PARAMRUN="$HOME/launcher/paramrun"
 
 [[ -d "$OUT_DIR" ]] && rm -rf $OUT_DIR/*
 
@@ -25,7 +25,7 @@ export OUT_DIR="$WORK/control_out"
 
 bash run_simple.sh \
     -i "$WORK/genomes" \
-    -1 /vagrant/rna/control/RNA_control_R1_sample_01.fastq.gz,/vagrant/rna/control/RNA_control_R1_sample_02.fastq.gz,/vagrant/rna/control/RNA_control_R1_sample_03.fastq.gz \
-    -2 /vagrant/rna/control/RNA_control_R2_sample_01.fastq.gz,/vagrant/rna/control/RNA_control_R2_sample_02.fastq.gz,/vagrant/rna/control/RNA_control_R2_sample_03.fastq.gz \
+    -1 /$WORK/rna/control/RNA_control_R1_sample_01.fastq.gz,/$WORK/rna/control/RNA_control_R1_sample_02.fastq.gz,/$WORK/rna/control/RNA_control_R1_sample_03.fastq.gz \
+    -2 /$WORK/rna/control/RNA_control_R2_sample_01.fastq.gz,/$WORK/rna/control/RNA_control_R2_sample_02.fastq.gz,/$WORK/rna/control/RNA_control_R2_sample_03.fastq.gz \
     -O $OUT_DIR \
-    -f fastq -t 4
+    -f fastq -t 12

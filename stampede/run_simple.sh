@@ -2,7 +2,7 @@
 
 #SBATCH -J bowtie2
 #SBATCH -A iPlant-Collabs 
-#SBATCH -N 4
+#SBATCH -N 12
 #SBATCH -n 1
 #SBATCH -t 24:00:00
 #SBATCH -p normal
@@ -10,8 +10,8 @@
 # Author: Scott G. Daniel <scottdaniel@email.arizona.edu>
 
 ###Uncomment when back on tacc#
-#module load tacc-singularity 
-#module load launcher
+module load tacc-singularity 
+module load launcher
 
 #
 # Set up defaults for inputs, constants
