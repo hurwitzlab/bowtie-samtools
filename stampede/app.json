@@ -31,7 +31,7 @@
     ],
     "inputs": [
         {
-            "id": "genome_dir",
+            "id": "GENOME_DIR",
             "value": {
                 "default": "",
                 "order": 1,
@@ -59,7 +59,7 @@
             }
         },
         {
-            "id": "bt2_idx",
+            "id": "BT2_IDX",
             "value": {
                 "default": "",
                 "order": 2,
@@ -87,7 +87,7 @@
             }
         },
         {
-            "id": "m1",
+            "id": "M1",
             "value": {
                 "default": "",
                 "order": 3,
@@ -115,7 +115,7 @@
             }
         },
         {
-            "id": "m2",
+            "id": "M2",
             "value": {
                 "default": "",
                 "order": 4,
@@ -143,7 +143,7 @@
             }
         },
         {
-            "id": "unpaired",
+            "id": "UNPAIRED",
             "value": {
                 "default": "",
                 "order": 5,
@@ -173,7 +173,7 @@
     ],
     "parameters": [
         {
-            "id": "input_fmt",
+            "id": "INPUT_FMT",
             "value": {
                 "default": "fastq",
                 "type": "enumeration",
@@ -199,7 +199,7 @@
             }
         },
         {
-            "id": "out_dir",
+            "id": "OUT_DIR",
             "value": {
                 "default": "",
                 "type": "string",
@@ -218,7 +218,7 @@
             }
         },
         {
-            "id": "keep_sam",
+            "id": "KEEP_SAM",
             "value": {
                 "default": false,
                 "type": "bool",
@@ -237,7 +237,26 @@
             }
         },
         {
-            "id": "logFile",
+            "id": "SAM_NAME",
+            "value": {
+                "default": "",
+                "type": "string",
+                "order": 3,
+                "required": false,
+                "visible": true,
+                "enquote": false,
+                "validator": ""
+            },
+            "details": {
+                "description": "SAM or BAM name, default = bowtie2-run.s/bam",
+                "label": "SAM or BAM name",
+                "argument": "-n ",
+                "repeatArgument": false,
+                "showArgument": false
+            }
+        },
+{
+            "id": "LOGFILE",
             "value": {
                 "default": "bowtie2-read-mapping.log",
                 "type": "string",
@@ -256,7 +275,7 @@
             }
         },
         {
-            "id": "alignment_type",
+            "id": "ALIGNMENT_TYPE",
             "value": {
                 "default": "end-to-end",
                 "type": "enumeration",
@@ -282,7 +301,7 @@
             }
         },
         {
-            "id": "end_to_end_presets",
+            "id": "END_TO_END_PRESETS",
             "value": {
                 "default": "sensitive",
                 "type": "enumeration",
@@ -311,7 +330,7 @@
             }
         },
         {
-            "id": "local_presets",
+            "id": "LOCAL_PRESETS",
             "value": {
                 "default": "sensitive-local",
                 "type": "enumeration",
@@ -340,7 +359,7 @@
             }
         },
         {
-            "id": "non_deterministic",
+            "id": "NON_DETERMINISTIC",
             "value": {
                 "default": false,
                 "type": "bool",
@@ -359,7 +378,7 @@
             }
         },
         {
-            "id": "trim5",
+            "id": "TRIM5",
             "value": {
                 "default": 0,
                 "type": "number",
@@ -378,7 +397,7 @@
             }
         },
         {
-            "id": "trim3",
+            "id": "TRIM3",
             "value": {
                 "default": 0,
                 "type": "number",
@@ -397,7 +416,7 @@
             }
         },
         {
-            "id": "minFragLen",
+            "id": "MINFRAGLEN",
             "value": {
                 "default": 0,
                 "type": "number",
@@ -416,7 +435,7 @@
             }
         },
         {
-            "id": "maxFragLen",
+            "id": "MAXFRAGLEN",
             "value": {
                 "default": 0,
                 "type": "number",
@@ -435,7 +454,7 @@
             }
         },
         {
-            "id": "threads",
+            "id": "THREADS",
             "value": {
                 "default": "12",
                 "type": "string",
@@ -454,7 +473,7 @@
             }
         },
         {
-            "id": "additional",
+            "id": "ADDITIONAL",
             "value": {
                 "default": "",
                 "type": "string",
