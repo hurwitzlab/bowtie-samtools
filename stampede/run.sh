@@ -56,6 +56,9 @@ while getopts :g:x:1:2:U:f:O:kn:l:a:e:L:N5:3:I:X:t:A:h ARG; do
         2)
             M2="$OPTARG"
             ;;
+        U)
+            UNPAIRED="$OPTARG"
+            ;;
         f)
             INPUT_FMT="$OPTARG"
             ;;
@@ -115,13 +118,12 @@ while getopts :g:x:1:2:U:f:O:kn:l:a:e:L:N5:3:I:X:t:A:h ARG; do
 done
  
 #DEBUG
-echo "The options are $*"
+#echo "The options are $*"
 
 #It is common practice to call the shift command 
 #at the end of your processing loop to remove 
 #options that have already been handled from $@.
 shift $((OPTIND -1))
-
 
 #check for centrifuge image
 if [[ ! -e "$SING_IMG" ]]; then
@@ -130,24 +132,63 @@ if [[ ! -e "$SING_IMG" ]]; then
 fi
 
 
-#
-# Make it so bowtie is happy
-# because the read names will be passed in like so:
-# M1="forward_read_1.fastq forward_read_2.fastq"
-# and we need:
-# M1="forward_read_1.fastq,forward_read_2.fastq"
-#
+#Run bowtie
 
-M1=$(echo $M1 | sed 's/ /,/')
-M2=$(echo $M2 | sed 's/ /,/')
+if [[ -z "$UNPAIRED" ]] && [[ -n "$M1" ]]; then
 
-#Run bowtie_batch
-singularity exec $SING_IMG patric_bowtie2.py -g $GENOME_DIR \
-  -x $BT2_IDX -1 $M1 -2 $M2 \
-  -U $UNPAIRED -f $INPUT_FMT -O $OUT_DIR -k $KEEP_SAM -n $SAM_NAME \
-  -l $LOGFILE -a $ALIGNMENT_TYPE -e $END_TO_END_PRESETS -L $LOCAL_PRESETS \
-  -N $NON_DETERMINISTIC -5 $TRIM5 -3 $TRIM3 -I $MINFRAGLEN \
-  -X $MAXFRAGLEN -t $THREADS -A $ADDITIONAL
+    IFS=' ' read -r -a M1ARRAY <<< "$M1"
+    IFS=' ' read -r -a M2ARRAY <<< "$M2"
+
+    for INDEX in "${!M1ARRAY[@]}"; do
+
+        singularity exec $SING_IMG patric_bowtie2.py -g $GENOME_DIR \
+          -x $BT2_IDX -1 ${M1ARRAY[INDEX]} -2 ${M2ARRAY[INDEX]} \
+          -f $INPUT_FMT -O $OUT_DIR -k $KEEP_SAM -n $SAM_NAME \
+          -l $LOGFILE -a $ALIGNMENT_TYPE -e $END_TO_END_PRESETS -L $LOCAL_PRESETS \
+          -N $NON_DETERMINISTIC -5 $TRIM5 -3 $TRIM3 -I $MINFRAGLEN \
+          -X $MAXFRAGLEN -t $THREADS -A $ADDITIONAL
+
+    done
+
+elif [[ -n "$UNPAIRED" ]] && [[ -z "$M1" ]]; then
+
+    IFS=' ' read -r -a UARRAY <<< "$UNPAIRED"
+
+    for INDEX in "${!UARRAY[@]}"; do
+
+        singularity exec $SING_IMG patric_bowtie2.py -g $GENOME_DIR \
+          -x $BT2_IDX -U ${UARRAY[INDEX]} \
+          -f $INPUT_FMT -O $OUT_DIR -k $KEEP_SAM -n $SAM_NAME \
+          -l $LOGFILE -a $ALIGNMENT_TYPE -e $END_TO_END_PRESETS -L $LOCAL_PRESETS \
+          -N $NON_DETERMINISTIC -5 $TRIM5 -3 $TRIM3 -I $MINFRAGLEN \
+          -X $MAXFRAGLEN -t $THREADS -A $ADDITIONAL
+
+    done
+
+elif [[ -n "$UNPAIRED" ]] && [[ -n "$M1" ]]; then
+
+    IFS=' ' read -r -a M1ARRAY <<< "$M1"
+    IFS=' ' read -r -a M2ARRAY <<< "$M2"
+    IFS=' ' read -r -a UARRAY <<< "$UNPAIRED"
+
+    for INDEX in "${!UARRAY[@]}"; do
+
+        singularity exec $SING_IMG patric_bowtie2.py -g $GENOME_DIR \
+          -x $BT2_IDX -1 ${M1ARRAY[INDEX]} -2 ${M2ARRAY[INDEX]} \
+          -U ${UARRAY[INDEX]} \
+          -f $INPUT_FMT -O $OUT_DIR -k $KEEP_SAM -n $SAM_NAME \
+          -l $LOGFILE -a $ALIGNMENT_TYPE -e $END_TO_END_PRESETS -L $LOCAL_PRESETS \
+          -N $NON_DETERMINISTIC -5 $TRIM5 -3 $TRIM3 -I $MINFRAGLEN \
+          -X $MAXFRAGLEN -t $THREADS -A $ADDITIONAL
+
+    done
+
+else
+
+    echo "Something is wrong with how the reads were input"
+    exit 1
+
+fi
 
 echo "Log messages will be in "$OUT_DIR"/bowtie2-read-mapping.log by default"
 echo "Comments to Scott Daniel <scottdaniel@email.arizona.edu>"
