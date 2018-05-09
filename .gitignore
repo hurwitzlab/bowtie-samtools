@@ -104,3 +104,6 @@ ENV/
 *.img
 #log files
 *.out
+
+#vim swap files
+*.swp
