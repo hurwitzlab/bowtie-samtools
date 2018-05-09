@@ -94,7 +94,7 @@
                 "validator": "",
                 "required": false,
                 "visible": true,
-                "enquote": false
+                "enquote": true
             },
             "semantics": {
                 "ontology": [
@@ -122,7 +122,7 @@
                 "validator": "",
                 "required": false,
                 "visible": true,
-                "enquote": false
+                "enquote": true
             },
             "semantics": {
                 "ontology": [
@@ -150,7 +150,7 @@
                 "validator": "",
                 "required": false,
                 "visible": true,
-                "enquote": false
+                "enquote": true
             },
             "semantics": {
                 "ontology": [
@@ -233,7 +233,7 @@
                 "label": "Keep SAM files.",
                 "argument": "-k ",
                 "repeatArgument": false,
-                "showArgument": false
+                "showArgument": true
             }
         },
         {
@@ -252,7 +252,7 @@
                 "label": "SAM or BAM name",
                 "argument": "-n ",
                 "repeatArgument": false,
-                "showArgument": false
+                "showArgument": true
             }
         },
 {
@@ -271,7 +271,7 @@
                 "label": "Log file name",
                 "argument": "-l ",
                 "repeatArgument": false,
-                "showArgument": false
+                "showArgument": true
             }
         },
         {
@@ -297,7 +297,7 @@
                 "label": "Local or global alignment",
                 "argument": "-a ",
                 "repeatArgument": false,
-                "showArgument": false
+                "showArgument": true
             }
         },
         {
@@ -326,7 +326,7 @@
                 "label": "End-to-end alignment presets",
                 "argument": "-e ",
                 "repeatArgument": false,
-                "showArgument": false
+                "showArgument": true
             }
         },
         {
@@ -355,7 +355,7 @@
                 "label": "Local alignment presets",
                 "argument": "-L ",
                 "repeatArgument": false,
-                "showArgument": false
+                "showArgument": true
             }
         },
         {
@@ -374,7 +374,7 @@
                 "label": "Use non-deterministic method.",
                 "argument": "-N ",
                 "repeatArgument": false,
-                "showArgument": false
+                "showArgument": true
             }
         },
         {
@@ -393,7 +393,7 @@
                 "label": "Trim 5' bases.",
                 "argument": "-5 ",
                 "repeatArgument": false,
-                "showArgument": false
+                "showArgument": true
             }
         },
         {
@@ -412,7 +412,7 @@
                 "label": "Trim 3' bases.",
                 "argument": "-3 ",
                 "repeatArgument": false,
-                "showArgument": false
+                "showArgument": true
             }
         },
         {
@@ -431,7 +431,7 @@
                 "label": "Minimum fragment length.",
                 "argument": "-I ",
                 "repeatArgument": false,
-                "showArgument": false
+                "showArgument": true
             }
         },
         {
@@ -450,7 +450,7 @@
                 "label": "Maximum fragment length.",
                 "argument": "-X ",
                 "repeatArgument": false,
-                "showArgument": false
+                "showArgument": true
             }
         },
         {

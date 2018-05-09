@@ -10,13 +10,36 @@
 # Author: Scott G. Daniel <scottdaniel@email.arizona.edu>
 
 ###Uncomment when back on tacc#
+echo "#### LOADING TACC-SINGULARITY ####"
 module load tacc-singularity 
+echo "#### LOADING LAUNCHER ####"
 module load launcher
 
 #
 # Set up defaults for inputs, constants
 #
 SING_IMG="bowtie_sam.img"
+
+#
+# Some needed functions
+#
+function lc() { 
+    wc -l "$1" | cut -d ' ' -f 1 
+}
+
+function HELP() {
+
+    singularity exec $SING_IMG patric_bowtie2.py -h
+    
+    exit 0
+}
+
+#
+# Show HELP if no arguments
+#
+[[ $# -eq 0 ]] && echo "Need some arguments" && HELP
+
+set -u
 
 #parse options
 while getopts :g:x:1:2:U:f:O:kn:l:a:e:L:N5:3:I:X:t:A:h ARG; do
@@ -105,27 +128,6 @@ if [[ ! -e "$SING_IMG" ]]; then
     echo "Missing SING_IMG \"$SING_IMG\""
     exit 1
 fi
-
-#
-# Some needed functions
-#
-function lc() { 
-    wc -l "$1" | cut -d ' ' -f 1 
-}
-
-function HELP() {
-
-    singularity exec $SING_IMG patric_bowtie2.py -h
-    
-    exit 0
-}
-
-#
-# Show HELP if no arguments
-#
-[[ $# -eq 0 ]] && echo "Need some arguments" && HELP
-
-set -u
 
 
 #
