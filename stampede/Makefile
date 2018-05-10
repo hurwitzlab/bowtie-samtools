@@ -14,7 +14,7 @@ test: clean
 	sbatch test.sh
 
 jobs-template:
-	jobs-template -A $(APP) > job.json
+	~/agave-cli/bin/jobs-template -A $(APP) > job.json
 
 jobs-submit:
 	jobs-submit -F job.json

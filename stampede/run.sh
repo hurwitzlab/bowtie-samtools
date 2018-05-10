@@ -146,6 +146,7 @@ if [[ -z "$UNPAIRED" ]] && [[ -n "$M1" ]]; then
     IFS=' ' read -r -a M1ARRAY <<< "$M1"
     IFS=' ' read -r -a M2ARRAY <<< "$M2"
 
+    set -x
     for INDEX in "${!M1ARRAY[@]}"; do
 
         echo -e "Doing ${M1ARRAY[INDEX]}\n"

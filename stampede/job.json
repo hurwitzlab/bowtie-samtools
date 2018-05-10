@@ -1,40 +1,22 @@
 {
-  "name":"bowtie-samtools mouse test",
+  "name":" test-1525983797",
   "appId": "bowtie-samtools-0.0.1",
-  "batchQueue": "normal",
+  "batchQueue": "skx-large",
   "executionSystem": "tacc-stampede2-sdaniel",
   "maxRunTime": "01:00:00",
-  "memoryPerNode": "96GB",
+  "memoryPerNode": "192GB",
   "nodeCount": 1,
-  "processorsPerNode": 16,
-  "archive": false,
+  "processorsPerNode": 41664,
+  "archive": true,
   "archiveSystem": "data.iplantcollaborative.org",
-  "archivePath": "",
+  "archivePath": null,
   "inputs": {
-    "GENOME_DIR": [
-      "scottdaniel/genomes"
-      ],
-    "M1": [
-      "scottdaniel/rna/control/RNA_control_R1_sample_01.fastq.gz","scottdaniel/rna/control/RNA_control_R1_sample_02.fastq.gz","scottdaniel/rna/control/RNA_control_R1_sample_03.fastq.gz"
-      ],
-    "M2": [
-      "scottdaniel/rna/control/RNA_control_R2_sample_01.fastq.gz","scottdaniel/rna/control/RNA_control_R2_sample_02.fastq.gz","scottdaniel/rna/control/RNA_control_R2_sample_03.fastq.gz"
-      ]
   },
   "parameters": {
-    "OUT_DIR": [
-      "scottdaniel/control_out"
-      ],
-    "INPUT_FMT": [
-      "fastq"
-      ],
-    "THREADS": [
-      12
-      ]
   },
   "notifications": [
     {
-      "url":"https://requestbin.agaveapi.co/1ni7ks41?job_id=${JOB_ID}&status=${JOB_STATUS}",
+      "url":"https://requestbin.agaveapi.co/139lzxx1?job_id=${JOB_ID}&status=${JOB_STATUS}",
       "event":"*",
       "persistent":true
     },
