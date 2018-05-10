@@ -10,14 +10,14 @@
 # Author: Scott G. Daniel <scottdaniel@email.arizona.edu>
 
 ###Uncomment when back on tacc#
-echo "#### Current modules after app.json processing:"
-module list 2>&1
+#echo "#### Current modules after app.json processing:"
+#module list 2>&1
 echo "#### LOADING TACC-SINGULARITY ####"
 module load tacc-singularity 2>&1
 echo "#### LOADING LAUNCHER ####"
 module load launcher 2>&1
-echo "#### Current modules after run.sh processing:"
-module list 2>&1
+#echo "#### Current modules after run.sh processing:"
+#module list 2>&1
 #
 # Set up defaults for inputs, constants
 #
@@ -121,7 +121,7 @@ while getopts :g:x:1:2:U:f:O:kn:l:a:e:L:N5:3:I:X:t:A:h ARG; do
 done
  
 #DEBUG
-#echo "The options are $*"
+echo "After getopts, the options are $*"
 
 #It is common practice to call the shift command 
 #at the end of your processing loop to remove 

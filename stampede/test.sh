@@ -2,10 +2,10 @@
 
 #SBATCH -A iPlant-Collabs
 #SBATCH -N 1
-#SBATCH -n 1
-#SBATCH -t 02:00:00
+#SBATCH -n 12
+#SBATCH -t 00:30:00
 #SBATCH -p development
-#SBATCH -J cntrfuge
+#SBATCH -J bowtie2
 #SBATCH --mail-type BEGIN,END,FAIL
 #SBATCH --mail-user scottdaniel@email.arizona.edu
 
@@ -23,9 +23,9 @@ export MY_PARAMRUN="$HOME/launcher/paramrun"
 
 #    -g "$WORK/genomes" \
 
-bash run_simple.sh \
+bash run.sh \
     -x "$WORK/bt2_index/genome" \
-    -1 $WORK/rna/control/RNA_control_R1_sample_01.fastq.gz,$WORK/rna/control/RNA_control_R1_sample_02.fastq.gz,$WORK/rna/control/RNA_control_R1_sample_03.fastq.gz \
-    -2 $WORK/rna/control/RNA_control_R2_sample_01.fastq.gz,$WORK/rna/control/RNA_control_R2_sample_02.fastq.gz,$WORK/rna/control/RNA_control_R2_sample_03.fastq.gz \
+    -1 "$WORK/rna/control/RNA_control_R1_sample_01.fastq.gz $WORK/rna/control/RNA_control_R1_sample_02.fastq.gz $WORK/rna/control/RNA_control_R1_sample_03.fastq.gz" \
+    -2 "$WORK/rna/control/RNA_control_R2_sample_01.fastq.gz $WORK/rna/control/RNA_control_R2_sample_02.fastq.gz $WORK/rna/control/RNA_control_R2_sample_03.fastq.gz" \
     -O $OUT_DIR \
     -f fastq -t 12
