@@ -49,7 +49,7 @@ function build_opt_string() {
 #set -u
 
 #parse options
-while getopts :g:x:1:2:U:f:O:kn:l:a:e:L:N5:3:I:X:t:A:h ARG; do
+while getopts :g:x:1:2:U:f:O:n:l:a:e:L:N5:3:I:X:t:A:h ARG; do
     case $ARG in
         g)
             GENOME_DIR="$OPTARG"
@@ -72,11 +72,8 @@ while getopts :g:x:1:2:U:f:O:kn:l:a:e:L:N5:3:I:X:t:A:h ARG; do
         O)
             OUT_DIR="$OPTARG"
             ;;
-        k)
-            KEEP_SAM=1
-            ;;
         n)
-            SAM_NAME="$OPTARG"
+            BAM_NAME="$OPTARG"
             ;;
         l)
             LOGFILE="$OPTARG"
@@ -171,7 +168,7 @@ else
 fi
 
 #boolean
-if [[ -n "$NON_DETERMINISTIC" ]]; then
+if [[ "$NON_DETERMINISTIC" -eq 1 ]]; then
     OPTSTRING="$OPTSTRING -N"
 fi
 

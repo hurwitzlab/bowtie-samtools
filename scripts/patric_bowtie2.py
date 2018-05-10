@@ -108,21 +108,12 @@ gen_opts.add_argument('-O', '--out-dir', dest='out_dir', type=str,
         default=os.getcwd, help="Output directory to put all the\n"
         "results in.")
 
-gen_opts.add_argument('-k', '--keep-sam', dest='keep_sam', 
-        action='store_true',
-        help="If enabled, SAM files will be preserved \n"
-        "during BAM file generation. Without this option,\n"
-        "THERE WILL BE NO SAM FILES.")
-#NOTE
-#maybe want to delete these next two options because they should be based on read nameor metadata
-#IF WE DO THIS, will need to delete here
-#and in run.sh
-#and in template.sh
-#and in app.json .... JEZZUS!
-gen_opts.add_argument('-n', '--sam-name', 
-        dest='sam_name', metavar='FILENAME', 
-        default='bowtie2-run.sam',
-        help="Filename to use for output sam/bam.")
+gen_opts.add_argument('-n', '--bam-name', 
+        dest='bam_name', metavar='FILENAME', 
+        default='bowtie2-run.bam',
+        help="Filename to use for output bam. \n"
+        "This is usually defined by the calling script \n"
+        "based on the input read names")
 
 gen_opts.add_argument('-l', '--log-file', dest='log_fn', 
         metavar='FILENAME', default='bowtie2-read-mapping.log',
@@ -273,7 +264,8 @@ def bowtie(bowtie2_db):
     if not inFmt:
         error('No format selected during bowtie2 search.')
 
-    #i wish python had case switching! ... this is probably more complicated than it needs to be!
+    #this logic should already have been done in the run.sh
+    #but i guess we are double-checking?
     if args.reads_unpaired and args.reads_forward and args.reads_reverse:
         input_cmd = '-1 {} -2 {} -U {}'.format(args.reads_forward,args.reads_reverse,args.reads_unpaired)
     elif args.reads_unpaired and not (args.reads_forward and args.reads_reverse):
@@ -284,51 +276,23 @@ def bowtie(bowtie2_db):
         error("Something is wrong in how the input string is formatted\n"
         "Did you only enter forward reads? Did you only enter reverse reads?\n")
 
-
     bowtie2_cmd = 'bowtie2 {} --phred33 --{} --{} -p {} -I {} -X {} --no-unal {} -x {} {}'.format(
         inFmt, args.align_type, preset, args.threads, args.minins, 
         args.maxins, args.more_args, bowtie2_db, input_cmd)
 
-    sam_out = os.path.join(args.out_dir, args.sam_name)
+    bam_out = os.path.join(args.out_dir, args.bam_name)
 
-    return [(bowtie2_cmd, sam_out)]
+    return [(bowtie2_cmd, bam_out)]
 
-def to_sam(cmd2run, keep_sam, logfile):
+def to_bam(cmd2run, logfile):
 
     processCall = ''
 
-    if len(cmd2run) > 1:  # Alternatively, if sam_output
+    for (bowtie2, bam_out) in cmd2run:
 
-        for (bowtie2, sam_out) in cmd2run:
+        processCall = '{1} | samtools view --threads {0} -Sb - > {2}'.format(args.threads, bowtie2, bam_out)
 
-            bam_out = sam_out.replace('sam', 'bam')
-
-            # Keep sam file or go directly to bam. Two ways of keeping sam file... one of which sometimes hasn't worked
-
-            if keep_sam:
-                processCall = '{1} -S {2} && samtools view --threads {0} -Sb -o {3} {2}'.format(args.threads, bowtie2, sam_out, bam_out)
-
-            else:
-                processCall = '{1} | samtools view --threads {0} -Sb - > {2}'.format(args.threads, bowtie2, bam_out)
-
-            execute(processCall, logfile)
-
-    if len(cmd2run) == 1:  # just double-checking
-
-        bowtie2, sam_out = cmd2run[0]
-        bam_out = sam_out.replace('sam', 'bam')
-
-        if keep_sam:
-            processCall = '{1} -S {2} && samtools view --threads {0} -Sb -o {3} {2}'.format(args.threads, bowtie2, sam_out, bam_out)
-
-        else:
-            processCall = '{1} | samtools view --threads {0} -Sb - > {2}'.format(args.threads, bowtie2, bam_out)
-            #output = subprocess.check_output(processCall, shell=True)  # Trusted input only!
-
-        execute(processCall, logfile)  # bowtie uses stderr to print out args
-
-    if (len(cmd2run) < 1) and (len(cmd2run) != 1):  # This *should not* ever be triggered
-        logfile.write('ERROR: Not >1 or ==1, but sam file specified')
+        execute(processCall, logfile)
 
 ##################
 # THE MAIN LOOP ##
@@ -360,9 +324,9 @@ if __name__ == '__main__':
 
     log.write('Bowtie2 base db: {}'.format(bt2_db_base) + os.linesep)
 
-    cmd_and_sam = bowtie(bt2_db_base)
+    cmd_and_bam = bowtie(bt2_db_base)
 
-    to_sam(cmd_and_sam, args.keep_sam, log)
+    to_bam(cmd_and_bam, log)
 
     log.write('Program Complete, Hopefully it Worked!')
     log.close()

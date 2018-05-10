@@ -2,7 +2,7 @@
     "name": "Bowtie-samtools",
     "version": "0.0.1",
     "shortDescription": "Bowtie-samtools is a fast short-read alignment program",
-    "longDescription": "Bowtie-samtools:\n* Uses bowtie2 to align comma-separated lists of reads (paired or unpaired) to a bowtie2-indexed genome\n* If a bowtie2-indexed genome is not provided, one will be created from a directory of genome(s)\n* After alignment, samtools converts the *.sam file into *.bam format for downstream analysis \n\nDO NOT FORGET TO COMMA-SEPARATE INPUT FILES!!!",
+    "longDescription": "Bowtie-samtools:\n* Uses bowtie2 to align comma-separated lists of reads (paired or unpaired) to a bowtie2-indexed genome\n* If a bowtie2-indexed genome is not provided, one will be created from a directory of genome(s)\n* After alignment, samtools converts the *.sam file into *.bam format for downstream analysis.",
     "available": true,
     "checkpointable": false,
     "defaultMemoryPerNode": 32,
@@ -217,26 +217,7 @@
             }
         },
         {
-            "id": "KEEP_SAM",
-            "value": {
-                "default": false,
-                "type": "bool",
-                "order": 2,
-                "required": false,
-                "visible": true,
-                "enquote": false,
-                "validator": ""
-            },
-            "details": {
-                "description": "If enabled, SAM files will be preserved during BAM file generation.",
-                "label": "Keep SAM files.",
-                "argument": "-k ",
-                "repeatArgument": false,
-                "showArgument": true
-            }
-        },
-        {
-            "id": "SAM_NAME",
+            "id": "BAM_NAME",
             "value": {
                 "default": "./bowtie2-run.bam",
                 "type": "string",
@@ -247,8 +228,8 @@
                 "validator": ""
             },
             "details": {
-                "description": "SAM or BAM name, default = bowtie2-run.s/bam",
-                "label": "SAM or BAM name",
+                "description": "BAM name, default = bowtie2-run.bam. Leave blank if you are inputting multiple reads as you will get BAM names based on reads names to keep replicates / samples separate",
+                "label": "BAM name",
                 "argument": "-n ",
                 "repeatArgument": false,
                 "showArgument": true
@@ -456,7 +437,7 @@
             "id": "THREADS",
             "value": {
                 "default": "12",
-                "type": "string",
+                "type": "number",
                 "order": 12,
                 "required": false,
                 "visible": true,
