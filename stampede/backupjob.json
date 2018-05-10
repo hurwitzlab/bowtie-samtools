@@ -1,0 +1,52 @@
+{
+  "name":"bowtie-samtools mouse test",
+  "appId": "bowtie-samtools-0.0.1",
+  "batchQueue": "normal",
+  "executionSystem": "tacc-stampede2-sdaniel",
+  "maxRunTime": "01:00:00",
+  "memoryPerNode": "96GB",
+  "nodeCount": 1,
+  "processorsPerNode": 16,
+  "archive": false,
+  "archiveSystem": "data.iplantcollaborative.org",
+  "archivePath": "",
+  "inputs": {
+    "GENOME_DIR": [
+      "scottdaniel/genomes"
+      ],
+    "M1": [
+      "scottdaniel/rna/control/RNA_control_R1_sample_01.fastq.gz","scottdaniel/rna/control/RNA_control_R1_sample_02.fastq.gz","scottdaniel/rna/control/RNA_control_R1_sample_03.fastq.gz"
+      ],
+    "M2": [
+      "scottdaniel/rna/control/RNA_control_R2_sample_01.fastq.gz","scottdaniel/rna/control/RNA_control_R2_sample_02.fastq.gz","scottdaniel/rna/control/RNA_control_R2_sample_03.fastq.gz"
+      ]
+  },
+  "parameters": {
+    "OUT_DIR": [
+      "scottdaniel/control_out"
+      ],
+    "INPUT_FMT": [
+      "fastq"
+      ],
+    "THREADS": [
+      12
+      ]
+  },
+  "notifications": [
+    {
+      "url":"https://requestbin.agaveapi.co/1ni7ks41?job_id=${JOB_ID}&status=${JOB_STATUS}",
+      "event":"*",
+      "persistent":true
+    },
+    {
+      "url":"scottdaniel@email.arizona.edu",
+      "event":"FINISHED",
+          "persistent":false
+    },
+    {
+      "url":"scottdaniel@email.arizona.edu",
+      "event":"FAILED",
+      "persistent":false
+    }
+  ]
+}
