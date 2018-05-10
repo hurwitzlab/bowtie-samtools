@@ -122,6 +122,9 @@ done
  
 #DEBUG
 echo "After getopts, the options are $*"
+echo "M1 is "$M1""
+echo "M2 is "$M2""
+echo "UNPAIRED is "$UNPAIRED""
 
 #It is common practice to call the shift command 
 #at the end of your processing loop to remove 
@@ -137,12 +140,16 @@ fi
 
 #Run bowtie
 
-if [[ ! -v "$UNPAIRED" ]] && [[ -v "$M1" ]]; then
+if [[ -z "$UNPAIRED" ]] && [[ -n "$M1" ]]; then
 
+    echo -e "Looks like its just read pairs, no unpaired \n"
     IFS=' ' read -r -a M1ARRAY <<< "$M1"
     IFS=' ' read -r -a M2ARRAY <<< "$M2"
 
     for INDEX in "${!M1ARRAY[@]}"; do
+
+        echo -e "Doing ${M1ARRAY[INDEX]}\n"
+        echo -e "and ${M2ARRAY[INDEX]}\n"
 
         singularity exec $SING_IMG patric_bowtie2.py -g $GENOME_DIR \
           -x $BT2_IDX -1 ${M1ARRAY[INDEX]} -2 ${M2ARRAY[INDEX]} \
@@ -153,7 +160,7 @@ if [[ ! -v "$UNPAIRED" ]] && [[ -v "$M1" ]]; then
 
     done
 
-elif [[ -v "$UNPAIRED" ]] && [[ ! -v "$M1" ]]; then
+elif [[ -n "$UNPAIRED" ]] && [[ -z "$M1" ]]; then
 
     IFS=' ' read -r -a UARRAY <<< "$UNPAIRED"
 
@@ -168,7 +175,7 @@ elif [[ -v "$UNPAIRED" ]] && [[ ! -v "$M1" ]]; then
 
     done
 
-elif [[ -v "$UNPAIRED" ]] && [[ -v "$M1" ]]; then
+elif [[ -n "$UNPAIRED" ]] && [[ -n "$M1" ]]; then
 
     IFS=' ' read -r -a M1ARRAY <<< "$M1"
     IFS=' ' read -r -a M2ARRAY <<< "$M2"
