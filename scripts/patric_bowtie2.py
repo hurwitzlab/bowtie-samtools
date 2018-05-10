@@ -113,7 +113,12 @@ gen_opts.add_argument('-k', '--keep-sam', dest='keep_sam',
         help="If enabled, SAM files will be preserved \n"
         "during BAM file generation. Without this option,\n"
         "THERE WILL BE NO SAM FILES.")
-
+#NOTE
+#maybe want to delete these next two options because they should be based on read nameor metadata
+#IF WE DO THIS, will need to delete here
+#and in run.sh
+#and in template.sh
+#and in app.json .... JEZZUS!
 gen_opts.add_argument('-n', '--sam-name', 
         dest='sam_name', metavar='FILENAME', 
         default='bowtie2-run.sam',
@@ -122,7 +127,7 @@ gen_opts.add_argument('-n', '--sam-name',
 gen_opts.add_argument('-l', '--log-file', dest='log_fn', 
         metavar='FILENAME', default='bowtie2-read-mapping.log',
         help="Log file name")
-
+###
 bowtie2_opts = parser.add_argument_group('Bowtie2 Alignment Options')
 
 bowtie2_opts.add_argument('-a', '--alignment-type', 
