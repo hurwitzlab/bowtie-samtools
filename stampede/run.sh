@@ -31,10 +31,14 @@ function lc() {
 }
 
 function HELP() {
-
     singularity exec $SING_IMG patric_bowtie2.py -h
-    
     exit 0
+}
+
+function build_opt_string() {
+    if [[ -n "$2" ]]; then
+        OPTSTRING="$OPTSTRING "$1" "$2""
+    fi
 }
 
 #
@@ -124,7 +128,7 @@ done
 echo "After getopts, the options are $*"
 echo "M1 is "$M1""
 echo "M2 is "$M2""
-echo "UNPAIRED is "$UNPAIRED""
+echo -e "UNPAIRED is "$UNPAIRED"\n"
 
 #It is common practice to call the shift command 
 #at the end of your processing loop to remove 
@@ -137,6 +141,50 @@ if [[ ! -e "$SING_IMG" ]]; then
     exit 1
 fi
 
+#building the fing argument string
+
+#mutually exclusive
+if [[ -n "$GENOME_DIR" ]]; then
+    OPTSTRING="-g $GENOME_DIR"
+elif [[ -n "$BT2_IDX" ]]; then
+    OPTSTRING="-x $BT2_IDX"
+else
+    echo "Must have GENOME_DIR or BT2_IDX"
+    exit 1
+fi
+
+#adding requireds
+if [[ -n "$INPUT_FMT" ]] && [[ -n "$OUT_DIR" ]] && [[ -n "$THREADS" ]]; then
+    OPTSTRING="$OPTSTRING -f $INPUT_FMT -O $OUT_DIR -t $THREADS"
+else
+    echo "You forgot one of these: INPUT_FMT, OUT_DIR or THREADS"
+    exit 1
+fi
+
+if [[ -n "$ALIGNMENT_TYPE" ]] && [[ -n "$END_TO_END_PRESETS" ]]; then
+    OPTSTRING="$OPTSTRING -a $ALIGNMENT_TYPE -e $END_TO_END_PRESETS"
+elif [[ -n "$ALIGNMENT_TYPE" ]] && [[ -n "$LOCAL_PRESETS" ]]; then
+    OPTSTRING="$OPTSTRING -a $ALIGNMENT_TYPE -L $LOCAL_PRESETS"
+else
+    echo "Must specify ALIGNMENT_TYPE and END_TO_END_PRESETS or LOCAL_PRESETS"
+    exit 1
+fi
+
+#boolean
+if [[ -n "$NON_DETERMINISTIC" ]]; then
+    OPTSTRING="$OPTSTRING -N"
+fi
+
+#completely optional
+build_opt_string -l $LOGFILE
+build_opt_string -5 $TRIM5
+build_opt_string -3 $TRIM3
+build_opt_string -I $MINFRAGLEN
+build_opt_string -X $MAXFRAGLEN
+build_opt_string -A $ADDITIONAL
+
+echo -e "After building the option string, we have:\n"
+echo -e ""$OPTSTRING"\n"
 
 #Run bowtie
 
@@ -151,13 +199,12 @@ if [[ -z "$UNPAIRED" ]] && [[ -n "$M1" ]]; then
 
         echo -e "Doing ${M1ARRAY[INDEX]}\n"
         echo -e "and ${M2ARRAY[INDEX]}\n"
+        BAM_NAME=$(basename ${M1ARRAY[INDEX]} $INPUT_FMT).bam
+        echo -e "Bam name will be $BAM_NAME"
 
-        singularity exec $SING_IMG patric_bowtie2.py -g $GENOME_DIR \
-          -x $BT2_IDX -1 ${M1ARRAY[INDEX]} -2 ${M2ARRAY[INDEX]} \
-          -f $INPUT_FMT -O $OUT_DIR -k $KEEP_SAM -n $SAM_NAME \
-          -l $LOGFILE -a $ALIGNMENT_TYPE -e $END_TO_END_PRESETS -L $LOCAL_PRESETS \
-          -N $NON_DETERMINISTIC -5 $TRIM5 -3 $TRIM3 -I $MINFRAGLEN \
-          -X $MAXFRAGLEN -t $THREADS -A $ADDITIONAL
+        singularity exec $SING_IMG patric_bowtie2.py \
+            -1 ${M1ARRAY[INDEX]} -2 ${M2ARRAY[INDEX]} \
+            -n $BAM_NAME $OPTSTRING
 
     done
 
@@ -167,13 +214,13 @@ elif [[ -n "$UNPAIRED" ]] && [[ -z "$M1" ]]; then
 
     for INDEX in "${!UARRAY[@]}"; do
 
-        singularity exec $SING_IMG patric_bowtie2.py -g $GENOME_DIR \
-          -x $BT2_IDX -U ${UARRAY[INDEX]} \
-          -f $INPUT_FMT -O $OUT_DIR -k $KEEP_SAM -n $SAM_NAME \
-          -l $LOGFILE -a $ALIGNMENT_TYPE -e $END_TO_END_PRESETS -L $LOCAL_PRESETS \
-          -N $NON_DETERMINISTIC -5 $TRIM5 -3 $TRIM3 -I $MINFRAGLEN \
-          -X $MAXFRAGLEN -t $THREADS -A $ADDITIONAL
+        BAM_NAME=$(basename ${UARRAY[INDEX]} $INPUT_FMT).bam
+        echo -e "Bam name will be $BAM_NAME"
 
+        singularity exec $SING_IMG patric_bowtie2.py \
+          -U ${UARRAY[INDEX]} \
+          -n $BAM_NAME $OPTSTRING
+          
     done
 
 elif [[ -n "$UNPAIRED" ]] && [[ -n "$M1" ]]; then
@@ -184,13 +231,13 @@ elif [[ -n "$UNPAIRED" ]] && [[ -n "$M1" ]]; then
 
     for INDEX in "${!UARRAY[@]}"; do
 
-        singularity exec $SING_IMG patric_bowtie2.py -g $GENOME_DIR \
-          -x $BT2_IDX -1 ${M1ARRAY[INDEX]} -2 ${M2ARRAY[INDEX]} \
+        BAM_NAME=$(basename ${M1ARRAY[INDEX]} $INPUT_FMT).bam
+        echo -e "Bam name will be $BAM_NAME"
+
+        singularity exec $SING_IMG patric_bowtie2.py \
+          -1 ${M1ARRAY[INDEX]} -2 ${M2ARRAY[INDEX]} \
           -U ${UARRAY[INDEX]} \
-          -f $INPUT_FMT -O $OUT_DIR -k $KEEP_SAM -n $SAM_NAME \
-          -l $LOGFILE -a $ALIGNMENT_TYPE -e $END_TO_END_PRESETS -L $LOCAL_PRESETS \
-          -N $NON_DETERMINISTIC -5 $TRIM5 -3 $TRIM3 -I $MINFRAGLEN \
-          -X $MAXFRAGLEN -t $THREADS -A $ADDITIONAL
+          -n $BAM_NAME $OPTSTRING
 
     done
 
