@@ -11,24 +11,24 @@
   "archiveSystem": "data.iplantcollaborative.org",
   "archivePath": "",
   "inputs": {
-    "genome_dir": [
+    "GENOME_DIR": [
       "scottdaniel/genomes"
       ],
-    "m1": [
+    "M1": [
       "scottdaniel/rna/control/RNA_control_R1_sample_01.fastq.gz","scottdaniel/rna/control/RNA_control_R1_sample_02.fastq.gz","scottdaniel/rna/control/RNA_control_R1_sample_03.fastq.gz"
       ],
-    "m2": [
+    "M2": [
       "scottdaniel/rna/control/RNA_control_R2_sample_01.fastq.gz","scottdaniel/rna/control/RNA_control_R2_sample_02.fastq.gz","scottdaniel/rna/control/RNA_control_R2_sample_03.fastq.gz"
       ]
   },
   "parameters": {
-    "out_dir": [
+    "OUT_DIR": [
       "scottdaniel/control_out"
       ],
-    "input_fmt": [
+    "INPUT_FMT": [
       "fastq"
       ],
-    "threads": [
+    "THREADS": [
       12
       ]
   },

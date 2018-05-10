@@ -20,8 +20,8 @@
     "templatePath": "template.sh",
     "testPath": "test.sh",
     "modules": [
-        "tacc-launcher",
-        "singularity"
+        "tacc-singularity",
+        "launcher"
     ],
     "tags": [
         ""

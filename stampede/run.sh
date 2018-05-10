@@ -10,11 +10,14 @@
 # Author: Scott G. Daniel <scottdaniel@email.arizona.edu>
 
 ###Uncomment when back on tacc#
+echo "#### Current modules after app.json processing:"
+module list
 echo "#### LOADING TACC-SINGULARITY ####"
 module load tacc-singularity 
 echo "#### LOADING LAUNCHER ####"
 module load launcher
-
+echo "#### Current modules after run.sh processing:"
+module list
 #
 # Set up defaults for inputs, constants
 #
