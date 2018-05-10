@@ -201,7 +201,7 @@
         {
             "id": "OUT_DIR",
             "value": {
-                "default": "",
+                "default": "./",
                 "type": "string",
                 "order": 1,
                 "required": false,
@@ -239,7 +239,7 @@
         {
             "id": "SAM_NAME",
             "value": {
-                "default": "",
+                "default": "./bowtie2-run.bam",
                 "type": "string",
                 "order": 3,
                 "required": false,
@@ -437,7 +437,7 @@
         {
             "id": "MAXFRAGLEN",
             "value": {
-                "default": 0,
+                "default": 2000,
                 "type": "number",
                 "order": 11,
                 "required": false,
