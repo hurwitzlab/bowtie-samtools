@@ -11,13 +11,13 @@
 
 ###Uncomment when back on tacc#
 echo "#### Current modules after app.json processing:"
-module list
+module list 2>&1
 echo "#### LOADING TACC-SINGULARITY ####"
-module load tacc-singularity 
+module load tacc-singularity 2>&1
 echo "#### LOADING LAUNCHER ####"
-module load launcher
+module load launcher 2>&1
 echo "#### Current modules after run.sh processing:"
-module list
+module list 2>&1
 #
 # Set up defaults for inputs, constants
 #
@@ -42,7 +42,7 @@ function HELP() {
 #
 [[ $# -eq 0 ]] && echo "Need some arguments" && HELP
 
-set -u
+#set -u
 
 #parse options
 while getopts :g:x:1:2:U:f:O:kn:l:a:e:L:N5:3:I:X:t:A:h ARG; do
@@ -137,7 +137,7 @@ fi
 
 #Run bowtie
 
-if [[ -z "$UNPAIRED" ]] && [[ -n "$M1" ]]; then
+if [[ ! -v "$UNPAIRED" ]] && [[ -v "$M1" ]]; then
 
     IFS=' ' read -r -a M1ARRAY <<< "$M1"
     IFS=' ' read -r -a M2ARRAY <<< "$M2"
@@ -153,7 +153,7 @@ if [[ -z "$UNPAIRED" ]] && [[ -n "$M1" ]]; then
 
     done
 
-elif [[ -n "$UNPAIRED" ]] && [[ -z "$M1" ]]; then
+elif [[ -v "$UNPAIRED" ]] && [[ ! -v "$M1" ]]; then
 
     IFS=' ' read -r -a UARRAY <<< "$UNPAIRED"
 
@@ -168,7 +168,7 @@ elif [[ -n "$UNPAIRED" ]] && [[ -z "$M1" ]]; then
 
     done
 
-elif [[ -n "$UNPAIRED" ]] && [[ -n "$M1" ]]; then
+elif [[ -v "$UNPAIRED" ]] && [[ -v "$M1" ]]; then
 
     IFS=' ' read -r -a M1ARRAY <<< "$M1"
     IFS=' ' read -r -a M2ARRAY <<< "$M2"
