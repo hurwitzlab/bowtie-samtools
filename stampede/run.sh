@@ -198,10 +198,13 @@ if [[ -z "$UNPAIRED" ]] && [[ -n "$M1" ]]; then
         echo -e "and ${M2ARRAY[INDEX]}\n"
         BAM_NAME=$(basename ${M1ARRAY[INDEX]} $INPUT_FMT).bam
         echo -e "Bam name will be $BAM_NAME"
+        LOGFILE=$(basename ${M1ARRAY[INDEX]} $INPUT_FMT).log
 
+        #this is where we would echo the command to a text file
+        #that paramrun would then launch
         singularity exec $SING_IMG patric_bowtie2.py \
             -1 ${M1ARRAY[INDEX]} -2 ${M2ARRAY[INDEX]} \
-            -n $BAM_NAME $OPTSTRING
+            -l $LOGFILE -n $BAM_NAME $OPTSTRING
 
     done
 
@@ -213,10 +216,11 @@ elif [[ -n "$UNPAIRED" ]] && [[ -z "$M1" ]]; then
 
         BAM_NAME=$(basename ${UARRAY[INDEX]} $INPUT_FMT).bam
         echo -e "Bam name will be $BAM_NAME"
+        LOGFILE=$(basename ${UARRAY[INDEX]} $INPUT_FMT).log
 
         singularity exec $SING_IMG patric_bowtie2.py \
           -U ${UARRAY[INDEX]} \
-          -n $BAM_NAME $OPTSTRING
+          -l $LOGFILE -n $BAM_NAME $OPTSTRING
           
     done
 
@@ -230,11 +234,12 @@ elif [[ -n "$UNPAIRED" ]] && [[ -n "$M1" ]]; then
 
         BAM_NAME=$(basename ${M1ARRAY[INDEX]} $INPUT_FMT).bam
         echo -e "Bam name will be $BAM_NAME"
+        LOGFILE=$(basename ${M1ARRAY[INDEX]} $INPUT_FMT).log
 
         singularity exec $SING_IMG patric_bowtie2.py \
           -1 ${M1ARRAY[INDEX]} -2 ${M2ARRAY[INDEX]} \
           -U ${UARRAY[INDEX]} \
-          -n $BAM_NAME $OPTSTRING
+          -l $LOGFILE -n $BAM_NAME $OPTSTRING
 
     done
 

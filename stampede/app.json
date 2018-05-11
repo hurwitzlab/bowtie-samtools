@@ -238,7 +238,7 @@
 {
             "id": "LOGFILE",
             "value": {
-                "default": "bowtie2-read-mapping.log",
+                "default": "",
                 "type": "string",
                 "order": 3,
                 "required": false,
@@ -247,7 +247,7 @@
                 "validator": ""
             },
             "details": {
-                "description": "Log file name",
+                "description": "Log file name, will be taken from the read name",
                 "label": "Log file name",
                 "argument": "-l ",
                 "repeatArgument": false,
@@ -436,7 +436,7 @@
         {
             "id": "THREADS",
             "value": {
-                "default": "12",
+                "default": 12,
                 "type": "number",
                 "order": 12,
                 "required": false,
