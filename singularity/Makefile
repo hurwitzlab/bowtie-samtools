@@ -24,4 +24,4 @@ shell:
 	sudo $(SINGULARITY) shell --writable $(IMG_NAME)
 
 scp:
-	scp $(IMG_NAME) stampede2:/work/03859/sdaniel/stampede2/bowtie-samtools/stampede/
+	scp $(IMG_NAME) stampede2:/work/03859/sdaniel/stampede2/bowtie-samtools-0.0.1/stampede/
