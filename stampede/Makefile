@@ -2,6 +2,9 @@ APP = bowtie-samtools-0.0.1
 EMAIL = scottdaniel@email.arizona.edu
 CLI = ~/agave-cli/bin
 
+token:
+	$(CLI)/auth-tokens-create -S
+
 clean:
 	find . \( -name \*.out -o -name \*.param \) -exec rm {} \;
 
