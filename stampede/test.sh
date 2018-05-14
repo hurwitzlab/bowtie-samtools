@@ -28,4 +28,6 @@ bash run.sh \
     -1 "$WORK/rna/control/RNA_control_R1_sample_01.fastq.gz $WORK/rna/control/RNA_control_R1_sample_02.fastq.gz $WORK/rna/control/RNA_control_R1_sample_03.fastq.gz" \
     -2 "$WORK/rna/control/RNA_control_R2_sample_01.fastq.gz $WORK/rna/control/RNA_control_R2_sample_02.fastq.gz $WORK/rna/control/RNA_control_R2_sample_03.fastq.gz" \
     -O $OUT_DIR \
-    -f fastq -t 12
+    -f fastq -t 12 \
+    -a end-to-end \
+    -e sensitive

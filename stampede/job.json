@@ -3,44 +3,47 @@
   "appId": "bowtie-samtools-0.0.1",
   "batchQueue": "normal",
   "executionSystem": "tacc-stampede2-sdaniel",
-  "maxRunTime": "01:00:00",
+  "maxRunTime": "00:10:00",
   "memoryPerNode": "96GB",
   "nodeCount": 1,
   "processorsPerNode": 16,
   "archive": false,
   "archiveSystem": "data.iplantcollaborative.org",
-  "archivePath": "",
+  "archivePath": null,
   "inputs": {
-    "GENOME_DIR": [
+    "GENOME_DIR": [ 
       "scottdaniel/genomes"
-      ],
-    "M1": [
+    ],
+    "BT2_IDX": [ 
+    ],
+    "M1": [ 
       "scottdaniel/rna/control/RNA_control_R1_sample_01.fastq.gz","scottdaniel/rna/control/RNA_control_R1_sample_02.fastq.gz","scottdaniel/rna/control/RNA_control_R1_sample_03.fastq.gz"
-      ],
-    "M2": [
+    ],
+    "M2": [ 
       "scottdaniel/rna/control/RNA_control_R2_sample_01.fastq.gz","scottdaniel/rna/control/RNA_control_R2_sample_02.fastq.gz","scottdaniel/rna/control/RNA_control_R2_sample_03.fastq.gz"
-      ]
+    ],
+    "UNPAIRED": [ 
+    ]
   },
   "parameters": {
-    "OUT_DIR": [
-      "scottdaniel/control_out"
-    ],
-    "INPUT_FMT": [
-      "fastq"
-    ],
-    "THREADS": [
-      16 
-    ],
-    "ALIGNMENT_TYPE": [
-      "end-to-end"
-    ],
-    "END_TO_END_PRESETS": [
-      "sensitive"
-    ]
+    "INPUT_FMT": "fastq",
+    "OUT_DIR": "scottdaniel/control_out",
+    "BAM_NAME": "./bowtie2-run.bam",
+    "LOGFILE": "bowtie2-read-mapping.log",
+    "ALIGNMENT_TYPE": "end-to-end",
+    "END_TO_END_PRESETS": "sensitive",
+    "LOCAL_PRESETS": "sensitive-local",
+    "NON_DETERMINISTIC": false,
+    "TRIM5": 0,
+    "TRIM3": 0,
+    "MINFRAGLEN": 0,
+    "MAXFRAGLEN": 2000,
+    "THREADS": 16,
+    "ADDITIONAL": ""
   },
   "notifications": [
     {
-      "url":"https://requestbin.agaveapi.co/1ni7ks41?job_id=${JOB_ID}&status=${JOB_STATUS}",
+      "url":"https://requestbin.agaveapi.co/y63c5ey6?job_id=${JOB_ID}&status=${JOB_STATUS}",
       "event":"*",
       "persistent":true
     },

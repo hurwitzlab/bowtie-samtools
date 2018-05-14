@@ -22,7 +22,7 @@ module load launcher 2>&1
 # Set up defaults for inputs, constants
 #
 SING_IMG="bowtie_sam.img"
-
+OUT_DIR="$PWD/bowtie-samtools-out"
 #
 # Some needed functions
 #
@@ -70,7 +70,7 @@ while getopts :g:x:1:2:U:f:O:n:l:a:e:L:N5:3:I:X:t:A:h ARG; do
             INPUT_FMT="$OPTARG"
             ;;
         O)
-            OUT_DIR="$OPTARG"
+            OUT_DIR="$PWD/$OPTARG"
             ;;
         n)
             BAM_NAME="$OPTARG"
@@ -150,14 +150,6 @@ else
     exit 1
 fi
 
-#adding requireds
-if [[ -n "$INPUT_FMT" ]] && [[ -n "$OUT_DIR" ]] && [[ -n "$THREADS" ]]; then
-    OPTSTRING="$OPTSTRING -f $INPUT_FMT -O $OUT_DIR -t $THREADS"
-else
-    echo "You forgot one of these: INPUT_FMT, OUT_DIR or THREADS"
-    exit 1
-fi
-
 if [[ -n "$ALIGNMENT_TYPE" ]] && [[ -n "$END_TO_END_PRESETS" ]]; then
     OPTSTRING="$OPTSTRING -a $ALIGNMENT_TYPE -e $END_TO_END_PRESETS"
 elif [[ -n "$ALIGNMENT_TYPE" ]] && [[ -n "$LOCAL_PRESETS" ]]; then
@@ -173,6 +165,9 @@ if [[ "$NON_DETERMINISTIC" -eq 1 ]]; then
 fi
 
 #completely optional
+build_opt_string -f $INPUT_FMT
+build_opt_string -O $OUT_DIR
+build_opt_string -t $THREADS
 build_opt_string -l $LOGFILE
 build_opt_string -5 $TRIM5
 build_opt_string -3 $TRIM3
@@ -198,10 +193,13 @@ if [[ -z "$UNPAIRED" ]] && [[ -n "$M1" ]]; then
         echo -e "and ${M2ARRAY[INDEX]}\n"
         BAM_NAME=$(basename ${M1ARRAY[INDEX]} $INPUT_FMT).bam
         echo -e "Bam name will be $BAM_NAME"
+        LOGFILE=$(basename ${M1ARRAY[INDEX]} $INPUT_FMT).log
 
+        #this is where we would echo the command to a text file
+        #that paramrun would then launch
         singularity exec $SING_IMG patric_bowtie2.py \
             -1 ${M1ARRAY[INDEX]} -2 ${M2ARRAY[INDEX]} \
-            -n $BAM_NAME $OPTSTRING
+            -l $LOGFILE -n $BAM_NAME $OPTSTRING
 
     done
 
@@ -213,10 +211,11 @@ elif [[ -n "$UNPAIRED" ]] && [[ -z "$M1" ]]; then
 
         BAM_NAME=$(basename ${UARRAY[INDEX]} $INPUT_FMT).bam
         echo -e "Bam name will be $BAM_NAME"
+        LOGFILE=$(basename ${UARRAY[INDEX]} $INPUT_FMT).log
 
         singularity exec $SING_IMG patric_bowtie2.py \
           -U ${UARRAY[INDEX]} \
-          -n $BAM_NAME $OPTSTRING
+          -l $LOGFILE -n $BAM_NAME $OPTSTRING
           
     done
 
@@ -230,11 +229,12 @@ elif [[ -n "$UNPAIRED" ]] && [[ -n "$M1" ]]; then
 
         BAM_NAME=$(basename ${M1ARRAY[INDEX]} $INPUT_FMT).bam
         echo -e "Bam name will be $BAM_NAME"
+        LOGFILE=$(basename ${M1ARRAY[INDEX]} $INPUT_FMT).log
 
         singularity exec $SING_IMG patric_bowtie2.py \
           -1 ${M1ARRAY[INDEX]} -2 ${M2ARRAY[INDEX]} \
           -U ${UARRAY[INDEX]} \
-          -n $BAM_NAME $OPTSTRING
+          -l $LOGFILE -n $BAM_NAME $OPTSTRING
 
     done
 

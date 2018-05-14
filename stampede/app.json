@@ -43,7 +43,7 @@
                 "ontology": [
                     "http://sswapmeet.sswap.info/mime/application/X-fasta"
                 ],
-                "minCardinality": 1,
+                "minCardinality": 0,
                 "maxCardinality": -1,
                 "fileTypes": [
                     "raw-0"
@@ -71,7 +71,7 @@
                 "ontology": [
                     "http://sswapmeet.sswap.info/mime/application/X-bt2"
                 ],
-                "minCardinality": 1,
+                "minCardinality": 0,
                 "maxCardinality": -1,
                 "fileTypes": [
                     "raw-0"
@@ -89,17 +89,18 @@
             "id": "M1",
             "value": {
                 "default": "",
+                "type": "string",
                 "order": 3,
                 "validator": "",
                 "required": false,
                 "visible": true,
-                "enquote": true
+                "enquote": false
             },
             "semantics": {
                 "ontology": [
                     "http://sswapmeet.sswap.info/mime/application/X-fastq"
                 ],
-                "minCardinality": 1,
+                "minCardinality": 0,
                 "maxCardinality": -1,
                 "fileTypes": [
                     "raw-0"
@@ -108,7 +109,7 @@
             "details": {
                 "description": "Files with #1 mates, paired with files in <m2>. Could be gzip'ed (extension: .gz) or bzip2'ed (extension: .bz2). <m1>, <m2>, <r> can be comma-separated lists (no whitespace) and can be specified many times.",
                 "label": "m1",
-                "argument": "-1 ",
+                "argument": "",
                 "repeatArgument": false,
                 "showArgument": true
             }
@@ -117,17 +118,18 @@
             "id": "M2",
             "value": {
                 "default": "",
+                "type": "string",
                 "order": 4,
                 "validator": "",
                 "required": false,
                 "visible": true,
-                "enquote": true
+                "enquote": false
             },
             "semantics": {
                 "ontology": [
                     "http://sswapmeet.sswap.info/mime/application/X-fastq"
                 ],
-                "minCardinality": 1,
+                "minCardinality": 0,
                 "maxCardinality": -1,
                 "fileTypes": [
                     "raw-0"
@@ -136,7 +138,7 @@
             "details": {
                 "description": "Files with #2 mates, paired with files in <m1>. Could be gzip'ed (extension: .gz) or bzip2'ed (extension: .bz2). <-1>, <-2>, <-U> can be comma-separated lists (no whitespace) and can be specified many times.",
                 "label": "m2",
-                "argument": "-2 ",
+                "argument": "",
                 "repeatArgument": false,
                 "showArgument": true
             }
@@ -145,17 +147,18 @@
             "id": "UNPAIRED",
             "value": {
                 "default": "",
+                "type": "string",
                 "order": 5,
                 "validator": "",
                 "required": false,
                 "visible": true,
-                "enquote": true
+                "enquote": false
             },
             "semantics": {
                 "ontology": [
                     "http://sswapmeet.sswap.info/mime/application/X-fastq"
                 ],
-                "minCardinality": 1,
+                "minCardinality": 0,
                 "maxCardinality": -1,
                 "fileTypes": [
                     "raw-0"
@@ -164,7 +167,7 @@
             "details": {
                 "description": "Files with unpaired reads. Could be gzip'ed (extension: .gz) or bzip2'ed (extension: .bz2). <-1>, <-2>, <-U> can be comma-separated lists (no whitespace) and can be specified many times.",
                 "label": "unpaired",
-                "argument": "-U ",
+                "argument": "",
                 "repeatArgument": false,
                 "showArgument": true
             }
@@ -238,7 +241,7 @@
 {
             "id": "LOGFILE",
             "value": {
-                "default": "bowtie2-read-mapping.log",
+                "default": "",
                 "type": "string",
                 "order": 3,
                 "required": false,
@@ -247,7 +250,7 @@
                 "validator": ""
             },
             "details": {
-                "description": "Log file name",
+                "description": "Log file name, will be taken from the read name",
                 "label": "Log file name",
                 "argument": "-l ",
                 "repeatArgument": false,
@@ -436,7 +439,7 @@
         {
             "id": "THREADS",
             "value": {
-                "default": "12",
+                "default": 12,
                 "type": "number",
                 "order": 12,
                 "required": false,
@@ -466,7 +469,7 @@
             "details": {
                 "description": "Additional arguments to pass to bowtie2. Put options in single quotes to protect from shell.",
                 "label": "additional",
-                "argument": "-A ",
+                "argument": "",
                 "repeatArgument": false,
                 "showArgument": true
             }
