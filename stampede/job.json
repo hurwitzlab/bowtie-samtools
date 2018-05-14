@@ -12,9 +12,7 @@
   "archivePath": null,
   "inputs": {
     "GENOME_DIR": [ 
-    ],
-    "BT2_IDX": [ 
-      "bt2_index/genome"
+      "scottdaniel/genomes"
     ],
     "M1": [ 
       "scottdaniel/rna/control/RNA_control_R1_sample_01.fastq.gz","scottdaniel/rna/control/RNA_control_R1_sample_02.fastq.gz","scottdaniel/rna/control/RNA_control_R1_sample_03.fastq.gz"

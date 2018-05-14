@@ -58,34 +58,6 @@
             }
         },
         {
-            "id": "BT2_IDX",
-            "value": {
-                "default": "",
-                "order": 2,
-                "validator": "",
-                "required": false,
-                "visible": true,
-                "enquote": false
-            },
-            "semantics": {
-                "ontology": [
-                    "http://sswapmeet.sswap.info/mime/application/X-bt2"
-                ],
-                "minCardinality": 0,
-                "maxCardinality": -1,
-                "fileTypes": [
-                    "raw-0"
-                ]
-            },
-            "details": {
-                "description": "Index filename prefix (minus trailing .X.bt2). This will also be the name of the fasta file, E.g. [bt2-idx].fna. NOTE: Bowtie 1 and Bowtie 2 indexes are not compatible. ",
-                "label": "bt2-idx",
-                "argument": "-x ",
-                "repeatArgument": false,
-                "showArgument": true
-            }
-        },
-        {
             "id": "M1",
             "value": {
                 "default": "",
