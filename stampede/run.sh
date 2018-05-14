@@ -22,7 +22,7 @@ module load launcher 2>&1
 # Set up defaults for inputs, constants
 #
 SING_IMG="bowtie_sam.img"
-
+OUT_DIR="$PWD/bowtie-samtools-out"
 #
 # Some needed functions
 #
@@ -70,7 +70,7 @@ while getopts :g:x:1:2:U:f:O:n:l:a:e:L:N5:3:I:X:t:A:h ARG; do
             INPUT_FMT="$OPTARG"
             ;;
         O)
-            OUT_DIR="$OPTARG"
+            OUT_DIR="$PWD/$OPTARG"
             ;;
         n)
             BAM_NAME="$OPTARG"
