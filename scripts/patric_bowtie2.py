@@ -241,7 +241,7 @@ def prepare_bowtie_db(genome_dir, bt2_idx, logfile):
                + " concatenating fastas in {}".format(args.genome_dir),logfile)
         #make the directory for the bt2 index if not there
         if not os.path.isdir(db_dir): 
-            os.mkdir(db_dir) #E.g. mkdir /vagrant/bt2_idx
+            os.makedirs(db_dir) #E.g. mkdir /vagrant/bt2_idx
         bt2_db_fasta = cat_fasta(args.genome_dir,args.bt2_idx)
         pprint("Created a combined genome for you: {}".format(bt2_db_fasta),logfile)
 
@@ -302,7 +302,7 @@ if __name__ == '__main__':
    
     #make the out dir if does not exist
     if not os.path.isdir(args.out_dir):
-        os.mkdir(args.out_dir)
+        os.makedirs(args.out_dir)
 
     #make the log file
     args.log_fn = os.path.join(args.out_dir,args.log_fn)
