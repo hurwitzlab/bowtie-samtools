@@ -43,7 +43,7 @@
                 "ontology": [
                     "http://sswapmeet.sswap.info/mime/application/X-fasta"
                 ],
-                "minCardinality": 1,
+                "minCardinality": 0,
                 "maxCardinality": -1,
                 "fileTypes": [
                     "raw-0"
@@ -71,7 +71,7 @@
                 "ontology": [
                     "http://sswapmeet.sswap.info/mime/application/X-bt2"
                 ],
-                "minCardinality": 1,
+                "minCardinality": 0,
                 "maxCardinality": -1,
                 "fileTypes": [
                     "raw-0"
@@ -99,7 +99,7 @@
                 "ontology": [
                     "http://sswapmeet.sswap.info/mime/application/X-fastq"
                 ],
-                "minCardinality": 1,
+                "minCardinality": 0,
                 "maxCardinality": -1,
                 "fileTypes": [
                     "raw-0"
@@ -127,7 +127,7 @@
                 "ontology": [
                     "http://sswapmeet.sswap.info/mime/application/X-fastq"
                 ],
-                "minCardinality": 1,
+                "minCardinality": 0,
                 "maxCardinality": -1,
                 "fileTypes": [
                     "raw-0"
@@ -155,7 +155,7 @@
                 "ontology": [
                     "http://sswapmeet.sswap.info/mime/application/X-fastq"
                 ],
-                "minCardinality": 1,
+                "minCardinality": 0,
                 "maxCardinality": -1,
                 "fileTypes": [
                     "raw-0"
