@@ -15,17 +15,17 @@
       "scottdaniel/genomes"
     ],
     "M1": [ 
-      "scottdaniel/rna/control/RNA_control_R1_sample_01.fastq.gz","scottdaniel/rna/control/RNA_control_R1_sample_02.fastq.gz","scottdaniel/rna/control/RNA_control_R1_sample_03.fastq.gz"
+      "scottdaniel/rna/cancer/RNA_cancer_R1_sample_01.fastq.gz","scottdaniel/rna/cancer/RNA_cancer_R1_sample_02.fastq.gz","scottdaniel/rna/cancer/RNA_cancer_R1_sample_03.fastq.gz"
     ],
     "M2": [ 
-      "scottdaniel/rna/control/RNA_control_R2_sample_01.fastq.gz","scottdaniel/rna/control/RNA_control_R2_sample_02.fastq.gz","scottdaniel/rna/control/RNA_control_R2_sample_03.fastq.gz"
+      "scottdaniel/rna/cancer/RNA_cancer_R2_sample_01.fastq.gz","scottdaniel/rna/cancer/RNA_cancer_R2_sample_02.fastq.gz","scottdaniel/rna/cancer/RNA_cancer_R2_sample_03.fastq.gz"
     ],
     "UNPAIRED": [ 
     ]
   },
   "parameters": {
     "INPUT_FMT": "fastq",
-    "OUT_DIR": "control_out",
+    "OUT_DIR": "cancer_out",
     "BAM_NAME": "./bowtie2-run.bam",
     "ALIGNMENT_TYPE": "end-to-end",
     "END_TO_END_PRESETS": "sensitive",
