@@ -88,7 +88,7 @@ while getopts :g:x:1:2:U:f:O:n:l:a:e:L:N5:3:I:X:t:A:h ARG; do
             LOCAL_PRESETS="$OPTARG"
             ;;
         N)
-            NON_DETERMINISTIC=1
+            NON_DETERMINISTIC="$OPTARG"
             ;;
         5)
             TRIM5="$OPTARG"
@@ -122,10 +122,10 @@ while getopts :g:x:1:2:U:f:O:n:l:a:e:L:N5:3:I:X:t:A:h ARG; do
 done
  
 #DEBUG
-echo "After getopts, the options are $*"
-echo "M1 is "$M1""
-echo "M2 is "$M2""
-echo -e "UNPAIRED is "$UNPAIRED"\n"
+#echo "After getopts, the options are $*"
+#echo "M1 is "$M1""
+#echo "M2 is "$M2""
+#echo -e "UNPAIRED is "$UNPAIRED"\n"
 
 #It is common practice to call the shift command 
 #at the end of your processing loop to remove 
@@ -175,8 +175,8 @@ build_opt_string -I $MINFRAGLEN
 build_opt_string -X $MAXFRAGLEN
 build_opt_string -A $ADDITIONAL
 
-echo -e "After building the option string, we have:\n"
-echo -e ""$OPTSTRING"\n"
+#echo -e "After building the option string, we have:\n"
+#echo -e ""$OPTSTRING"\n"
 
 #Run bowtie
 
@@ -186,13 +186,13 @@ if [[ -z "$UNPAIRED" ]] && [[ -n "$M1" ]]; then
     IFS=' ' read -r -a M1ARRAY <<< "$M1"
     IFS=' ' read -r -a M2ARRAY <<< "$M2"
 
-    set -x
+#    set -x
     for INDEX in "${!M1ARRAY[@]}"; do
 
-        echo -e "Doing ${M1ARRAY[INDEX]}\n"
+        echo -e "Doing ${M1ARRAY[INDEX]}"
         echo -e "and ${M2ARRAY[INDEX]}\n"
         BAM_NAME=$(basename ${M1ARRAY[INDEX]} $INPUT_FMT).bam
-        echo -e "Bam name will be $BAM_NAME"
+        echo -e "Bam name will be $BAM_NAME\n"
         LOGFILE=$(basename ${M1ARRAY[INDEX]} $INPUT_FMT).log
 
         #this is where we would echo the command to a text file
@@ -209,8 +209,9 @@ elif [[ -n "$UNPAIRED" ]] && [[ -z "$M1" ]]; then
 
     for INDEX in "${!UARRAY[@]}"; do
 
+        echo -e "Doing ${UARRAY[INDEX]}\n"
         BAM_NAME=$(basename ${UARRAY[INDEX]} $INPUT_FMT).bam
-        echo -e "Bam name will be $BAM_NAME"
+        echo -e "Bam name will be $BAM_NAME\n"
         LOGFILE=$(basename ${UARRAY[INDEX]} $INPUT_FMT).log
 
         singularity exec $SING_IMG patric_bowtie2.py \
@@ -227,8 +228,11 @@ elif [[ -n "$UNPAIRED" ]] && [[ -n "$M1" ]]; then
 
     for INDEX in "${!UARRAY[@]}"; do
 
+        echo -e "Doing ${M1ARRAY[INDEX]}"
+        echo -e "and ${M2ARRAY[INDEX]}\n"
+        echo -e "and ${UARRAY[INDEX]}\n"
         BAM_NAME=$(basename ${M1ARRAY[INDEX]} $INPUT_FMT).bam
-        echo -e "Bam name will be $BAM_NAME"
+        echo -e "Bam name will be $BAM_NAME\n"
         LOGFILE=$(basename ${M1ARRAY[INDEX]} $INPUT_FMT).log
 
         singularity exec $SING_IMG patric_bowtie2.py \
@@ -245,6 +249,6 @@ else
 
 fi
 
-echo "Log messages will be in "$OUT_DIR"/bowtie2-read-mapping.log by default"
+echo "Done with $0"
 echo "Comments to Scott Daniel <scottdaniel@email.arizona.edu>"
 
