@@ -108,7 +108,7 @@
             "details": {
                 "description": "Files with #1 mates, paired with files in <m2>. Could be gzip'ed (extension: .gz) or bzip2'ed (extension: .bz2). <m1>, <m2>, <r> can be comma-separated lists (no whitespace) and can be specified many times.",
                 "label": "m1",
-                "argument": "-1 ",
+                "argument": "",
                 "repeatArgument": false,
                 "showArgument": true
             }
@@ -136,7 +136,7 @@
             "details": {
                 "description": "Files with #2 mates, paired with files in <m1>. Could be gzip'ed (extension: .gz) or bzip2'ed (extension: .bz2). <-1>, <-2>, <-U> can be comma-separated lists (no whitespace) and can be specified many times.",
                 "label": "m2",
-                "argument": "-2 ",
+                "argument": "",
                 "repeatArgument": false,
                 "showArgument": true
             }
@@ -164,7 +164,7 @@
             "details": {
                 "description": "Files with unpaired reads. Could be gzip'ed (extension: .gz) or bzip2'ed (extension: .bz2). <-1>, <-2>, <-U> can be comma-separated lists (no whitespace) and can be specified many times.",
                 "label": "unpaired",
-                "argument": "-U ",
+                "argument": "",
                 "repeatArgument": false,
                 "showArgument": true
             }

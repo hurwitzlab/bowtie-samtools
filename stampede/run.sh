@@ -58,13 +58,13 @@ while getopts :g:x:1:2:U:f:O:n:l:a:e:L:N5:3:I:X:t:A:h ARG; do
             BT2_IDX="$OPTARG"
             ;;
         1)
-            M1=\""$OPTARG"\"
+            M1="$OPTARG"
             ;;
         2)
-            M2=\""$OPTARG"\"
+            M2="$OPTARG"
             ;;
         U)
-            UNPAIRED=\""$OPTARG"\"
+            UNPAIRED="$OPTARG"
             ;;
         f)
             INPUT_FMT="$OPTARG"
@@ -150,14 +150,6 @@ else
     exit 1
 fi
 
-#adding requireds
-if [[ -n "$INPUT_FMT" ]] && [[ -n "$OUT_DIR" ]] && [[ "$THREADS" -gt 0 ]]; then
-    OPTSTRING="$OPTSTRING -f $INPUT_FMT -O $OUT_DIR -t $THREADS"
-else
-    echo "You forgot one of these: INPUT_FMT, OUT_DIR or THREADS"
-    exit 1
-fi
-
 if [[ -n "$ALIGNMENT_TYPE" ]] && [[ -n "$END_TO_END_PRESETS" ]]; then
     OPTSTRING="$OPTSTRING -a $ALIGNMENT_TYPE -e $END_TO_END_PRESETS"
 elif [[ -n "$ALIGNMENT_TYPE" ]] && [[ -n "$LOCAL_PRESETS" ]]; then
@@ -173,6 +165,9 @@ if [[ "$NON_DETERMINISTIC" -eq 1 ]]; then
 fi
 
 #completely optional
+build_opt_string -f $INPUT_FMT
+build_opt_string -O $OUT_DIR
+build_opt_string -t $THREADS
 build_opt_string -l $LOGFILE
 build_opt_string -5 $TRIM5
 build_opt_string -3 $TRIM3
