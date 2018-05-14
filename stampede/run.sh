@@ -70,7 +70,7 @@ while getopts :g:x:1:2:U:f:O:n:l:a:e:L:N5:3:I:X:t:A:h ARG; do
             INPUT_FMT="$OPTARG"
             ;;
         O)
-            OUT_DIR="$PWD/$OPTARG"
+            OUT_DIR="$OPTARG"
             ;;
         n)
             BAM_NAME="$OPTARG"

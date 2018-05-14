@@ -27,7 +27,7 @@
   },
   "parameters": {
     "INPUT_FMT": "fastq",
-    "OUT_DIR": "scottdaniel/control_out",
+    "OUT_DIR": "control_out",
     "BAM_NAME": "./bowtie2-run.bam",
     "LOGFILE": "bowtie2-read-mapping.log",
     "ALIGNMENT_TYPE": "end-to-end",
