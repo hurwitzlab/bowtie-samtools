@@ -89,11 +89,12 @@
             "id": "M1",
             "value": {
                 "default": "",
+                "type": "string",
                 "order": 3,
                 "validator": "",
                 "required": false,
                 "visible": true,
-                "enquote": true
+                "enquote": false
             },
             "semantics": {
                 "ontology": [
@@ -117,11 +118,12 @@
             "id": "M2",
             "value": {
                 "default": "",
+                "type": "string",
                 "order": 4,
                 "validator": "",
                 "required": false,
                 "visible": true,
-                "enquote": true
+                "enquote": false
             },
             "semantics": {
                 "ontology": [
@@ -145,11 +147,12 @@
             "id": "UNPAIRED",
             "value": {
                 "default": "",
+                "type": "string",
                 "order": 5,
                 "validator": "",
                 "required": false,
                 "visible": true,
-                "enquote": true
+                "enquote": false
             },
             "semantics": {
                 "ontology": [
@@ -466,7 +469,7 @@
             "details": {
                 "description": "Additional arguments to pass to bowtie2. Put options in single quotes to protect from shell.",
                 "label": "additional",
-                "argument": "-A ",
+                "argument": "",
                 "repeatArgument": false,
                 "showArgument": true
             }
