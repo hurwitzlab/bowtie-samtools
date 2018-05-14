@@ -12,9 +12,9 @@
   "archivePath": null,
   "inputs": {
     "GENOME_DIR": [ 
-      "scottdaniel/genomes"
     ],
     "BT2_IDX": [ 
+      "bt2_index/genome"
     ],
     "M1": [ 
       "scottdaniel/rna/control/RNA_control_R1_sample_01.fastq.gz","scottdaniel/rna/control/RNA_control_R1_sample_02.fastq.gz","scottdaniel/rna/control/RNA_control_R1_sample_03.fastq.gz"
@@ -29,7 +29,6 @@
     "INPUT_FMT": "fastq",
     "OUT_DIR": "control_out",
     "BAM_NAME": "./bowtie2-run.bam",
-    "LOGFILE": "bowtie2-read-mapping.log",
     "ALIGNMENT_TYPE": "end-to-end",
     "END_TO_END_PRESETS": "sensitive",
     "LOCAL_PRESETS": "sensitive-local",
