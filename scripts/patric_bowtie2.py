@@ -289,10 +289,23 @@ def to_bam(cmd2run, logfile):
     processCall = ''
 
     for (bowtie2, bam_out) in cmd2run:
+        
+        #DEBUG#
+        log.write('Running bowtie2 and converting to bam' + os.linesep)
 
-        processCall = '{1} | samtools view --threads {0} -Sb - > {2}'.format(args.threads, bowtie2, bam_out)
+        convert_to_bam = '{} | samtools view --threads {} -bT {} - > {}'.format( bowtie2, args.threads, args.bt2_idx + '.fna', bam_out + '.tmp')
 
-        execute(processCall, logfile)
+        execute(convert_to_bam, logfile)
+
+        #Debug#
+        log.write('Sorting bam by position' + os.linesep)
+        
+        sort_bam = 'samtools sort --threads {} {} > {}'.format(args.threads, bam_out + '.tmp', bam_out)
+
+        execute(sort_bam, logfile)
+        
+        if os.path.isfile(bam_out):
+            os.remove(bam_out + '.tmp')
 
 ##################
 # THE MAIN LOOP ##
