@@ -11,13 +11,13 @@
 
 #for local testing#####
 #if the singularity.conf is right, then /vagrant should be auto-shared
-#export WORK="/vagrant"
+export WORK="/vagrant"
 #export GUEST="/work"
 ########################
 
-export OUT_DIR="$WORK/control_out"
+export OUT_DIR="$WORK/cancer_out"
 
-export MY_PARAMRUN="$HOME/launcher/paramrun"
+#export MY_PARAMRUN="$HOME/launcher/paramrun"
 
 [[ -d "$OUT_DIR" ]] && rm -rf $OUT_DIR/*
 
@@ -25,9 +25,9 @@ export MY_PARAMRUN="$HOME/launcher/paramrun"
 
 bash run.sh \
     -x "$WORK/bt2_index/genome" \
-    -1 "$WORK/rna/control/RNA_control_R1_sample_01.fastq.gz $WORK/rna/control/RNA_control_R1_sample_02.fastq.gz $WORK/rna/control/RNA_control_R1_sample_03.fastq.gz" \
-    -2 "$WORK/rna/control/RNA_control_R2_sample_01.fastq.gz $WORK/rna/control/RNA_control_R2_sample_02.fastq.gz $WORK/rna/control/RNA_control_R2_sample_03.fastq.gz" \
+    -1 "$WORK/rna/cancer/RNA_cancer_R1_sample_01.fastq.gz $WORK/rna/cancer/RNA_cancer_R1_sample_02.fastq.gz $WORK/rna/cancer/RNA_cancer_R1_sample_03.fastq.gz" \
+    -2 "$WORK/rna/cancer/RNA_cancer_R2_sample_01.fastq.gz $WORK/rna/cancer/RNA_cancer_R2_sample_02.fastq.gz $WORK/rna/cancer/RNA_cancer_R2_sample_03.fastq.gz" \
     -O $OUT_DIR \
-    -f fastq -t 12 \
+    -f fastq -t 4 \
     -a end-to-end \
     -e sensitive
