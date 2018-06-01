@@ -2,8 +2,8 @@
 
 #SBATCH -A iPlant-Collabs
 #SBATCH -N 1
-#SBATCH -n 12
-#SBATCH -t 00:30:00
+#SBATCH -n 68
+#SBATCH -t 02:00:00
 #SBATCH -p development
 #SBATCH -J bowtie2
 #SBATCH --mail-type BEGIN,END,FAIL
@@ -11,11 +11,11 @@
 
 #for local testing#####
 #if the singularity.conf is right, then /vagrant should be auto-shared
-export WORK="/vagrant"
+#export WORK="/vagrant"
 #export GUEST="/work"
 ########################
 
-export OUT_DIR="$WORK/control_out"
+export OUT_DIR="$WORK/bowtie_rna_test/control_out"
 
 #export MY_PARAMRUN="$HOME/launcher/paramrun"
 
@@ -24,10 +24,11 @@ export OUT_DIR="$WORK/control_out"
 #    -g "$WORK/genomes" \
 
 bash run.sh \
+    -g "$WORK/centrifuge_test/genomes" \
     -x "$WORK/bt2_index/genome" \
-    -1 "$WORK/rna/control/RNA_control_R1_sample_01.fastq.gz $WORK/rna/control/RNA_control_R1_sample_02.fastq.gz $WORK/rna/control/RNA_control_R1_sample_03.fastq.gz" \
-    -2 "$WORK/rna/control/RNA_control_R2_sample_01.fastq.gz $WORK/rna/control/RNA_control_R2_sample_02.fastq.gz $WORK/rna/control/RNA_control_R2_sample_03.fastq.gz" \
+    -1 "$WORK/in/rna/RNA_3_CAGATC_L008_R1_001.fastq $WORK/in/rna/RNA_3_CAGATC_L008_R1_002.fastq $WORK/in/rna/RNA_3_CAGATC_L008_R1_003.fastq" \
+    -2 "$WORK/in/rna/RNA_3_CAGATC_L008_R2_001.fastq $WORK/in/rna/RNA_3_CAGATC_L008_R2_002.fastq $WORK/in/rna/RNA_3_CAGATC_L008_R2_003.fastq" \
     -O $OUT_DIR \
-    -f fastq -t 4 \
+    -f fastq -t 68 \
     -a end-to-end \
     -e sensitive
