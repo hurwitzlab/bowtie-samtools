@@ -300,7 +300,7 @@ def to_bam(cmd2run, logfile):
         #Debug#
         log.write('Sorting bam by position' + os.linesep)
         
-        sort_bam = 'samtools sort --threads {} {} > {}'.format(args.threads, bam_out + '.tmp', bam_out)
+        sort_bam = 'samtools sort --threads {} -n {} > {}'.format(args.threads, bam_out + '.tmp', bam_out)
 
         execute(sort_bam, logfile)
         
