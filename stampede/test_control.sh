@@ -15,7 +15,7 @@
 #export GUEST="/work"
 ########################
 
-export OUT_DIR="$WORK/bowtie_rna_test/control_out"
+export OUT_DIR="$WORK/bowtie_rna_test"
 
 #export MY_PARAMRUN="$HOME/launcher/paramrun"
 

@@ -4,7 +4,7 @@
 #SBATCH -N 1
 #SBATCH -n 68
 #SBATCH -t 02:00:00
-#SBATCH -p default
+#SBATCH -p normal
 #SBATCH -J bowtie2
 #SBATCH --mail-type BEGIN,END,FAIL
 #SBATCH --mail-user scottdaniel@email.arizona.edu
@@ -15,7 +15,7 @@
 #export GUEST="/work"
 ########################
 
-export OUT_DIR="$WORK/bowtie_rna_test/control_out"
+export OUT_DIR="$WORK/bowtie_rna_test"
 
 #export MY_PARAMRUN="$HOME/launcher/paramrun"
 
