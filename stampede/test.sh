@@ -15,7 +15,7 @@
 #export GUEST="/work"
 ########################
 
-export OUT_DIR="$WORK/bowtie_rna_test/cancer_out"
+export OUT_DIR="$WORK/bowtie_rna_test/control_out"
 
 #export MY_PARAMRUN="$HOME/launcher/paramrun"
 
@@ -25,8 +25,9 @@ export OUT_DIR="$WORK/bowtie_rna_test/cancer_out"
 
 bash run.sh \
     -g "$WORK/centrifuge_test/genomes" \
-    -1 "$WORK/in/rna/RNA_2_GCCAAT_L008_R1_001.fastq $WORK/in/rna/RNA_2_GCCAAT_L008_R1_002.fastq $WORK/in/rna/RNA_2_GCCAAT_L008_R1_003.fastq" \
-    -2 "$WORK/in/rna/RNA_2_GCCAAT_L008_R2_001.fastq $WORK/in/rna/RNA_2_GCCAAT_L008_R2_002.fastq $WORK/in/rna/RNA_2_GCCAAT_L008_R2_003.fastq" \
+    -x "$WORK/bt2_index/genome" \
+    -1 "$WORK/in/rna/RNA_3_CAGATC_L008_R1_001.fastq $WORK/in/rna/RNA_3_CAGATC_L008_R1_002.fastq $WORK/in/rna/RNA_3_CAGATC_L008_R1_003.fastq" \
+    -2 "$WORK/in/rna/RNA_3_CAGATC_L008_R2_001.fastq $WORK/in/rna/RNA_3_CAGATC_L008_R2_002.fastq $WORK/in/rna/RNA_3_CAGATC_L008_R2_003.fastq" \
     -O $OUT_DIR \
     -f fastq -t 68 \
     -a end-to-end \
