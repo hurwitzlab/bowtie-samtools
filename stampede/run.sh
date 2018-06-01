@@ -191,9 +191,9 @@ if [[ -z "$UNPAIRED" ]] && [[ -n "$M1" ]]; then
 
         echo -e "Doing ${M1ARRAY[INDEX]}"
         echo -e "and ${M2ARRAY[INDEX]}\n"
-        BAM_NAME=$(basename ${M1ARRAY[INDEX]} $INPUT_FMT).bam
+        BAM_NAME=$(basename ${M1ARRAY[INDEX]} .$INPUT_FMT).bam
         echo -e "Bam name will be $BAM_NAME\n"
-        LOGFILE=$(basename ${M1ARRAY[INDEX]} $INPUT_FMT).log
+        LOGFILE=$(basename ${M1ARRAY[INDEX]} .$INPUT_FMT).log
 
         #this is where we would echo the command to a text file
         #that paramrun would then launch
@@ -210,9 +210,9 @@ elif [[ -n "$UNPAIRED" ]] && [[ -z "$M1" ]]; then
     for INDEX in "${!UARRAY[@]}"; do
 
         echo -e "Doing ${UARRAY[INDEX]}\n"
-        BAM_NAME=$(basename ${UARRAY[INDEX]} $INPUT_FMT).bam
+        BAM_NAME=$(basename ${UARRAY[INDEX]} .$INPUT_FMT).bam
         echo -e "Bam name will be $BAM_NAME\n"
-        LOGFILE=$(basename ${UARRAY[INDEX]} $INPUT_FMT).log
+        LOGFILE=$(basename ${UARRAY[INDEX]} .$INPUT_FMT).log
 
         singularity exec $SING_IMG patric_bowtie2.py \
           -U ${UARRAY[INDEX]} \
@@ -231,9 +231,9 @@ elif [[ -n "$UNPAIRED" ]] && [[ -n "$M1" ]]; then
         echo -e "Doing ${M1ARRAY[INDEX]}"
         echo -e "and ${M2ARRAY[INDEX]}\n"
         echo -e "and ${UARRAY[INDEX]}\n"
-        BAM_NAME=$(basename ${M1ARRAY[INDEX]} $INPUT_FMT).bam
+        BAM_NAME=$(basename ${M1ARRAY[INDEX]} .$INPUT_FMT).bam
         echo -e "Bam name will be $BAM_NAME\n"
-        LOGFILE=$(basename ${M1ARRAY[INDEX]} $INPUT_FMT).log
+        LOGFILE=$(basename ${M1ARRAY[INDEX]} .$INPUT_FMT).log
 
         singularity exec $SING_IMG patric_bowtie2.py \
           -1 ${M1ARRAY[INDEX]} -2 ${M2ARRAY[INDEX]} \
