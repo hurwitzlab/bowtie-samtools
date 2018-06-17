@@ -20,9 +20,14 @@ MirrorURL: http://us.archive.ubuntu.com/ubuntu/
     sed -i 's/$/ universe/' /etc/apt/sources.list
     #essential stuff
     apt update
-    apt -y --force-yes install git sudo man vim build-essential wget unzip
+    apt -y --allow-downgrades install git sudo man vim \
+        build-essential wget unzip parallel
     #needed for bowtie2
-    apt -y --force-yes install libtbb-dev
+    apt -y --allow-downgrades install libtbb-dev
+    #for gnu-parallel
+    mkdir /root/.parallel
+    touch /root/.parallel/will-cite
+
 
     # Clean up
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
